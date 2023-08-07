@@ -1,43 +1,90 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+const Login = () => {
+  const navigate=useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    phoneNo: "",
+    tableNo: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-export const Login = () => {
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await fetch("https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/createCustomer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Data sent successfully!");
+      } else {
+        console.error("Error sending data.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      setIsLoading(false);
+      navigate('/app');
+    }
+  };
+
   return (
-    <div className="w-screen h-screen bg-gray-900 flex justify-center items-center">
-      <Card className="w-[300px]">
-        <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Name of your project" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Phone number</Label>
-                <Input id="name" placeholder="Enter your phone number" type="number" />
-              </div>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button>Get Otp</Button>
-        </CardFooter>
-      </Card>
+    <div className="p-4">
+      <h2 className="text-blue-900 font-bold">Enter Your Information</h2>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="border-2 rounded-md w-full py-2 px-3 my-3"
+        />
+        <label>
+          <h2 className="text-blue-900 font-bold">Phone number</h2>
+          <input
+            type="text"
+            name="phoneNo"
+            value={formData.phoneNo}
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm w-full py-2 px-3 my-3"
+          />
+        </label>
+        <label>
+          <h2 className="text-blue-900 font-bold">Table number</h2>
+          <input
+            type="text"
+            name="tableNo"
+            value={formData.tableNo}
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm w-full py-2 px-3 my-3"
+          />
+        </label>
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          {isLoading?"fetching opt":"get otp"}
+        </button>
+      </form>
     </div>
   );
 };

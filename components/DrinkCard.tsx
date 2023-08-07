@@ -1,62 +1,64 @@
-import { useState } from "react";
-// import { Button } from "./../src/components/ui/button";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Badge } from "./../src/components/ui/badge";
-import { DishProps } from "apis/types";
-import { useDispatch } from "react-redux/es/exports";
+import { Drinks } from "./../apis/types"; // Make sure you import the Drinks type
 import { addItem, decrementItem } from "./../store/slices/cartSlice";
 import { increaseQuantity } from "./../store/slices/menuSlice";
-const DishCard: React.FC<DishProps> = ({
-  foodName,
-  foodPrice,
-  type,
-  foodCategories,
-  food_category_id,
+
+const DrinkCard: React.FC<Drinks> = ({
+  drinkName,
+  drinkNamePrice,
+  drink_id,
+  drinkCategories,
   filenames,
-  food_id,
+  drinks_category_id,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
+
   const increment = () => {
     dispatch(
       addItem({
-        _id: foodName,
-        foodCategories: foodCategories,
-        foodName: foodName,
-        foodPrice: foodPrice,
-        food_category_id: foodCategories,
-        food_id: food_id,
-        type: type,
+        _id: drink_id,
+        drinkCategories: drinkCategories,
+        drinkName: drinkName,
+        drinkPrice: drinkNamePrice,
+        drink_category_id: drinks_category_id,
+        drink_id: drink_id,
         quantity_bought: 1,
       })
     );
-    dispatch(increaseQuantity({
-      food_id:food_id,
-      quantity_bought: 1,
-    }))
+    dispatch(
+      increaseQuantity({
+        drink_id: drink_id,
+        quantity_bought: 1,
+      })
+    );
     setQuantity((prev) => prev + 1);
   };
+
   const decrement = () => {
     dispatch(
       decrementItem({
-        _id: foodName,
-        foodCategories: foodCategories,
-        foodName: foodName,
-        foodPrice: foodPrice,
-        food_category_id: foodCategories,
-        food_id: food_id,
-        type: type,
+        _id: drink_id,
+        drinkCategories: drinkCategories,
+        drinkName: drinkName,
+        drinkPrice: drinkNamePrice,
+        drink_category_id: drinks_category_id,
+        drink_id: drink_id,
         quantity_bought: 1,
       })
     );
     setQuantity((prev) => (prev - 1 > 0 ? prev - 1 : 0));
   };
+
   return (
-    <div className="w-[100%] p-4 rounded-sm grid grid-cols-6 border-b-[1px] border-dashed border-y-gray-200 bg-white">
+    <div className="w-[100%] p-4 rounded-sm grid grid-cols-6 gap-1 border-b-3 border-y-gray-800">
       <div className="col-span-3">
-        <Badge className="text-[0.65rem]" variant={"outline"}>{foodCategories}</Badge>
-        <h4 className="font-bold text-blue-950 ">{foodName}</h4>
-        <h4 className="text-sm"> &#8377; {foodPrice}</h4>
-        <p className="text-slate-700 text-xs">
+        <Badge className="text-[0.6rem]">{drinkCategories}</Badge>
+        <h4 className="font-bold text-blue-950">{drinkName}</h4>
+        <h4>{drinkNamePrice}</h4>
+        <p className="text-slate-500 text-xs">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
           nulla, similique unde beatae tempore adipisci saepe ad suscipite.
         </p>
@@ -66,6 +68,7 @@ const DishCard: React.FC<DishProps> = ({
           <img
             src="https://funmili.s3.amazonaws.com/5cfe4ff8742027abc13c331836048164"
             className="w-[130px] h-[130px] rounded-sm"
+            alt="Drink"
           ></img>
         </div>
         <div className="flex relative bottom-[1rem]">
@@ -75,8 +78,8 @@ const DishCard: React.FC<DishProps> = ({
           >
             +
           </button>
-          <p className="h-[30px] w-[30px] bg-red-500  text-white flex justify-center items-center">
-           {quantity}
+          <p className="h-[30px] w-[30px] bg-red-500 text-white flex justify-center items-center">
+            {quantity}
           </p>
           <button
             className="h-[30px] w-[30px] bg-red-500 text-white cursor-pointer rounded-r-md"
@@ -89,4 +92,5 @@ const DishCard: React.FC<DishProps> = ({
     </div>
   );
 };
-export default DishCard;
+
+export default DrinkCard;

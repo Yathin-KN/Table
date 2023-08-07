@@ -1,10 +1,13 @@
 import Home from './../components/Home'
-import Login from './../components/Login'
+import store from './../store/index';
+import { Provider } from "react-redux";
+
 function App() {
   return (
     <>
-      <Home/>
-      {/* <Login/> */}
+      <Provider store={store}>
+         <Home/>
+      </Provider>
     </>
   );
 }
