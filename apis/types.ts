@@ -25,6 +25,7 @@ export interface Drinks extends BaseEntity {
   drinkCategories: string;
   filenames?: string;
   drinks_category_id: string;
+  drinkPrice:string;
 }
 
 // Extend BaseEntity for Dish

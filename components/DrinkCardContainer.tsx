@@ -18,13 +18,13 @@ const DrinkCardContainer = () => {
   return (
     <div>
       {drinksArr.map((drink) => (
-        <DrinkCard  _id= {drink._id}
-        drinkCategories={drink.drinkCategories}
-        drinkName={drink.drinkName}
-        drinkPrice={drink.drinkNamePrice}
-        drink_category_id={drink.drinks_category_id}
-        drink_id={drink.drink_id}
-        quantity_bought="1"/>
+        <DrinkCard  _id={drink._id}
+          drinkCategories={drink.drinkCategories}
+          drinkName={drink.drinkName}
+          drinkPrice={drink.drinkNamePrice}
+          drinks_category_id={drink.drinks_category_id}
+          drink_id={drink.drink_id}
+          quantity_brought={1} drinkNamePrice={""} foodName={""} foodPrice={""} food_id={""} foodCategories={""} type={""}/>
       ))}
     </div>
   );

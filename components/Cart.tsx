@@ -33,8 +33,7 @@ const Cart = () => {
               foodName={item.foodName}
               foodPrice={item.foodPrice}
               quantity_bought={item.quantity_bought}
-              food_id={item.food_id}
-            />
+              food_id={item.food_id} _id={""} foodCategories={""} food_category_id={""} type={""}            />
           );
         })}
       </TableBody>
