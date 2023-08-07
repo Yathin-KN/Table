@@ -5,7 +5,6 @@ import {
   TabsTrigger,
 } from "./../src/components/ui/tabs";
 import DishCard from "./dishCardConatiner";
-import DrinkCardContainer from './DrinkCardContainer'
 import Cart from './Cart'
 const Home = () => {
   return (
@@ -19,7 +18,7 @@ const Home = () => {
         <DishCard />
       </TabsContent>
       <TabsContent value="password">
-        <DrinkCardContainer/>
+        <DishCard />
       </TabsContent>
       <TabsContent value="cart">
         <Cart />

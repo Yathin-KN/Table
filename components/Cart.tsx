@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { selectItems } from "./../store/slices/cartSlice";
-import { useState } from "react";
 import CartCard from "./CartCard";
 import {
   Table,
@@ -12,8 +11,7 @@ import {
 } from "./../src/components/ui/table";
 const Cart = () => {
   const cartItems = useSelector(selectItems);
-  const [items, setItems] = useState(cartItems);
-  // console.log(cartItems)
+  const items= cartItems;
   return (
     <Table>
       <TableCaption>Your Orders</TableCaption>

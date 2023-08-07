@@ -10,8 +10,6 @@ const DishCard: React.FC<DishProps> = ({
   foodPrice,
   type,
   foodCategories,
-  food_category_id,
-  filenames,
   food_id,
 }) => {
   const [quantity, setQuantity] = useState(0);
