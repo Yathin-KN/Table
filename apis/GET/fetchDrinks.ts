@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {Drink} from '../types'
+import {DrinksGET} from '../types'
 
-const fetchdrinks=async() :Promise<Drink[]>=>{
+const fetchdrinks=async() :Promise<DrinksGET[]>=>{
     try {
         const response = await axios.get('https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinks');
         console.log(response)

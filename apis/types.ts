@@ -25,10 +25,12 @@ export interface DrinksGET {
   drinkNamePrice: string;
   drinkCategories: string;
   drinks_category_id: string;
+  description?: string;
   drink_id: string;
   __v: number;
   filenames?: string;
 }
+
 
 export interface CartDrink {
   _id: string;
@@ -216,3 +218,18 @@ export interface Dish {
   _id: string;
 }
 
+// interface Drink {
+//   _id: string;
+//   drinkName: string;
+//   drinkNamePrice: string;
+//   drinkCategories: string;
+//   drinks_category_id: string;
+//   description?: string;
+//   filenames?: string;
+//   drink_id: string;
+//   __v: number;
+// }
+
+// interface DrinksData {
+//   drinks: Drink[];
+// }

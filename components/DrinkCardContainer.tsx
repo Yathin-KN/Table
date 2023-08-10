@@ -19,6 +19,7 @@ const DrinkCardContainer = () => {
     <div>
       {drinksArr.map((drink) => (
         <DrinkCard
+          key={drink._id}
           _id={drink._id}
           drinkCategories={drink.drinkCategories}
           drinkName={drink.drinkName}

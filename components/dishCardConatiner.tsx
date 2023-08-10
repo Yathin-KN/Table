@@ -24,7 +24,6 @@ const DishCardContainer: React.FC = () => {
     try {
       const dishArr = await fetchDishes();
       setDishes(dishArr);
-      console.log(dishArr);
     } catch (err) {
       console.log(err);
     }
