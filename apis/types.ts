@@ -233,3 +233,27 @@ export interface Dish {
 // interface DrinksData {
 //   drinks: Drink[];
 // }
+
+export interface Order_ {
+  _id: string;
+  tableNo: string;
+  active: string;
+  user_id: string;
+  orderStatus: string;
+  drinks?: Drink[];
+  dishes?: Dish[];
+  Orders_id: string;
+  time1: string;
+  date1: string;
+  __v: number;
+}
+
+export interface GetOrderResponse {
+  success: boolean;
+  data: Order_[];
+}
+
+
+
+
+
