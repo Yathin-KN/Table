@@ -1,5 +1,5 @@
-import { GetOrderResponse } from "./../apis/types"; // Import your types
-import OrderItem from "./OrderItem"; // Create a separate component for each order item
+import { GetOrderResponse } from "./../apis/types"; 
+import OrderItem from "./OrderItem"; 
 import { Badge } from "@/components/ui/badge";
 const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
   return (

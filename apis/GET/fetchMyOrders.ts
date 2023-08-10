@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {GetOrderResponse} from '../types'
+import {GetOrderResponse} from './../types'
 
 const fetchMyOrders=async(user_id:string) :Promise<GetOrderResponse>=>{
     try {
