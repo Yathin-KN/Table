@@ -3,8 +3,9 @@ import OrderItem from "./OrderItem";
 import { Badge } from "@/components/ui/badge";
 const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
   return (
-    <div className="p-4 border rounded-lg shadow-md bg-white">
+    <div className="p-4 bg-white">
       {data.map((order) => (
+        <>
         <div key={order._id} className="mb-4 p-4 border rounded-lg shadow-md">
           <div className="flex justify-between items-center mb-2">
             <div>
@@ -41,7 +42,11 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
                 : "none"}
             </div>
           </div>
+        <div>Get bill</div>
+
         </div>
+        </>
+        
       ))}
     </div>
   );

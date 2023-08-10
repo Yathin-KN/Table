@@ -21,10 +21,13 @@ const menuSlice = createSlice({
         state[food_id].quantity_bought -= 1;
       }
     },
+    resetCartItems:(state)=>{
+      state=initialState
+    }
   },
 });
 
-export const { increaseQuantity, decreaseQuantity } = menuSlice.actions;
+export const { increaseQuantity, decreaseQuantity , resetCartItems } = menuSlice.actions;
 
 export const selectQuantity = (state:any, food_id:any) =>
   state.menu[food_id] ? state.menu[food_id].quantity_bought : 0;

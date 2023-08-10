@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectDishItems } from "../store/slices/cartDishSlice";
-import { selectDrinkItems } from "../store/slices/cartDrink";
+import { selectDishItems , clearItems as DishClear} from "../store/slices/cartDishSlice";
+import { selectDrinkItems , clearItems as DrinkClear } from "../store/slices/cartDrink";
+import { resetCartItems } from "./../store/slices/menuSlice";
 import { selectUserInfo } from "../store/slices/authSlice";
 import { addOrder } from "./../store/slices/myOrdersSlice";
 import { Orders, OrderDish, OrderDrink , ResponseDataOrders} from "./../apis/types";
@@ -49,11 +50,15 @@ const Cart = () => {
           data
         );
         dispatch(addOrder(response.data))
+        dispatch(DishClear())
+        dispatch(DrinkClear())
+        dispatch(resetCartItems());
       } catch (error) {
         console.error('Error:', error);
       }
     }
     placeOrder(order);
+
   }
   
     
@@ -115,7 +120,7 @@ const Cart = () => {
         </TableBody>
       </Table>
       <div className="m-4 float-right">
-        <Button onClick={handleClick}>Generate Bill</Button>
+        <Button onClick={handleClick}>Place Order</Button>
       </div>
     </>
   );
