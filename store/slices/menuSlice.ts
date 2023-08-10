@@ -21,9 +21,11 @@ const menuSlice = createSlice({
         state[food_id].quantity_bought -= 1;
       }
     },
-    resetCartItems:(state)=>{
-      state=initialState
-    }
+    resetCartItems: (state) => {
+      Object.keys(state).forEach((food_id) => {
+        state[food_id].quantity_bought = 0;
+      });
+    },
   },
 });
 
