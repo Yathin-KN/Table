@@ -1,11 +1,11 @@
-import { selectUserAndOtp } from './../../store/slices/authSlice';
+import { selectUserInfo } from './../../store/slices/authSlice';
 import { selectDishItems } from './../../store/slices/cartDishSlice';
 import { selectDrinkItems } from './../../store/slices/cartDrink';
 import { Orders, OrderDish, OrderDrink } from './../../apis/types';
 import { useSelector } from 'react-redux';
 
 export function createOrder(): Orders {
-    const { user, tableNo } = useSelector(selectUserAndOtp);
+    const { user_id, tableNo } = useSelector(selectUserInfo);
   
     const dishItems = useSelector(selectDishItems);
     const drinkItems = useSelector(selectDrinkItems);
@@ -24,7 +24,7 @@ export function createOrder(): Orders {
   
     const order: Orders = {
       tableNo: tableNo,
-      user_id: user.user_id,
+      user_id: user_id,
       drinks: orderDrinks.length > 0 ? orderDrinks : undefined,
       dishes: orderDishes.length > 0 ? orderDishes : undefined,
     };
