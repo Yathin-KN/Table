@@ -42,7 +42,7 @@ const DishCardContainer: React.FC = () => {
         value={selectedDish}
         onChange={(e) => setSelectedDish(e.target.value)}
         placeholder="Search for dishes"
-        className="py-3 px-2 w-[75%] my-2 mx-3 h-[3rem] focus:outline-none rounded-lg bg-gray-200 border-none text-center text-sm"
+        className="py-3 px-2 w-[75%] my-2 mx-3 h-[3rem] rounded-lg bg-gray-200 border-none text-sm"
       />
       <BiSearchAlt className="text-md bg-orange-500 text-white h-8 w-8 rounded-lg p-[0.5rem] box-content"/>
       </div>

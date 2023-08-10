@@ -1,55 +1,62 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "./../src/components/ui/badge";
-import { Drinks } from "./../apis/types"; // Make sure you import the Drinks type
-// import { addItem, decrementItem } from "./../store/slices/cartSlice";
-import { increaseQuantity } from "./../store/slices/menuSlice";
+import { DrinksGET } from "./../apis/types"; // Make sure you import the Drinks type
+import { addItem, decrementItem } from "./../store/slices/cartDrink";
+import { increaseQuantity , selectQuantity , decreaseQuantity} from "./../store/slices/menuSlice";
 
-const DrinkCard: React.FC<Drinks> = ({
+const DrinkCard: React.FC<DrinksGET> = ({
   drinkName,
   drinkNamePrice,
   drink_id,
   drinkCategories,
-//   filenames,
-//   drinks_category_id,
+  filenames,
+  drinks_category_id,
 }) => {
-  const [quantity, setQuantity] = useState(0);
+  const qty= useSelector(state => selectQuantity(state, drink_id));
+  const [quantity, setQuantity] = useState(qty);
   const dispatch = useDispatch();
 
   const increment = () => {
-    // dispatch(
-    //   addItem({
-    //     _id: drink_id,
-    //     drinkCategories: drinkCategories,
-    //     drinkName: drinkName,
-    //     drinkPrice: drinkNamePrice,
-    //     drink_category_id: drinks_category_id,
-    //     drink_id: drink_id,
-    //     quantity_bought: 1,
-    //   })
-    // );
     dispatch(
-      increaseQuantity({
+      addItem({
+        _id: drink_id,
+        drinkCategories: drinkCategories,
+        drinkName: drinkName,
+        drinkNamePrice: drinkNamePrice,
+        drinks_category_id: drinks_category_id,
         drink_id: drink_id,
         quantity_bought: 1,
+        __v: 0
       })
     );
-    setQuantity((prev) => prev + 1);
+    dispatch(
+      increaseQuantity({
+        food_id: drink_id,
+      })
+    );
+    setQuantity((prev:any) => prev + 1);
   };
 
   const decrement = () => {
-    // dispatch(
-    //   decrementItem({
-    //     _id: drink_id,
-    //     drinkCategories: drinkCategories,
-    //     drinkName: drinkName,
-    //     drinkPrice: drinkNamePrice,
-    //     drink_category_id: drinks_category_id,
-    //     drink_id: drink_id,
-    //     quantity_bought: 1,
-    //   })
-    // );
-    setQuantity((prev) => (prev - 1 > 0 ? prev - 1 : 0));
+    dispatch(
+      decrementItem({
+        _id: drink_id,
+        drinkCategories: drinkCategories,
+        drinkName: drinkName,
+        drinkNamePrice: drinkNamePrice,
+        drinks_category_id: drinks_category_id,
+        drink_id: drink_id,
+        quantity_bought: 1,
+        __v: 0
+      })
+    );
+    dispatch(
+      decreaseQuantity({
+        food_id: drink_id,
+      })
+    );
+    setQuantity((prev:any) => (prev - 1 > 0 ? prev - 1 : 0));
   };
 
   return (
@@ -66,7 +73,7 @@ const DrinkCard: React.FC<Drinks> = ({
       <div className="col-span-3 flex flex-col justify-center items-center py-1">
         <div>
           <img
-            src="https://funmili.s3.amazonaws.com/5cfe4ff8742027abc13c331836048164"
+            src={filenames}
             className="w-[130px] h-[130px] rounded-sm"
             alt="Drink"
           ></img>

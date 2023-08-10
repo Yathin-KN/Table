@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import {CartItem} from './../../apis/types'
+import {CartDishItem} from '../../apis/types'
 
 
 interface ItemsState {
-    items: CartItem[];
+    items: CartDishItem[];
 }
 
-const initialState: ItemsState= {
+const initialState: ItemsState={
     items: [],
   };
 
-const CartSlice = createSlice({
+const CartDishSlice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<CartItem>) => {
+    addItem: (state, action: PayloadAction<CartDishItem>) => {
       const existingItem = state.items.find(item => item.food_id === action.payload.food_id);
       if (existingItem) {
         existingItem.quantity_bought += 1;
@@ -24,10 +24,10 @@ const CartSlice = createSlice({
         state.items.push(action.payload);
       }
     },
-    removeItem: (state, action: PayloadAction<CartItem>) => {
+    removeItem: (state, action: PayloadAction<CartDishItem>) => {
       state.items = state.items.filter(item => item.food_id !== action.payload.food_id);
     },
-    decrementItem: (state, action: PayloadAction<CartItem>) => {
+    decrementItem: (state, action: PayloadAction<CartDishItem>) => {
       const existingItem = state.items.find(item => item.food_id === action.payload.food_id);
       if (existingItem) {
         existingItem.quantity_bought = (existingItem.quantity_bought || 0) - 1 > 0 ?(existingItem.quantity_bought || 0) - 1:0;
@@ -42,7 +42,7 @@ const CartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, decrementItem, clearItems } = CartSlice.actions;
-export const selectItems = (state: { cart: ItemsState }) => state.cart.items;
+export const { addItem, removeItem, decrementItem, clearItems } = CartDishSlice.actions;
+export const selectDishItems = (state: { cartDish: ItemsState }) => state.cartDish.items;
 
-export default  CartSlice.reducer;
+export default  CartDishSlice.reducer;

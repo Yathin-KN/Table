@@ -9,23 +9,36 @@ interface BaseEntity {
   foodPrice: string;
   food_id: string;
   foodCategories: string;
+  food_category_id: string;
   type: string;
 }
 
 // Extend BaseEntity for CartItem
-export interface CartItem extends BaseEntity {
+export interface CartDishItem extends BaseEntity {
   quantity_bought: number;
 }
 
 // Extend BaseEntity for Drinks
-export interface Drinks extends BaseEntity {
+export interface DrinksGET {
+  _id: string;
   drinkName: string;
   drinkNamePrice: string;
-  drink_id: string;
   drinkCategories: string;
-  filenames?: string;
   drinks_category_id: string;
-  drinkPrice:string;
+  drink_id: string;
+  __v: number;
+  filenames?: string;
+}
+
+export interface CartDrink {
+  _id: string;
+  drinkName: string;
+  drinkNamePrice: string;
+  drinkCategories: string;
+  drinks_category_id: string;
+  drink_id: string;
+  __v: number;
+  quantity_bought: number;
 }
 
 // Extend BaseEntity for Dish
@@ -35,7 +48,7 @@ export interface Dish extends BaseEntity {
   __v: number;
 }
 
-export interface DishProps{
+export interface DishProps {
   foodName: string;
   foodPrice: string;
   food_id: string;
@@ -84,16 +97,7 @@ export interface Order {
   order_id: string;
 }
 
-export interface Orders {
-  tableNo: string;
-  active: string;
-  user_id: string;
-  status: string;
-  Orders_id: string;
-  time: string;
-  date: string;
-  order_id: string;
-}
+
 
 export interface RejectedItems {
   food_id?: string;
@@ -104,16 +108,7 @@ export interface RejectedItems {
   reason?: string;
 }
 
-export interface Orders {
-  tableNo: string;
-  active: string;
-  user_id: string;
-  status: string;
-  Orders_id: string;
-  time: string;
-  date: string;
-  order_id: string;
-}
+
 
 export interface Staff {
   name: string;
@@ -136,7 +131,7 @@ export interface CartItem {
   food_category_id: string;
   food_id: string;
   type: string;
-  quantity_bought:number;
+  quantity_bought: number;
 }
 
 export interface CartCard {
@@ -147,10 +142,77 @@ export interface CartCard {
   food_category_id: string;
   food_id: string;
   type: string;
-  quantity_bought:number;
+  quantity_bought: number;
 }
 
 export interface FoodQty {
-  food_id: string;
-  quantity_bought: number;
+  [key: string]: number;
 }
+
+export interface UserState {
+  username: string;
+  phoneNumber: string;
+  otp: string;
+  user_id:string;
+  tableNo:string;
+}
+
+export interface OrderDish {
+  foodName: string;
+  food_id: string;
+  quantity: string;
+}
+
+export interface OrderDrink {
+  drinkName:string;
+  quantity: string;
+  drink_id: string;
+}
+
+export interface Orders{
+  tableNo: string,
+  user_id: string,
+  drinks?:OrderDrink[],
+  dishes?:OrderDish[],
+}
+
+export interface UserField{
+  name: string;
+  phoneNo: string;
+  tableNo: string;
+}
+
+export interface UserResponse{
+  otp: string;
+  user_id: string;
+  tableNo: string;
+}
+
+export interface ResponseDataOrders {
+  tableNo: string;
+  active: string;
+  user_id: string;
+  orderStatus: string;
+  drinks: Drink[];
+  dishes: Dish[];
+  _id: string;
+  Orders_id: string;
+  time1: string;
+  date1: string;
+  __v: number;
+}
+
+export interface Drink {
+  drinkName: string;
+  quantity: string;
+  drink_id: string;
+  _id: string;
+}
+
+export interface Dish {
+  foodName: string;
+  food_id: string;
+  quantity: string;
+  _id: string;
+}
+

@@ -1,18 +1,20 @@
 import { useState } from "react";
-// import { Button } from "./../src/components/ui/button";
 import { Badge } from "./../src/components/ui/badge";
 import { DishProps } from "apis/types";
 import { useDispatch } from "react-redux/es/exports";
-import { addItem, decrementItem } from "./../store/slices/cartSlice";
-import { increaseQuantity } from "./../store/slices/menuSlice";
+import { addItem, decrementItem } from "../store/slices/cartDishSlice";
+import { increaseQuantity , selectQuantity , decreaseQuantity } from "./../store/slices/menuSlice";
+import { useSelector } from "react-redux/es/exports";
 const DishCard: React.FC<DishProps> = ({
   foodName,
   foodPrice,
   type,
   foodCategories,
   food_id,
+  filenames,
 }) => {
-  const [quantity, setQuantity] = useState(0);
+  const qty= useSelector(state => selectQuantity(state, food_id));
+  const [quantity, setQuantity] = useState(qty);
   const dispatch = useDispatch();
   const increment = () => {
     dispatch(
@@ -29,9 +31,8 @@ const DishCard: React.FC<DishProps> = ({
     );
     dispatch(increaseQuantity({
       food_id:food_id,
-      quantity_bought: 1,
     }))
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev:any) => prev + 1);
   };
   const decrement = () => {
     dispatch(
@@ -46,8 +47,17 @@ const DishCard: React.FC<DishProps> = ({
         quantity_bought: 1,
       })
     );
-    setQuantity((prev) => (prev - 1 > 0 ? prev - 1 : 0));
+    dispatch(decreaseQuantity({
+      food_id:food_id,
+    }))
+    setQuantity((prev:any) => (prev - 1 > 0 ? prev - 1 : 0));
   };
+
+  // const getItem=()=>{
+  //   const qty= useSelector(state => selectQuantity(state, food_id));
+  //   setQuantity(qty);
+  // }
+
   return (
     <div className="w-[100%] p-4 rounded-sm grid grid-cols-6 border-b-[1px] border-dashed border-y-gray-200 bg-white">
       <div className="col-span-3">
@@ -62,7 +72,7 @@ const DishCard: React.FC<DishProps> = ({
       <div className="col-span-3 flex flex-col justify-center items-center py-1">
         <div>
           <img
-            src="https://funmili.s3.amazonaws.com/5cfe4ff8742027abc13c331836048164"
+            src={filenames}
             className="w-[130px] h-[130px] rounded-sm"
           ></img>
         </div>
