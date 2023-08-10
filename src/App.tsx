@@ -9,8 +9,8 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login/>}/>
-            <Route path="/app" element={<Home/>}/>
+            <Route path="/" element={<Login />} />
+            <Route path="/app" element={<Home />} />
           </Routes>
         </BrowserRouter>
       </Provider>
