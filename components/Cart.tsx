@@ -72,62 +72,74 @@ const Cart = () => {
 
   return (
     <div className="w-full p-3 h-screen">
-      <div className="text-xl font-bold text-gray-800">Dishes</div>
-      <Table className="my-4 bg-white">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Dish</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {dishItems.map((item) => {
-            return (
-              <CartCard
-                key={item._id}
-                foodName={item.foodName}
-                foodPrice={item.foodPrice}
-                quantity_bought={item.quantity_bought}
-                food_id={item.food_id}
-                _id={""}
-                foodCategories={""}
-                food_category_id={""}
-                type={""}
-              />
-            );
-          })}
-        </TableBody>
-      </Table>
-      <div className="text-xl font-bold text-gray-800 mt-4">Drinks</div>
-      <Table className="bg-white my-4">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Dish</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {drinkItems.map((item) => {
-            return (
+      {dishItems.length !== 0 && (
+        <>
+          <div className="text-xl font-bold text-gray-800">Dishes</div>
+          <Table className="my-4 bg-white">
+            <TableHeader>
               <TableRow>
-                <TableCell className="font-medium">{item.drinkName}</TableCell>
-                <TableCell>{item.drinkNamePrice}</TableCell>
-                <TableCell>{item.quantity_bought}</TableCell>
-                <TableCell className="text-right">
-                  {item.quantity_bought * parseInt(item.drinkNamePrice)}
-                </TableCell>
+                <TableHead className="w-[100px]">Dish</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
               </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <div className="m-4 float-right pt-4">
-        <Button onClick={handleClick}>Place Order</Button>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {dishItems.map((item) => {
+                return (
+                  <CartCard
+                    key={item._id}
+                    foodName={item.foodName}
+                    foodPrice={item.foodPrice}
+                    quantity_bought={item.quantity_bought}
+                    food_id={item.food_id}
+                    _id={""}
+                    foodCategories={""}
+                    food_category_id={""}
+                    type={""}
+                  />
+                );
+              })}
+            </TableBody>
+          </Table>
+        </>
+      )}
+      {drinkItems.length !== 0 && (
+        <>
+          <div className="text-xl font-bold text-gray-800 mt-4">Drinks</div>
+          <Table className="bg-white my-4">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Dish</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {drinkItems.map((item) => {
+                return (
+                  <TableRow>
+                    <TableCell className="font-medium">
+                      {item.drinkName}
+                    </TableCell>
+                    <TableCell>{item.drinkNamePrice}</TableCell>
+                    <TableCell>{item.quantity_bought}</TableCell>
+                    <TableCell className="text-right">
+                      {item.quantity_bought * parseInt(item.drinkNamePrice)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </>
+      )}
+      {(dishItems.length===0 && drinkItems.length===0)?<div className="text-center">Empty cart !</div> : (
+        <div className="m-4 float-right pt-4">
+          <Button onClick={handleClick}>Place Order</Button>
+        </div>
+      )}
     </div>
   );
 };
