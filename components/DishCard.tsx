@@ -10,6 +10,7 @@ import {
   decreaseQuantity,
 } from "./../store/slices/menuSlice";
 import { useSelector } from "react-redux/es/exports";
+import altImage from './../src/assets/altimages/cake_alt.png'
 const DishCard: React.FC<DishProps> = ({
   foodName,
   foodPrice,
@@ -62,10 +63,6 @@ const DishCard: React.FC<DishProps> = ({
     setQuantity((prev: any) => (prev - 1 > 0 ? prev - 1 : 0));
   };
 
-  // const getItem=()=>{
-  //   const qty= useSelector(state => selectQuantity(state, food_id));
-  //   setQuantity(qty);
-  // }
 
   return (
     <div className="p-4 rounded-md grid grid-cols-6 bg-white shadow-md mx-2">
@@ -82,7 +79,19 @@ const DishCard: React.FC<DishProps> = ({
       </div>
       <div className="col-span-3 flex flex-col justify-center items-center py-1">
         <div>
-          <img src={filenames} className="w-[120px] h-[120px] rounded-md object-cover aspect-square"></img>
+        {filenames ? (
+            <img
+              src={filenames}
+              className="w-[120px] h-[120px] rounded-md object-cover aspect-square"
+              alt="Drink"
+            />
+          ) : (
+            <img
+              src={altImage}
+              className="w-[100px] h-[100px] rounded-md"
+              alt="Alternative Drink"
+            />
+          )}
         </div>
         <div className="flex relative bottom-[1rem]">
           <button

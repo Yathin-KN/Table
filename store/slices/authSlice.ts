@@ -1,6 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {UserState} from './../../apis/types'
 
+
+const isAnyStateEmpty = (userState: UserState): boolean => {
+  const { username, phoneNumber, otp, user_id, tableNo } = userState;
+  
+  if (!username || !phoneNumber || !otp || !user_id || !tableNo) {
+    return true; 
+  }
+  
+  return false; 
+};
+
 const initialState: UserState = {
   username: "",
   phoneNumber: "",
@@ -32,7 +43,7 @@ const userSlice = createSlice({
 
 export const { setUserInfo, setOtp } = userSlice.actions;
 export default userSlice.reducer;
-
+export {isAnyStateEmpty}
 export const selectUserInfo = (state: any) => ({
   user_id: state.auth.user_id || "",
   username: state.auth.username || "",
