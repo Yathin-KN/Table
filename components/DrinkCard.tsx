@@ -74,11 +74,11 @@ const DrinkCard: React.FC<DrinksGET> = ({
         <h4 className="font-bold text-blue-950 capitalize">{drinkName}</h4>
         <h4>{drinkNamePrice}</h4>
         <p className="text-slate-500 text-xs">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
+          yathin hello ipsum dolor sit amet consectetur adipisicing elit. Hic labore
           nulla, similique unde beatae tempore adipisci saepe ad suscipite.
         </p>
       </div>
-      <div className="col-span-3 flex flex-col justify-center items-center py-1">
+      <div className="col-span-3 flex flex-col items-center py-1 justify-center">
         <div>
           {filenames ? (
             <img

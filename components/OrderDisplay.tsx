@@ -9,12 +9,12 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
         <div key={order._id} className="mb-4 p-4 border rounded-lg shadow-md">
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="text-md font-semibold">{order.Orders_id}</p>
-              <p className="text-sm text-gray-800">Date :{order.date1}</p>
-              <p className="text-sm text-gray-800">Time :{order.time1}</p>
+              <p className="text-sm font-semibold w-[100%] my-1">{order.Orders_id}</p>
+              <p className="text-sm text-gray-800">Date :{order.time1}</p>
+              <p className="text-sm text-gray-800">Time :{order.date1}</p>
             </div>
             <div className="text-sm text-gray-500">
-              Order Status: <Badge style={order.orderStatus=="0"? {backgroundColor:"blue"}: {backgroundColor:"green"}}>{order.orderStatus=="0" ? "cooking" : "served"}</Badge>
+              Order Status: <Badge style={order.orderStatus=="0"? {backgroundColor:"blue"}: {backgroundColor:"green"}}>{order.orderStatus=="0" ? "pending" : "cooking"}</Badge>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -42,8 +42,6 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
                 : "none"}
             </div>
           </div>
-        <div>Get bill</div>
-
         </div>
         </>
         
