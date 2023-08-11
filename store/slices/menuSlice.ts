@@ -29,9 +29,10 @@ const menuSlice = createSlice({
   },
 });
 
-export const { increaseQuantity, decreaseQuantity , resetCartItems } = menuSlice.actions;
+export const { increaseQuantity, decreaseQuantity, resetCartItems } =
+  menuSlice.actions;
 
-export const selectQuantity = (state:any, food_id:any) =>
+export const selectQuantity = (state: any, food_id: any) =>
   state.menu[food_id] ? state.menu[food_id].quantity_bought : 0;
 
 export default menuSlice.reducer;
