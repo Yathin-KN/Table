@@ -83,7 +83,7 @@ const DrinkCard: React.FC<DrinksGET> = ({
           {filenames ? (
             <img
               src={filenames}
-              className="w-[100px] h-[100px] rounded-md object-cover aspect-square"
+              className="w-[120px] h-[120px] rounded-md object-cover aspect-square"
               alt="Drink"
             />
           ) : (

@@ -82,7 +82,7 @@ const DishCard: React.FC<DishProps> = ({
       </div>
       <div className="col-span-3 flex flex-col justify-center items-center py-1">
         <div>
-          <img src={filenames} className="w-[130px] h-[130px] rounded-md"></img>
+          <img src={filenames} className="w-[120px] h-[120px] rounded-md object-cover aspect-square"></img>
         </div>
         <div className="flex relative bottom-[1rem]">
           <button
