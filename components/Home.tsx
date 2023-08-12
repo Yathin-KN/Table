@@ -8,7 +8,6 @@ import DishCardContainer from "./DishCardContainer";
 import DrinkCardContainer from "./DrinkCardContainer";
 import Cart from "./Cart";
 import MyOrders from "./myOrders";
-
 const Home = () => {
   return (
     <div className="min-h-screen">
