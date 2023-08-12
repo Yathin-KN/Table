@@ -116,7 +116,9 @@ const Cart = () => {
               <TableRow>
                 <TableCell className="font-medium">{item.drinkName}</TableCell>
                 <TableCell>{item.drinkNamePrice}</TableCell>
-                <TableCell>{item.quantity_bought}</TableCell>
+                <TableCell className="text-center">
+                  {item.quantity_bought}
+                </TableCell>
                 <TableCell className="text-right">
                   {item.quantity_bought * parseInt(item.drinkNamePrice)}
                 </TableCell>
