@@ -35,7 +35,7 @@ const DishCardContainer: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full pb-4">
+    <div className="w-full pb-4 h-screen">
       <div className="flex flex-col gap-4">
         <div className="relative mt-1 rounded-md shadow-sm mx-3">
           <input
@@ -132,7 +132,7 @@ const DishCardContainer: React.FC = () => {
 
         {dishes.map((dish) =>
           dish.foodName.toLowerCase().includes(selectedDish.toLowerCase()) ? (
-            <>
+            <div>
               {selectedOption === "All" || selectedOption === dish.type ? (
                 selectedCategory === "select" ||
                 selectedCategory === dish.foodCategories ? (
@@ -148,7 +148,7 @@ const DishCardContainer: React.FC = () => {
                   />
                 ) : null
               ) : null}
-            </>
+            </div>
           ) : null
         )}
       </div>
