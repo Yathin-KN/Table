@@ -28,6 +28,7 @@ const DrinkCardContainer = () => {
           drink_id={drink.drink_id}
           __v={drink.__v}
           filenames={drink.filenames}
+          description={drink.description}
         />
       ))}
     </div>

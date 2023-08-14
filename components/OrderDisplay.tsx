@@ -7,6 +7,7 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
       {data.map((order) => (
         <>
         <div key={order._id} className="mb-4 p-4 border rounded-lg shadow-md">
+          {(order.order_active==="1")? <Badge className="border-red-600 text-red-600 my-1" variant={"outline"}>Rejected</Badge>:null}
           <div className="flex justify-between items-center mb-2">
             <div>
               <p className="text-sm font-semibold w-[100%] my-1">{order.Orders_id}</p>
@@ -14,7 +15,7 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
               <p className="text-sm text-gray-800">Time :{order.date1}</p>
             </div>
             <div className="text-sm text-gray-500">
-              Order Status: <Badge style={order.orderStatus=="0"? {backgroundColor:"blue"}: {backgroundColor:"green"}}>{order.orderStatus=="0" ? "pending" : "cooking"}</Badge>
+              Order Status: <Badge style={order.orderStatus=="0"? {backgroundColor:"#f54842"}: order.orderStatus=="1"? {backgroundColor:"#425af5"}: {backgroundColor:"#34b340"}}>{order.orderStatus=="0" ? "pending" : order.orderStatus=="1" ? "cooking" : "served"}</Badge>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">

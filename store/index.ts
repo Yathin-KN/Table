@@ -8,7 +8,6 @@ import { persistStore } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
-
 let rootReducer = combineReducers({
   cartDish: cartReducer,
   cartDrink: cartDrinkReducer,
@@ -26,6 +25,7 @@ let persistedReducer=persistReducer(persistConfig,rootReducer);
 
 const store = configureStore({
    reducer:persistedReducer,
+   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 const persistor = persistStore(store);

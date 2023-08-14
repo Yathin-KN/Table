@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {Dish} from '../types'
-import {TEST_URL} from './../../URL'
+import { TEST_URL } from '../../URL';
 const fetchDishes=async() :Promise<Dish[]>=>{
     try {
         const response = await axios.get(`${TEST_URL}/api/client/getAllDishes`);

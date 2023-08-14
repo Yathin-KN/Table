@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import {UserField , UserResponse} from './../types'
+import { TEST_URL } from '../../URL';
 const postUserData=async(data:UserField)=>{
-    const url = 'https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/createCustomer'; 
+    const url = `${TEST_URL}/api/client/createCustomer`; 
   try {
     const response: AxiosResponse<UserResponse> = await axios.post(url, data);
 
