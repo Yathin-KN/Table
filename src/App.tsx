@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Home from "./../components/Home";
 import store from "./../store/index";
 import { Provider } from "react-redux";
 import Login from "../components/Login";
 import Otp from "../components/Otp";
 import Error from "../components/Error";
+import Verify from "../components/Verify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
@@ -16,8 +18,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/otp" element={<Otp />} />
               <Route path="/app" element={<Home />} />
+              <Route path="/verify" element={<Verify />} />
               <Route path="*" element={<Error />} />
             </Routes>
           </BrowserRouter>

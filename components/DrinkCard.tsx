@@ -18,6 +18,7 @@ const DrinkCard: React.FC<DrinksGET> = ({
   drinkCategories,
   filenames,
   drinks_category_id,
+  description
 }) => {
   const qty = useSelector((state) => selectQuantity(state, drink_id));
   const [quantity, setQuantity] = useState(qty);
@@ -74,9 +75,7 @@ const DrinkCard: React.FC<DrinksGET> = ({
         <h4 className="font-bold text-blue-950 capitalize">{drinkName}</h4>
         <h4>{drinkNamePrice}</h4>
         <p className="text-slate-500 text-xs">
-          yathin hello ipsum dolor sit amet consectetur adipisicing elit. Hic
-          labore nulla, similique unde beatae tempore adipisci saepe ad
-          suscipite.
+          {description}
         </p>
       </div>
       <div className="col-span-3 flex flex-col items-center py-1 justify-center">

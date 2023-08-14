@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserInfo, setOtp } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { TEST_URL } from "./../URL";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,7 +17,6 @@ const Login = () => {
     tableNo: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const notify = () => toast("Wow so easy!");
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -29,7 +32,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/createCustomer",
+        `${TEST_URL}/api/client/createCustomer`,
         {
           method: "POST",
           headers: {
@@ -52,12 +55,12 @@ const Login = () => {
         );
         dispatch(setOtp({ otp: otp, user_id: user_id }));
         console.log("Data sent successfully!");
-        navigate("/app");
+        navigate("/verify");
       } else {
         console.error("Error sending data.");
       }
     } catch (error) {
-      notify();
+      toast.error(`${error}`)
       console.error("An error occurred:", error);
     } finally {
       setIsLoading(false);
@@ -96,7 +99,7 @@ const Login = () => {
                 name="phoneNo"
                 value={formData.phoneNo}
                 onChange={handleChange}
-                placeholder="9876543210"
+                placeholder="Enter your phone number"
                 required
                 className="text-gray-700 mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
               />
@@ -111,7 +114,7 @@ const Login = () => {
                   type="text"
                   name="member-name"
                   required
-                  placeholder="John Doe"
+                  placeholder="Enter member name"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 />
               </div>
@@ -143,12 +146,14 @@ const Login = () => {
                 className="mt-1 block w-full text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
               />
             </div>
-            <button
+            <Button
+              disabled={isLoading}
               type="submit"
               className="flex w-full justify-center rounded-md font-bold border border-transparent bg-blue-600 py-2 px-4 text-sm text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              {isLoading ? "Fetching OTP" : "Get OTP"}
-            </button>
+              {isLoading?<Loader2 className="mr-2 h-4 w-4 animate-spin"/>:null}
+              {isLoading ? "Submitted" : "Submit"}
+            </Button>
           </form>
         </div>
       </div>

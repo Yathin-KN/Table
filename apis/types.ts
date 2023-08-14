@@ -38,6 +38,7 @@ export interface CartDrink {
   drinkNamePrice: string;
   drinkCategories: string;
   drinks_category_id: string;
+  description?:string;
   drink_id: string;
   __v: number;
   quantity_bought: number;
@@ -190,6 +191,19 @@ export interface UserResponse{
   tableNo: string;
 }
 
+export interface VerifyRequest{
+  user_id:string;
+  otp:string;
+}
+
+export interface VerifyResponse{
+    tableNo: string;
+    user_id: string;
+    otp: string;
+    status: string;
+}
+
+
 export interface ResponseDataOrders {
   tableNo: string;
   active: string;
@@ -237,7 +251,9 @@ export interface Dish {
 export interface Order_ {
   _id: string;
   tableNo: string;
-  active: string;
+  order_active: string;
+  food_active: string;
+  drink_active: string;
   user_id: string;
   orderStatus: string;
   drinks?: Drink[];

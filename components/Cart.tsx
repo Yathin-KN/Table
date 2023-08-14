@@ -27,6 +27,7 @@ import {
 } from "./../src/components/ui/table";
 import { Button } from "@/components/ui/button";
 import axios, { AxiosResponse } from "axios";
+import { TEST_URL } from "./../URL";
 const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
@@ -56,7 +57,7 @@ const Cart = () => {
     const placeOrder = async (data: Orders) => {
       try {
         const response: AxiosResponse<ResponseDataOrders> = await axios.post(
-          "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/setOrders",
+          `${TEST_URL}/api/client/setOrders`,
           data
         );
         dispatch(addOrder(response.data));
