@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Input } from "../src/components/ui/input";
 import { Button } from "../src/components/ui/button";
@@ -28,7 +29,7 @@ export const Verify = () => {
       if (response.status === 200) {
         navigate("/app");
       } else {
-        console.log(response.response.data.message)
+        console.log(response.response.data.message);
         toast.error(`${response.response.data.message}`, {
           position: "top-center",
           autoClose: 1500,
@@ -53,9 +54,9 @@ export const Verify = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-tr from-blue-50 via-blue-100 to-blue-200 p-4">
+    <div className="max-w-xl mx-auto h-screen bg-gradient-to-tr from-blue-50 via-blue-100 to-blue-200 p-4">
       <ToastContainer />
-      <div className="text-3xl font-bold py-8">
+      <div className="text-2xl font-bold py-8 text-center">
         Get your OTP from the nearest waiter . . . !
       </div>
       <Input
@@ -64,7 +65,7 @@ export const Verify = () => {
         className="text-xl py-4"
       ></Input>
       <Button
-        className="rounded-lg my-4 border-2 text-md bg-gray-600 font-semibold"
+        className="rounded-lg my-4 border-2 text-md bg-blue-600 font-semibold justify-center w-full"
         onClick={handleClick}
       >
         {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

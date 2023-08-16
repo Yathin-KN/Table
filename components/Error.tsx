@@ -1,16 +1,23 @@
 const Error = () => {
   return (
-    <section>
-      <div className="flex items-center justify-center w-screen h-screen bg-blue-600 flex-col">
-        <p className="text-5xl text-white md:text-7xl lg:text-9xl">404</p>
+    <div className="grid h-screen px-4 bg-white place-content-center">
+      <div className="text-center">
+        <h1 className="font-black text-gray-200 text-9xl">404</h1>
+
+        <p className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Uh-oh!
+        </p>
+
+        <p className="mt-4 text-gray-500">We can't find that page.</p>
+
         <a
           href="/app"
-          className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-100 mt-4"
+          className="inline-block px-5 py-3 mt-6 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:ring"
         >
-          Go Home
+          Go Back Home
         </a>
       </div>
-    </section>
+    </div>
   );
 };
 
