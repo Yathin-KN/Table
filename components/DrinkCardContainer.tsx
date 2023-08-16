@@ -16,7 +16,7 @@ const DrinkCardContainer = () => {
     getData();
   }, []);
   return (
-    <div className="py-4">
+    <div className="py-4 h-screen">
       {drinksArr.map((drink) => (
         <DrinkCard
           key={drink._id}
