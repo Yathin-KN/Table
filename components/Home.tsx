@@ -10,7 +10,7 @@ import Cart from "./Cart";
 import MyOrders from "./myOrders";
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen max-w-xl mx-auto">
       <Tabs defaultValue="dishes" className="w-full">
         <TabsList className="w-full gap-2 flex justify-evenly">
           <TabsTrigger value="dishes">Dishes</TabsTrigger>

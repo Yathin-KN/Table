@@ -12,7 +12,7 @@ const CartCard: React.FC<CartItem> = ({
     <TableRow>
       <TableCell className="font-medium">{foodName}</TableCell>
       <TableCell>{foodPrice}</TableCell>
-      <TableCell>{quantity_bought}</TableCell>
+      <TableCell className="text-center">{quantity_bought}</TableCell>
       <TableCell className="text-right">{amount}</TableCell>
     </TableRow>
   );

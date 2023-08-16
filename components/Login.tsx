@@ -68,7 +68,7 @@ const Login = () => {
   };
 
   return (
-    <div className="p-4 bg-blue-50">
+    <div className="p-4 bg-blue-50 h-screen">
       <ToastContainer />
       <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900 px-2">
         Login to F and B System
