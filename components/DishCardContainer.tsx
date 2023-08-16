@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
 import { Dish } from "apis/types";
 import fetchDishes from "../apis/GET/fetchDishes";
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+// import { Fragment } from "react";
+import { Disclosure } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
