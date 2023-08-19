@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import {
   selectDishItems,
   clearItems as DishClear,
@@ -32,6 +34,7 @@ const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
   const { tableNo, user_id } = useSelector(selectUserInfo);
+  const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -65,6 +68,7 @@ const Cart = () => {
         dispatch(DrinkClear());
         dispatch(resetCartItems());
       } catch (error) {
+        setError(true);
         console.error("Error:", error);
       }
     };
@@ -72,7 +76,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="w-full p-3 h-screen">
+    <div className="w-full p-3 h-screen bg-gray-50">
       {dishItems.length !== 0 && (
         <>
           <div className="text-xl font-bold text-gray-800">Dishes</div>
@@ -125,7 +129,9 @@ const Cart = () => {
                       {item.drinkName}
                     </TableCell>
                     <TableCell>{item.drinkNamePrice}</TableCell>
-                    <TableCell>{item.quantity_bought}</TableCell>
+                    <TableCell className="text-center">
+                      {item.quantity_bought}
+                    </TableCell>
                     <TableCell className="text-right">
                       {item.quantity_bought * parseInt(item.drinkNamePrice)}
                     </TableCell>
@@ -141,6 +147,11 @@ const Cart = () => {
       ) : (
         <div className="m-4 float-right pt-4">
           <Button onClick={handleClick}>Place Order</Button>
+        </div>
+      )}
+      {error && (
+        <div className="text-center pt-2 text-red-500">
+          Something went wrong
         </div>
       )}
     </div>

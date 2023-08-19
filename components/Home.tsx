@@ -9,11 +9,12 @@ import DrinkCardContainer from "./DrinkCardContainer";
 import Cart from "./Cart";
 import MyOrders from "./myOrders";
 import { memo } from "react";
+
 const Home = () => {
   return (
     <div className="min-h-screen max-w-xl mx-auto">
       <Tabs defaultValue="dishes" className="w-full">
-        <TabsList className="w-full gap-2 flex justify-evenly">
+        <TabsList className="w-full gap-2 flex justify-evenly sticky top-0 bg-white z-50">
           <TabsTrigger value="dishes">Dishes</TabsTrigger>
           <TabsTrigger value="drinks">Drinks</TabsTrigger>
           <TabsTrigger value="cart">Cart</TabsTrigger>

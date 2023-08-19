@@ -63,7 +63,7 @@ const DishCardContainer: React.FC = () => {
     const typeMatches =
       selectedOption === "All" || selectedOption === dish.type;
     const categoryMatches =
-      selectedCategory === "select" || selectedCategory === dish.foodCategories;
+      selectedCategory === "All" || selectedCategory === dish.foodCategories;
     return dishNameMatches && typeMatches && categoryMatches;
   });
 
@@ -73,7 +73,7 @@ const DishCardContainer: React.FC = () => {
         <Disclosure as="nav" className="bg-white shadow">
           {({ open }) => (
             <>
-              <div className="mx-1 max-w-7xl px-2 sm:px-4 lg:px-8">
+              <div className="mx-1 max-w-7xl pr-2 sm:px-4 lg:px-8">
                 <div className="flex h-16 justify-end w-full">
                   <div className="flex items-center px-2 w-full">
                     <div className="w-full">
@@ -216,6 +216,7 @@ const DishCardContainer: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
+          {/* padding bottom 1000px is only for testing */}
           {isLoading ? (
             <div>
               <SkelitonLoad />
