@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserInfo, setOtp } from "./../store/slices/authSlice";
@@ -7,7 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { TEST_URL } from "./../URL";
-
+import fetchAllTables from "./../apis/GET/fetchAllTables";
+import fetchMemberInfo from "./../apis/GET/fetchMemberInfo";
+import { Table } from "./../apis/types";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,8 +18,13 @@ const Login = () => {
     phoneNo: "",
     tableNo: "",
   });
+  const tableNoRef = useRef<HTMLSelectElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [memberData, setMemberData] = useState({
+    name: "",
+    memberId: "",
+  });
+  const [tables, setTables] = useState<Table[]>([]);
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -31,16 +38,13 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${TEST_URL}/api/client/createCustomer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/client/createCustomer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
       if (response.ok) {
         const responseData = await response.json();
         const { otp, user_id, tableNo } = responseData;
@@ -60,13 +64,52 @@ const Login = () => {
         console.error("Error sending data.");
       }
     } catch (error) {
-      toast.error(`${error}`)
+      toast.error(`${error}`);
       console.error("An error occurred:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const getMemberInfo = async () => {
+    try {
+      const resp = await fetchMemberInfo(formData.phoneNo);
+      console.log(resp);
+      setMemberData({
+        name: resp[0].name,
+        memberId: resp[0].membership_id,
+      });
+      console.log({
+        name: resp[0].name,
+        memberId: resp[0].membership_id,
+      });
+    } catch {}
+  };
+  useEffect(() => {
+    if (formData.phoneNo.length == 10) {
+      getMemberInfo();
+    }
+  }, [formData.phoneNo]);
+
+  const getTables = async () => {
+    try {
+      const Tables = await fetchAllTables();
+      setTables(Tables);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handelChangeTable = () => {
+    const selectedTableNo = tableNoRef.current?.value;
+    setFormData((prev) => ({
+      ...prev,
+      tableNo: selectedTableNo || "",
+    }));
+  };
+  useEffect(() => {
+    getTables();
+  }, []);
   return (
     <div className="p-4 bg-blue-50 h-screen">
       <ToastContainer />
@@ -114,44 +157,54 @@ const Login = () => {
                   type="text"
                   name="member-name"
                   required
+                  value={memberData.name}
                   placeholder="Enter member name"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="id" className="font-bold text-gray-700">
-                Membership ID
+              <label htmlFor="member-id" className="font-bold text-gray-700">
+                Member id
               </label>
-              <select
-                id="membership-id"
-                name="membership-id"
-                className="mt-1 block w-full bg-slate-100 text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-              >
-                <option>1000</option>
-                <option>1001</option>
-                <option>1002</option>
-              </select>
+              <div className="mt-1">
+                <input
+                  id="member-id"
+                  type="text"
+                  name="member-id"
+                  required
+                  value={memberData.memberId}
+                  placeholder="Enter member id"
+                  className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="table-number" className="font-bold text-gray-700">
-                Table Number
+              <label htmlFor="id" className="font-bold text-gray-700">
+                Table no
               </label>
-              <input
-                type="text"
-                name="tableNo"
-                value={formData.tableNo}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-              />
+              <select
+                id="table_no"
+                name="table_no"
+                className="mt-1 block w-full bg-slate-100 text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                onChange={handelChangeTable}
+                ref={tableNoRef}
+              >
+                {tables.map((table) => {
+                  if (table.active === "true") {
+                    return <option>{table.tableNo}</option>;
+                  }
+                })}
+              </select>
             </div>
             <Button
               disabled={isLoading}
               type="submit"
               className="flex w-full justify-center rounded-md font-bold border border-transparent bg-blue-600 py-2 px-4 text-sm text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              {isLoading?<Loader2 className="mr-2 h-4 w-4 animate-spin"/>:null}
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
               {isLoading ? "Submitted" : "Submit"}
             </Button>
           </form>

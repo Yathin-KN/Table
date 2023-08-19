@@ -10,6 +10,31 @@ export interface FoodCategory {
   __v: number;
 }
 
+export interface MData {
+  _id: string;
+  "Table 1": number;
+  Address: string;
+  membership_id: string;
+  name: string;
+  phoneNo: string;
+  status: string;
+}
+
+export interface MemberData {
+  success: boolean;
+  data: MData[];
+}
+
+
+
+export interface Table {
+  _id: string;
+  tableNo: string;
+  active: string;
+  maxPeople: string;
+  __v: number;
+}
+
 interface BaseEntity {
   _id: string;
   foodName: string;

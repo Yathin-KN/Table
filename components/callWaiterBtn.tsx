@@ -3,7 +3,7 @@ import { useSelector } from "react-redux/es/exports";
 import { selectUserInfo } from "./../store/slices/authSlice";
 import callWaiter from "../apis/POST/callWaiter";
 import {BellIcon} from "@heroicons/react/24/outline";
-export const callWaiterBtn: React.FC = () => {
+export const CallWaiterBtn: React.FC = () => {
   const info = useSelector(selectUserInfo);
   const handleClick = async () => {
     try {
@@ -22,4 +22,4 @@ export const callWaiterBtn: React.FC = () => {
     </>
   );
 };
-export default callWaiterBtn;
+export default CallWaiterBtn;
