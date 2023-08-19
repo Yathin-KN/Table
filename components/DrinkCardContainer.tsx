@@ -6,14 +6,18 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CallWaiterBtn from "./callWaiterBtn";
+import SkelitonLoad from "./SkelitonLoad";
 const DrinkCardContainer = () => {
   const [drinksArr, setDrinks] = useState<DrinksGET[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const getData = async () => {
     try {
       const drinks = await fetchdrinks();
       setDrinks(drinks);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -21,7 +25,7 @@ const DrinkCardContainer = () => {
   }, []);
   return (
     <div className="w-full pb-4 h-screen">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure as="nav" className="bg-white shadow">
           {({ open }) => (
             <>
@@ -113,20 +117,24 @@ const DrinkCardContainer = () => {
           )}
         </Disclosure>
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
-          {drinksArr.map((drink) => (
-            <DrinkCard
-              key={drink._id}
-              _id={drink._id}
-              drinkCategories={drink.drinkCategories}
-              drinkName={drink.drinkName}
-              drinkNamePrice={drink.drinkNamePrice}
-              drinks_category_id={drink.drinks_category_id}
-              drink_id={drink.drink_id}
-              __v={drink.__v}
-              filenames={drink.filenames}
-              description={drink.description}
-            />
-          ))}
+          {isLoading ? (
+            <SkelitonLoad />
+          ) : (
+            drinksArr.map((drink) => (
+              <DrinkCard
+                key={drink._id}
+                _id={drink._id}
+                drinkCategories={drink.drinkCategories}
+                drinkName={drink.drinkName}
+                drinkNamePrice={drink.drinkNamePrice}
+                drinks_category_id={drink.drinks_category_id}
+                drink_id={drink.drink_id}
+                __v={drink.__v}
+                filenames={drink.filenames}
+                description={drink.description}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

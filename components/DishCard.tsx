@@ -81,7 +81,7 @@ const DishCard: React.FC<DishProps> = ({
           {filenames ? (
             <img
               src={filenames}
-              className="w-[120px] h-[120px] rounded-md object-cover aspect-square"
+              className="w-[120px] h-[120px] rounded-md object-cover aspect-square shadow"
               alt="Dish"
             />
           ) : (
@@ -95,7 +95,7 @@ const DishCard: React.FC<DishProps> = ({
         <div className="flex relative bottom-[0.8rem]">
           {quantity === 0 ? (
             <button
-              className="h-[30px] w-[70px] bg-white text-addg font-bold cursor-pointer rounded-md shadow-md"
+              className="h-[30px] w-[70px] bg-gray-50 text-addg font-bold cursor-pointer rounded-md shadow-md border border-gray-300"
               onClick={increment}
             >
               ADD

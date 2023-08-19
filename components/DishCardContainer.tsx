@@ -9,13 +9,15 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CallWaiterBtn from "./callWaiterBtn";
+import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");
   const [selectedOption, setSelectedOption] = useState("All");
   const [categories, setCategories] = useState<FoodCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("Salad");
+  const [selectedCategory, setSelectedCategory] = useState("select");
+  const [isLoading, setIsLoading] = useState(true);
   console.log("selectedCategory:-", selectedCategory);
 
   const handleCategoryChange = (event: any) => {
@@ -31,8 +33,10 @@ const DishCardContainer: React.FC = () => {
     try {
       const dishArr = await fetchDishes();
       setDishes(dishArr);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
@@ -54,9 +58,20 @@ const DishCardContainer: React.FC = () => {
     getCategories();
   }, []);
 
+  const filteredDishes = dishes.filter((dish) => {
+    const dishNameMatches = dish.foodName
+      .toLowerCase()
+      .includes(selectedDish.toLowerCase());
+    const typeMatches =
+      selectedOption === "All" || selectedOption === dish.type;
+    const categoryMatches =
+      selectedCategory === "select" || selectedCategory === dish.foodCategories;
+    return dishNameMatches && typeMatches && categoryMatches;
+  });
+
   return (
     <div className="w-full pb-4 h-screen">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure as="nav" className="bg-white shadow">
           {({ open }) => (
             <>
@@ -201,26 +216,39 @@ const DishCardContainer: React.FC = () => {
             </label>
           </div>
         </div>
+
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
-          {dishes.map((dish) =>
-            dish.foodName.toLowerCase().includes(selectedDish.toLowerCase()) ? (
-              <div>
-                {(selectedOption === "All" || selectedOption === dish.type) &&
-                  (selectedCategory === "select" ||
-                    selectedCategory === dish.foodCategories) && (
-                    <DishCard
-                      key={dish._id}
-                      foodName={dish.foodName}
-                      foodPrice={dish.foodPrice}
-                      foodCategories={dish.foodCategories}
-                      type={dish.type}
-                      food_category_id={dish.food_category_id}
-                      filenames={dish.filenames}
-                      food_id={dish.food_id}
-                    />
-                  )}
+          {isLoading ? (
+            <div>
+              <SkelitonLoad />
+            </div>
+          ) : filteredDishes.length > 0 ? (
+            filteredDishes.map((dish) => (
+              <div key={dish._id}>
+                <DishCard
+                  key={dish._id}
+                  foodName={dish.foodName}
+                  foodPrice={dish.foodPrice}
+                  foodCategories={dish.foodCategories}
+                  type={dish.type}
+                  food_category_id={dish.food_category_id}
+                  filenames={dish.filenames}
+                  food_id={dish.food_id}
+                />
               </div>
-            ) : null
+            ))
+          ) : (
+            selectedDish !== "" && (
+              <div className="">
+                <div className="text-center">{selectedDish}: Not Found</div>
+                <button
+                  onClick={() => setSelectedDish("")}
+                  className="bg-gray-300 rounded px-2 py-1 flex mx-auto mt-2 hover:bg-slate-200"
+                >
+                  Clear
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>
