@@ -3,6 +3,13 @@ export interface DrinksCategory {
   drinks_Category_id: string;
 }
 
+export interface FoodCategory {
+  _id: string;
+  food_Category: string;
+  food_Category_id: string;
+  __v: number;
+}
+
 interface BaseEntity {
   _id: string;
   foodName: string;

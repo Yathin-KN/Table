@@ -4,17 +4,18 @@ import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
 import { Dish } from "apis/types";
 import fetchDishes from "../apis/GET/fetchDishes";
-// import { Fragment } from "react";
+import fetchDishCategories from "../apis/GET/fetchDishCategories";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
-const categories = ["select", "Italian", "a2", "Fast food"];
+import { Bars3Icon,  XMarkIcon } from "@heroicons/react/24/outline";
+import CallWaiterBtn from "./callWaiterBtn"
+import { FoodCategory } from "./../apis/types";
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");
   const [selectedOption, setSelectedOption] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [categories, setCategories] = useState<FoodCategory[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("categories[0]");
 
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
@@ -33,8 +34,22 @@ const DishCardContainer: React.FC = () => {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const CategoryArr = await fetchDishCategories();
+      setCategories(CategoryArr)
+      console.log("category :-", CategoryArr);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getData();
+  }, []);
+
+  useEffect(() => {
+    getCategories();
   }, []);
 
   return (
@@ -116,10 +131,8 @@ const DishCardContainer: React.FC = () => {
                       href="#"
                       className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
                     >
-                      <div className="flex gap-2">
-                        Call Waiter
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                      </div>
+                      <CallWaiterBtn/>
+                        
                     </Disclosure.Button>
                     <Disclosure.Button
                       as="a"
@@ -142,8 +155,8 @@ const DishCardContainer: React.FC = () => {
             className="sm:text-sm block w-[90%] p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 mx-3"
           >
             {categories.map((category, index) => (
-              <option key={index} value={category} className="bg-gray-50">
-                {category}
+              <option key={index} value={category.food_Category} className="bg-gray-50">
+                {category.food_Category}
               </option>
             ))}
           </select>

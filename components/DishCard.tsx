@@ -104,18 +104,18 @@ const DishCard: React.FC<DishProps> = ({
             <div className="shadow-md flex rounded-md">
               <button
                 className="h-[30px] w-[30px] bg-white text-addg cursor-pointer rounded-l-md font-bold"
-                onClick={increment}
+                onClick={decrement}
               >
-                +
+                -
               </button>
               <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-bold">
                 {quantity}
               </p>
               <button
                 className="h-[30px] w-[30px] bg-white text-addg cursor-pointer rounded-r-md font-bold"
-                onClick={decrement}
+                onClick={increment}
               >
-                -
+                +
               </button>
             </div>
           )}

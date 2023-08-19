@@ -1,3 +1,5 @@
+import React from "react";
+
 const Otp = () => {
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 py-12 px-2 max-w-xl mx-auto">
