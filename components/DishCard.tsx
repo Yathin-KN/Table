@@ -71,7 +71,7 @@ const DishCard: React.FC<DishProps> = ({
         </Badge>
         <h4 className="font-bold text-blue-950 capitalize">{foodName}</h4>
         <h4 className="text-sm"> &#8377; {foodPrice}</h4>
-        <p className="text-slate-700 text-xs">
+        <p className="text-slate-500 text-xs">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
           nulla, similique unde beatae tempore adipisci saepe ad suscipite.
         </p>
@@ -108,7 +108,7 @@ const DishCard: React.FC<DishProps> = ({
               >
                 -
               </button>
-              <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-bold">
+              <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-extrabold">
                 {quantity}
               </p>
               <button

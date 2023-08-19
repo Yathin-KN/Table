@@ -18,7 +18,7 @@ const DrinkCard: React.FC<DrinksGET> = ({
   drinkCategories,
   filenames,
   drinks_category_id,
-  description
+  description,
 }) => {
   const qty = useSelector((state) => selectQuantity(state, drink_id));
   const [quantity, setQuantity] = useState(qty);
@@ -67,16 +67,14 @@ const DrinkCard: React.FC<DrinksGET> = ({
   };
 
   return (
-    <div className="p-4 rounded-md grid grid-cols-6 bg-white shadow-md m-3">
+    <div className="p-4 rounded-md grid grid-cols-6 bg-white shadow-md mx-3">
       <div className="col-span-3">
         <Badge className="text-xs" variant={"outline"}>
           {drinkCategories}
         </Badge>
         <h4 className="font-bold text-blue-950 capitalize">{drinkName}</h4>
-        <h4>{drinkNamePrice}</h4>
-        <p className="text-slate-500 text-xs">
-          {description}
-        </p>
+        <h4 className="text-sm"> &#8377; {drinkNamePrice}</h4>
+        <p className="text-slate-500 text-xs pt-1">{description}</p>
       </div>
       <div className="col-span-3 flex flex-col items-center py-1 justify-center">
         <div>
@@ -94,22 +92,33 @@ const DrinkCard: React.FC<DrinksGET> = ({
             />
           )}
         </div>
-        <div className="flex relative bottom-[1rem]">
-          <button
-            className="h-[30px] w-[30px] bg-red-500 text-white cursor-pointer rounded-l-md"
-            onClick={decrement}
-          >
-            -
-          </button>
-          <p className="h-[30px] w-[30px] bg-red-500 text-white flex justify-center items-center">
-            {quantity}
-          </p>
-          <button
-            className="h-[30px] w-[30px] bg-red-500 text-white cursor-pointer rounded-r-md"
-            onClick={increment}
-          >
-            +
-          </button>
+        <div className="flex relative bottom-[0.8rem]">
+          {quantity === 0 ? (
+            <button
+              className="h-[30px] w-[70px] bg-gray-50 text-addg font-bold cursor-pointer rounded-md shadow-md border border-gray-300"
+              onClick={increment}
+            >
+              ADD
+            </button>
+          ) : (
+            <div className="shadow-md flex rounded-md">
+              <button
+                className="h-[30px] w-[30px] bg-white text-addg cursor-pointer rounded-l-md font-bold"
+                onClick={decrement}
+              >
+                -
+              </button>
+              <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-extrabold">
+                {quantity}
+              </p>
+              <button
+                className="h-[30px] w-[30px] bg-white text-addg cursor-pointer rounded-r-md font-bold"
+                onClick={increment}
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
