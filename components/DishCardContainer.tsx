@@ -15,7 +15,7 @@ const DishCardContainer: React.FC = () => {
   const [selectedDish, setSelectedDish] = useState("");
   const [selectedOption, setSelectedOption] = useState("All");
   const [categories, setCategories] = useState<FoodCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("categories[0]");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
@@ -37,8 +37,7 @@ const DishCardContainer: React.FC = () => {
   const getCategories = async () => {
     try {
       const CategoryArr = await fetchDishCategories();
-      setCategories(CategoryArr)
-      console.log("category :-", CategoryArr);
+      setCategories([...CategoryArr,{"food_Category":"All"}])
     } catch (err) {
       console.log(err);
     }
@@ -202,9 +201,9 @@ const DishCardContainer: React.FC = () => {
 
         {dishes.map((dish) =>
           dish.foodName.toLowerCase().includes(selectedDish.toLowerCase()) ? (
-            <div>
+            <div key={dish._id}>
               {selectedOption === "All" || selectedOption === dish.type ? (
-                selectedCategory === "select" ||
+                selectedCategory === "All" ||
                 selectedCategory === dish.foodCategories ? (
                   <div>
                     <DishCard
