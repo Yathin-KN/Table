@@ -136,7 +136,9 @@ const Cart = () => {
           </Table>
         </>
       )}
-      {(dishItems.length===0 && drinkItems.length===0)?<div className="text-center">Empty cart !</div> : (
+      {dishItems.length === 0 && drinkItems.length === 0 ? (
+        <div className="text-center pt-2">Empty cart !</div>
+      ) : (
         <div className="m-4 float-right pt-4">
           <Button onClick={handleClick}>Place Order</Button>
         </div>
