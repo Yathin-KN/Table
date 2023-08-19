@@ -8,6 +8,7 @@ import DishCardContainer from "./DishCardContainer";
 import DrinkCardContainer from "./DrinkCardContainer";
 import Cart from "./Cart";
 import MyOrders from "./myOrders";
+import { memo } from "react";
 const Home = () => {
   return (
     <div className="min-h-screen max-w-xl mx-auto">
@@ -35,4 +36,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

@@ -157,6 +157,7 @@ const Login = () => {
                   type="text"
                   name="member-name"
                   required
+                  readOnly
                   value={memberData.name}
                   placeholder="Enter member name"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
@@ -173,6 +174,7 @@ const Login = () => {
                   type="text"
                   name="member-id"
                   required
+                  readOnly
                   value={memberData.memberId}
                   placeholder="Enter member id"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
@@ -192,7 +194,7 @@ const Login = () => {
               >
                 {tables.map((table) => {
                   if (table.active === "true") {
-                    return <option>{table.tableNo}</option>;
+                    return <option key={table.tableNo}>{table.tableNo}</option>;
                   }
                 })}
               </select>
