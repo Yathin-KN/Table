@@ -70,7 +70,7 @@ const DishCardContainer: React.FC = () => {
   return (
     <div className="w-full pb-4 h-screen">
       <div className="flex flex-col gap-4 bg-gray-50">
-        <Disclosure as="nav" className="bg-white shadow">
+        <Disclosure as="nav" className="bg-white shadow sticky top-10 z-50">
           {({ open }) => (
             <>
               <div className="mx-1 max-w-7xl pr-2 sm:px-4 lg:px-8">

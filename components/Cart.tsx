@@ -19,6 +19,7 @@ import {
   ResponseDataOrders,
 } from "./../apis/types";
 import CartCard from "./CartCard";
+import EmptyCart from "./EmptyCart";
 import {
   Table,
   TableBody,
@@ -143,7 +144,9 @@ const Cart = () => {
         </>
       )}
       {dishItems.length === 0 && drinkItems.length === 0 ? (
-        <div className="text-center pt-2">Empty cart !</div>
+        <div className="pt-2 sticky top-10 z-50">
+          <EmptyCart />
+        </div>
       ) : (
         <div className="m-4 float-right pt-4">
           <Button onClick={handleClick}>Place Order</Button>
