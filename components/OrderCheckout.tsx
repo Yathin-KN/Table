@@ -136,9 +136,15 @@ const Ordercheckout = () => {
           </div>
           <div>
             <div className="flex flex-col space-y-4">
+              <a
+                href="/app"
+                className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-blue-700 border-none text-white text-md shadow-sm"
+              >
+                Back to Menu
+              </a>
               <button
                 onClick={handleClick}
-                className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-blue-700 border-none text-white text-md shadow-sm"
+                className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
               >
                 Checkout
               </button>
