@@ -71,7 +71,7 @@ const DishCard: React.FC<DishProps> = ({
         </Badge>
         <h4 className="font-bold text-blue-950 capitalize">{foodName}</h4>
         <h4 className="text-sm"> &#8377; {foodPrice}</h4>
-        <p className="text-slate-700 text-xs">
+        <p className="text-slate-500 text-xs">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
           nulla, similique unde beatae tempore adipisci saepe ad suscipite.
         </p>
@@ -81,7 +81,7 @@ const DishCard: React.FC<DishProps> = ({
           {filenames ? (
             <img
               src={filenames}
-              className="w-[120px] h-[120px] rounded-md object-cover aspect-square"
+              className="w-[120px] h-[120px] rounded-md object-cover aspect-square shadow"
               alt="Dish"
             />
           ) : (
@@ -95,7 +95,7 @@ const DishCard: React.FC<DishProps> = ({
         <div className="flex relative bottom-[0.8rem]">
           {quantity === 0 ? (
             <button
-              className="h-[30px] w-[70px] bg-white text-addg font-bold cursor-pointer rounded-md shadow-md"
+              className="h-[30px] w-[70px] bg-gray-50 text-addg font-bold cursor-pointer rounded-md shadow-md border border-gray-300"
               onClick={increment}
             >
               ADD
@@ -108,7 +108,7 @@ const DishCard: React.FC<DishProps> = ({
               >
                 -
               </button>
-              <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-bold">
+              <p className="h-[30px] w-[30px] bg-white text-addg flex justify-center items-center font-extrabold">
                 {quantity}
               </p>
               <button

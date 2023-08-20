@@ -111,7 +111,7 @@ const Login = () => {
     getTables();
   }, []);
   return (
-    <div className="p-4 bg-blue-50 h-screen">
+    <div className="bg-blue-50 p-4 max-w-lg m-auto">
       <ToastContainer />
       <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900 px-2">
         Login to F and B System
