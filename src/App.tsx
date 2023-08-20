@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import Login from "../components/Login";
 import Error from "../components/Error";
 import Verify from "../components/Verify";
+import OrderCheckout from "../components/OrderCheckout";
 import Loading from "../components/Loading";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import persistStore from "redux-persist/es/persistStore";
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/app" element={<Home />} />
               <Route path="/verify" element={<Verify />} />
+              <Route path="/ordercheckout" element={<OrderCheckout />} />
               <Route path="*" element={<Error />} />
             </Routes>
           </BrowserRouter>
