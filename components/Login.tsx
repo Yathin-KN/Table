@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { TEST_URL } from "./../URL";
 import fetchAllTables from "./../apis/GET/fetchAllTables";
 import fetchMemberInfo from "../apis/POST/fetchMemberInfo";
-import fetchAllMembers from "./../apis/GET/fetchAllMembers"
+import fetchAllMembers from "./../apis/GET/fetchAllMembers";
 
 import { Table } from "./../apis/types";
 const Login = () => {
@@ -25,9 +25,9 @@ const Login = () => {
   const [memberData, setMemberData] = useState({
     name: "",
     memberId: "",
-    member_ph:"",
+    member_ph: "",
   });
-  const [selectedMember,setSelectedMember]=useState(false);
+  const [selectedMember, setSelectedMember] = useState(false);
 
   const [tables, setTables] = useState<Table[]>([]);
   const handleChange = (event: any) => {
@@ -38,22 +38,22 @@ const Login = () => {
     }));
   };
 
-  const handleMemberNameChange=(event:any)=>{
-     const {value} = event.target;
-     setMemberData((prev)=>({
-       ...prev,
-       "name":value
-     }))
-  }
+  const handleMemberNameChange = (event: any) => {
+    const { value } = event.target;
+    setMemberData((prev) => ({
+      ...prev,
+      name: value,
+    }));
+  };
 
-  const handelReChange=()=>{
-     setSelectedMember(prev=>!prev)
-  }
+  const handelReChange = () => {
+    setSelectedMember((prev) => !prev);
+  };
 
   // useEffect(()=>{
   //   setSelectedMember(prev=>prev?!prev:prev)
   // },[memberData.name])
-  const [memberList,setMemberList]=useState<string[]>([]);
+  const [memberList, setMemberList] = useState<string[]>([]);
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setIsLoading(true);
@@ -92,17 +92,17 @@ const Login = () => {
     }
   };
 
-  const getMemberInfo = async (name:any) => {
+  const getMemberInfo = async (name: any) => {
     try {
       const resp = await fetchMemberInfo(name);
       console.log(resp);
       setMemberData({
         name: resp[0].name,
         memberId: resp[0].membership_id,
-        member_ph:resp[0].phoneNo,
+        member_ph: resp[0].phoneNo,
       });
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
   // useEffect(() => {
@@ -128,32 +128,32 @@ const Login = () => {
     }));
   };
 
-  const memberClick=(event:any)=>{
-    const selectedValue = event.currentTarget.getAttribute('data-value');
-    setMemberData((prev)=>({
+  const memberClick = (event: any) => {
+    const selectedValue = event.currentTarget.getAttribute("data-value");
+    setMemberData((prev) => ({
       ...prev,
-      "name":selectedValue,
-    }))
-    setSelectedMember(true)
+      name: selectedValue,
+    }));
+    setSelectedMember(true);
     getMemberInfo(selectedValue);
-   console.log(true)
-  }
+    console.log(true);
+  };
 
-  const getMemberList=async()=>{
-    try{
-      const memberList=await fetchAllMembers();
-      setMemberList(memberList)
-      console.log(memberList)
-    }catch(err){
-      console.log(err)
+  const getMemberList = async () => {
+    try {
+      const memberList = await fetchAllMembers();
+      setMemberList(memberList);
+      console.log(memberList);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
   useEffect(() => {
     getTables();
   }, []);
-  useEffect(()=>{
-     getMemberList();
-  },[])
+  useEffect(() => {
+    getMemberList();
+  }, []);
   return (
     <div className="bg-blue-50 p-4 max-w-lg m-auto">
       <ToastContainer />
@@ -207,20 +207,36 @@ const Login = () => {
                   placeholder="Enter member name"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm relative"
                 />
-                {(memberData.name && !selectedMember) && <ul className="flex flex-col my-2 border-2 p-2 rounded-sm absolute w-[76%] bg-white ">
-                {
-                  memberData.name  && memberList.map((member,index)=>{
-                    const memberName=member.toLowerCase();
-                    const searchMember=memberData.name.toLowerCase();
-                    return memberName.startsWith(searchMember) ? <li key={index} data-value={member} onClick={memberClick}>{member}</li>:null;
-                  })
-                }
-                </ul>}
+                {memberData.name && !selectedMember && (
+                  <ul className="flex flex-col my-2 border-2 p-2 rounded-sm absolute w-[76%] bg-white ">
+                    {memberData.name &&
+                      memberList.map((member, index) => {
+                        const memberName = member.toLowerCase();
+                        const searchMember = memberData.name.toLowerCase();
+                        return memberName.startsWith(searchMember) ? (
+                          <li
+                            key={index}
+                            data-value={member}
+                            onClick={memberClick}
+                          >
+                            {member}
+                          </li>
+                        ) : null;
+                      })}
+                  </ul>
+                )}
               </div>
-            {selectedMember && <p className="float-right text-sm" onClick={handelReChange}>change</p>}
+              {selectedMember && (
+                <p className="float-right text-sm" onClick={handelReChange}>
+                  change
+                </p>
+              )}
             </div>
             <div>
-              <label htmlFor="member-phone-number" className="font-bold text-gray-700">
+              <label
+                htmlFor="member-phone-number"
+                className="font-bold text-gray-700"
+              >
                 Member Phone Number
               </label>
               <input
@@ -247,7 +263,6 @@ const Login = () => {
                   placeholder="Enter member id"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 />
-                
               </div>
             </div>
             <div>
