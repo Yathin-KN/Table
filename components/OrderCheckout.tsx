@@ -66,69 +66,45 @@ const Ordercheckout = () => {
                 <tr>
                   <th
                     scope="row"
-                    className="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                  >
-                    Subtotal
-                  </th>
-                  <th
-                    scope="row"
-                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
+                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500"
                   >
                     Subtotal
                   </th>
                   <td className="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    $0.00
+                    &#8377; 0.00
                   </td>
                 </tr>
                 <tr>
                   <th
                     scope="row"
-                    className="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                  >
-                    Discount
-                  </th>
-                  <th
-                    scope="row"
-                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
+                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500"
                   >
                     Discount
                   </th>
                   <td className="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    $0.00
+                    &#8377; 0.00
                   </td>
                 </tr>
                 <tr>
                   <th
                     scope="row"
-                    className="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                  >
-                    Tax
-                  </th>
-                  <th
-                    scope="row"
-                    className="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
+                    className="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500"
                   >
                     Tax
                   </th>
                   <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    $0.00
+                    &#8377; 0.00
                   </td>
                 </tr>
                 <tr>
                   <th
                     scope="row"
-                    className="hidden pt-4 pl-6 pr-3 text-sm font-normal text-right text-slate-700 sm:table-cell md:pl-0"
+                    className="pt-4 pl-4 pr-3 text-sm font-semibold text-left text-slate-800"
                   >
                     Total
                   </th>
-                  <th
-                    scope="row"
-                    className="pt-4 pl-4 pr-3 text-sm font-normal text-left text-slate-700 sm:hidden"
-                  >
-                    Total
-                  </th>
-                  <td className="pt-4 pl-3 pr-4 text-sm font-normal text-right text-slate-700 sm:pr-6 md:pr-0">
-                    $0.00
+                  <td className="pt-4 pl-3 pr-4 text-sm font-semibold text-right text-slate-800 sm:pr-6 md:pr-0">
+                    &#8377; 0.00
                   </td>
                 </tr>
               </tfoot>
