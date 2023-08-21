@@ -12,7 +12,7 @@ import { memo } from "react";
 
 const Home = () => {
   return (
-    <div className="min-h-screen max-w-xl mx-auto">
+    <div className="min-h-screen max-w-xl mx-auto flex">
       <Tabs defaultValue="dishes" className="w-full">
         <div className="sticky top-0 bg-white z-50 pb-1">
           <TabsList className="w-full gap-2 flex justify-evenly">
