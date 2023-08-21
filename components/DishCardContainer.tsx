@@ -70,7 +70,7 @@ const DishCardContainer: React.FC = () => {
   return (
     <div className="w-full pb-4 h-screen">
       <div className="flex flex-col gap-4 bg-gray-50">
-        <Disclosure as="nav" className="bg-white shadow">
+        <Disclosure as="nav" className="bg-white shadow sticky top-10 z-50">
           {({ open }) => (
             <>
               <div className="mx-1 max-w-7xl pr-2 sm:px-4 lg:px-8">
@@ -132,7 +132,7 @@ const DishCardContainer: React.FC = () => {
                     </Disclosure.Button>
                     <Disclosure.Button
                       as="a"
-                      href="/order"
+                      href="/ordercheckout"
                       className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
                     >
                       Order Checkout
@@ -216,7 +216,6 @@ const DishCardContainer: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
-          {/* padding bottom 1000px is only for testing */}
           {isLoading ? (
             <div>
               <SkelitonLoad />

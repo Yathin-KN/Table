@@ -26,10 +26,10 @@ const DrinkCardContainer = () => {
   return (
     <div className="w-full pb-4 h-screen">
       <div className="flex flex-col gap-4 bg-gray-50">
-        <Disclosure as="nav" className="bg-white shadow">
+        <Disclosure as="nav" className="bg-white shadow sticky top-10 z-50">
           {({ open }) => (
             <>
-              <div className="mx-1 max-w-7xl px-2 sm:px-4 lg:px-8">
+              <div className="mx-1 max-w-7xl sm:px-4 lg:px-8">
                 <div className="flex h-16 justify-between">
                   <div className="flex items-center px-2 w-full">
                     <div className="w-full max-w-xs">
