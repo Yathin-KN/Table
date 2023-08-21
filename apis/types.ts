@@ -93,6 +93,15 @@ export interface DishProps {
   food_category_id: string;
 }
 
+export interface DrinksCategory {
+  _id: string;
+  drinksCategory: string;
+  drinks_Category_id: string;
+  __v: number;
+}
+
+export default DrinksCategory;
+
 export interface DrinkManager {
   name?: string;
   phoneNo?: string;

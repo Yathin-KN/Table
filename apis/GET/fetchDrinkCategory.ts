@@ -1,14 +1,14 @@
 import axios from 'axios'
-import {Dish} from '../types'
+import {DrinksCategory} from '../types'
 import { TEST_URL } from '../../URL';
-const fetchDishes=async() :Promise<Dish[]>=>{
+const fetchDrinkCategory=async() :Promise<DrinksCategory[]>=>{
     try {
-        const response = await axios.get(`${TEST_URL}/api/client/getAllDishes`);
-        return response.data.dishes;
+        const response = await axios.get(`${TEST_URL}/api/client/getAllDrinksCategories`);
+        return response.data.category_d;
       } catch (error) {
-        console.error('Error fetching menu:', error);
+        console.error('Error fetching drink category:', error);
         return [];
     }
 }
 
-export default fetchDishes;
+export default fetchDrinkCategory;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchdrinks from "../apis/GET/fetchDrinks";
-import { DrinksGET } from "./../apis/types";
+import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
+import DrinksCategory, {  DrinksGET } from "./../apis/types";
 import DrinkCard from "./DrinkCard";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -10,6 +11,7 @@ import SkelitonLoad from "./SkelitonLoad";
 const DrinkCardContainer = () => {
   const [drinksArr, setDrinks] = useState<DrinksGET[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [drinkCategory,setDrinkCategory]=useState<DrinksCategory[]>([])
   const getData = async () => {
     try {
       const drinks = await fetchdrinks();
@@ -20,11 +22,28 @@ const DrinkCardContainer = () => {
       setIsLoading(false);
     }
   };
+
+  const getDrinkCategories=async()=>{
+    try{
+      const drinkCategory=await fetchDrinkCategory();
+      console.log(drinkCategory)
+      setDrinkCategory([...drinkCategory])
+    }catch(err){
+      console.log(err)
+    }
+  }
   useEffect(() => {
     getData();
+    getDrinkCategories();
   }, []);
+
+  const [selectedCategory,setSelectedCategory]=useState("All")
+  const handleCategoryChange=(event:any)=>{
+     setSelectedCategory(event.target.value)
+  }
   return (
     <div className="w-full pb-4 h-screen">
+     
       <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure
           as="nav"
@@ -119,12 +138,31 @@ const DrinkCardContainer = () => {
             </>
           )}
         </Disclosure>
+        <div className="w-full">
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="sm:text-sm block w-[90%] p-2 border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 mx-3"
+          >
+            {drinkCategory.map((category, index) => (
+              <option
+                key={index}
+                value={category.drinksCategory}
+                className="bg-gray-50 text-gray-800"
+              >
+                {category.drinksCategory}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
           {isLoading ? (
             <SkelitonLoad />
           ) : (
-            drinksArr.map((drink) => (
-              <DrinkCard
+            drinksArr.map((drink) => {
+              console.log(selectedCategory)
+              if (selectedCategory===drink.drinkCategories || selectedCategory==="All") 
+              return <DrinkCard
                 key={drink._id}
                 _id={drink._id}
                 drinkCategories={drink.drinkCategories}
@@ -136,7 +174,7 @@ const DrinkCardContainer = () => {
                 filenames={drink.filenames}
                 description={drink.description}
               />
-            ))
+          })
           )}
         </div>
       </div>
