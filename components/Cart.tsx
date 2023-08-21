@@ -144,7 +144,7 @@ const Cart = () => {
         </>
       )}
       {dishItems.length === 0 && drinkItems.length === 0 ? (
-        <div className="pt-2 sticky top-10 z-50">
+        <div className="pt-2 sticky top-[52px] z-50">
           <EmptyCart />
         </div>
       ) : (
