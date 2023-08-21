@@ -67,8 +67,8 @@ const Ordercheckout = () => {
     setOpen(true);
   };
 
-  const { otp } = useSelector(selectUserInfo);
-
+  const { otp , user_id} = useSelector(selectUserInfo);
+  console.log(otp,user_id)
   const [billDetails, setBillDetailes] = useState<BillDetails>();
   const [donationAmount, setDonationAmount] = useState("0");
   const [checkOut, setCheckOut] = useState(false);
@@ -94,7 +94,7 @@ const Ordercheckout = () => {
 
   const create = async () => {
     try {
-      const resp = await createBill(donationAmount);
+      const resp = await createBill(user_id,donationAmount);
       console.log(resp.status);
 
       setCheckOut(true);
