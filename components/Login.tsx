@@ -28,7 +28,6 @@ const Login = () => {
     member_phoneNo: "",
   });
   const [selectedMember, setSelectedMember] = useState(false);
-
   const [tables, setTables] = useState<Table[]>([]);
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -272,6 +271,7 @@ const Login = () => {
                 className="mt-1 block w-full bg-slate-100 text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 onChange={handelChangeTable}
                 ref={tableNoRef}
+                value={tables[0].tableNo}
               >
                 {tables.map((table) => {
                   if (table.active === "true") {
