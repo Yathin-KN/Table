@@ -26,13 +26,16 @@ const DrinkCardContainer = () => {
   return (
     <div className="w-full pb-4 h-screen">
       <div className="flex flex-col gap-4 bg-gray-50">
-        <Disclosure as="nav" className="bg-white shadow sticky top-10 z-50">
+        <Disclosure
+          as="nav"
+          className="bg-white sticky top-[52px] z-50 shadow-nav"
+        >
           {({ open }) => (
             <>
-              <div className="mx-1 max-w-7xl sm:px-4 lg:px-8">
-                <div className="flex h-16 justify-between">
+              <div className="mx-1 max-w-7xl pr-2 sm:px-4">
+                <div className="flex h-14 justify-end w-full">
                   <div className="flex items-center px-2 w-full">
-                    <div className="w-full max-w-xs">
+                    <div className="w-full">
                       <label htmlFor="search" className="sr-only">
                         Search
                       </label>
@@ -48,7 +51,7 @@ const DrinkCardContainer = () => {
                           // value={selectedDish}
                           // onChange={(e) => setSelectedDish(e.target.value)}
                           name="search-dishes"
-                          className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow focus:shadow-none"
+                          className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow-sm focus:shadow-none"
                           placeholder="Search for Drinks"
                           type="search"
                         />

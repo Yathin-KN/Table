@@ -1,28 +1,83 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import DonateLogo from "../src/assets/donate.jpg";
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
-import createBill from "./../apis/GET/createBill"
+import createBill from "./../apis/GET/createBill";
 import { BillDetails } from "apis/types";
 import { useSelector } from "react-redux";
-import {selectUserInfo} from "./../store/slices/authSlice"
+import { selectUserInfo } from "./../store/slices/authSlice";
+
+interface TableRowProps {
+  name: string;
+  price: number;
+  quantity: number;
+  amount: number;
+}
+
+interface TableFooterRowProps {
+  title: string;
+  amount: number;
+  isBold?: boolean;
+}
+function TableRow({ name, price, quantity, amount }: TableRowProps) {
+  return (
+    <tr className="border-b border-slate-200">
+      <td className="py-4 px-3 text-sm">
+        <div className="font-medium text-slate-700">{name}</div>
+      </td>
+      <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500">
+        &#8377; {price}
+      </td>
+      <td className="py-3 px-2 text-sm text-center text-slate-500">
+        X {quantity}
+      </td>
+      <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500">
+        &#8377; {amount}
+      </td>
+    </tr>
+  );
+}
+
+function TableFooterRow({ title, amount, isBold }: TableFooterRowProps) {
+  return (
+    <tr>
+      <th
+        scope="row"
+        className={`pt-4 pl-4 pr-3 text-sm ${
+          isBold ? "font-semibold" : "font-light"
+        } text-left text-slate-500`}
+      >
+        {title}
+      </th>
+      <td
+        className={`pt-4 pl-3 pr-4 text-sm text-right text-slate-500 ${
+          isBold ? "font-semibold" : "font-light"
+        } `}
+      >
+        &#8377; {amount.toFixed(2)}
+      </td>
+    </tr>
+  );
+}
+
 const Ordercheckout = () => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
 
-  const {otp} =useSelector(selectUserInfo)
+  const { otp } = useSelector(selectUserInfo);
 
-  const [billDetails,setBillDetailes]=useState<BillDetails>()
-  const [donationAmount,setDonationAmount]=useState("0");
-  const [checkOut,setCheckOut]=useState(false);
+  const [billDetails, setBillDetailes] = useState<BillDetails>();
+  const [donationAmount, setDonationAmount] = useState("0");
+  const [checkOut, setCheckOut] = useState(false);
 
   const fetchBill = async () => {
     try {
       const resp = await fetchBillByOtp(otp);
       console.log(resp);
-      setBillDetailes(resp)
+      setBillDetailes(resp);
     } catch (err) {
       console.log(err);
     }
@@ -31,27 +86,26 @@ const Ordercheckout = () => {
     fetchBill();
   }, []);
 
-  const handleChange=(event:any)=>{
-    const amt=event.target.value;
-    setDonationAmount(amt)
-  }
+  const handleChange = (event: any) => {
+    const amt = event.target.value;
+    setDonationAmount(amt);
+  };
   const cancelButtonRef = useRef(null);
 
-  const create=async()=>{
+  const create = async () => {
     try {
       const resp = await createBill(donationAmount);
       console.log(resp.status);
 
-      setCheckOut(true)
+      setCheckOut(true);
     } catch (err) {
       console.log(err);
     }
-  }
-  const handleCheckout=()=>{
+  };
+  const handleCheckout = () => {
     create();
-    setOpen(false)
-
-  }
+    setOpen(false);
+  };
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 py-12 px-2 max-w-xl mx-auto">
       <div className="relative bg-white px-6 pt-10 pb-9 shadow-md mx-auto w-full max-w-lg rounded-md">
@@ -60,127 +114,94 @@ const Ordercheckout = () => {
             <div className="font-semibold text-2xl items-center justify-center text-center">
               <p className="">Order Checkout!</p>
             </div>
-            <div className="flex flex-col text-md font-medium text-gray-500 text-center">
+            <div className="flex flex-col text-md font-medium text-gray-700 text-center">
               <p>
                 On Clicking Checkout you will be ending the session and will be
                 redirected to the payment page.
               </p>
-              {checkOut?<p className="font-bold text-green-500">Successfully checked out !!!!</p>:null}
+              {checkOut ? (
+                <p className="font-bold text-green-500">
+                  Successfully checked out !!!!
+                </p>
+              ) : null}
             </div>
-            <table className="min-w-full divide-y divide-slate-500">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
-                  >
-                    Description
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-3 pr-4 text-right text-sm font-normal text-slate-700 sm:pr-6 md:pr-0"
-                  >
-                    Amount
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  billDetails?.DishItems.map((Dishitem,index)=>{
-                    return <tr className="border-b border-slate-200" key={index}>
-                    <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                      <div className="font-medium text-slate-700">
-                        {Dishitem.name}
-                      </div>
-                    </td>
-                    <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                      &#8377; {Dishitem.price}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-slate-500">
+                <thead>
+                  <tr>
+                    <th className="py-3.5 px-3 text-left text-sm font-semibold text-slate-800">
+                      Description
+                    </th>
+                    <th className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-800">
+                      Price
+                    </th>
+                    <th className="py-3 px-2 text-right text-sm font-semibold text-slate-800">
+                      Quantity
+                    </th>
+                    <th className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-800">
+                      Amount
+                    </th>
                   </tr>
-                  })
-                }
-                {
-                  billDetails?.DrinkItems.map((item,index)=>{
-                    return <tr className="border-b border-slate-200" key={index}>
-                    <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                      <div className="font-medium text-slate-700">
-                       {item.name}
-                      </div>
-                    </td>
-                    <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                      &#8377; {item.price}
-                    </td>
-                  </tr>
-                  })
-                }
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th
-                    scope="row"
-                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500"
-                  >
-                    Subtotal
-                  </th>
-                  <td className="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; 0.00
-                  </td>
-                </tr>
-                <tr>
-                  <th
-                    scope="row"
-                    className="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500"
-                  >
-                    Discount
-                  </th>
-                  <td className="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; 0.00
-                  </td>
-                </tr>
-                <tr>
-                  <th
-                    scope="row"
-                    className="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500"
-                  >
-                    Tax
-                  </th>
-                  <td className="flex flex-col">
-                  <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; {billDetails?.cgst}
-                  </td>
-                  <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; {billDetails?.cgst}
-                  </td>
-                  </td>
-                </tr>
-                <tr>
-                  <th
-                    scope="row"
-                    className="pt-4 pl-4 pr-3 text-sm font-semibold text-left text-slate-800"
-                  >
-                    Total
-                  </th>
-                  <td className="pt-4 pl-3 pr-4 text-sm font-semibold text-right text-slate-800 sm:pr-6 md:pr-0">
-                    &#8377; {billDetails?.grandTotal}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                </thead>
+                <tbody>
+                  {billDetails?.DishItems.map((dishItem, index) => (
+                    <TableRow
+                      key={index}
+                      name={dishItem.name}
+                      price={dishItem.price}
+                      quantity={dishItem.quantity}
+                      amount={dishItem.amount}
+                    />
+                  ))}
+                  {billDetails?.DrinkItems.map((drinkItem, index) => (
+                    <TableRow
+                      key={index}
+                      name={drinkItem.name}
+                      price={drinkItem.price}
+                      quantity={drinkItem.quantity}
+                      amount={drinkItem.amount}
+                    />
+                  ))}
+                </tbody>
+              </table>
+              {billDetails && (
+                <table className="min-w-full divide-y divide-slate-500">
+                  <tbody>
+                    <TableFooterRow
+                      title="Subtotal"
+                      amount={billDetails.dishTotal + billDetails.drinkTotal}
+                    />
+                    <TableFooterRow title="Discount" amount={0} />
+                    <TableFooterRow
+                      title="Tax"
+                      amount={billDetails.cgst + billDetails.sgst}
+                    />
+                    <TableFooterRow
+                      title="Total"
+                      amount={billDetails.grandTotal}
+                      isBold
+                    />
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
           <div>
             <div className="flex flex-col space-y-4">
               <a
-                href="/app"
+                href="app"
                 className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-blue-700 border-none text-white text-md shadow-sm"
               >
                 Back to Menu
               </a>
-              {!checkOut && <button
-                onClick={handleClick}
-                className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
-              >
-                Checkout
-              </button>}
+              {!checkOut && (
+                <button
+                  onClick={handleClick}
+                  className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
+                >
+                  Confirm Checkout
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -245,15 +266,21 @@ const Ordercheckout = () => {
                     >
                       Enter donation amount:
                     </label>
-                    <div className="mt-1">
+                    <div className="relative mt-1 rounded-md shadow-sm">
+                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <span className="text-gray-500 sm:text-sm">
+                          &#8377;
+                        </span>
+                      </div>
                       <input
                         type="number"
                         name="donation"
                         id="donation"
-                        className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        placeholder="Enter amount"
                         onChange={handleChange}
                         value={donationAmount}
+                        className="block w-full rounded-md border-gray-300 pl-7 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="0.00"
+                        aria-describedby="price-currency"
                       />
                     </div>
                     <button
@@ -261,7 +288,6 @@ const Ordercheckout = () => {
                       className="mt-3 inline-flex w-full justify-center rounded-md border border-green-600 bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:text-sm"
                       onClick={handleCheckout}
                       ref={cancelButtonRef}
-                      
                     >
                       Donate amount
                     </button>
@@ -269,6 +295,7 @@ const Ordercheckout = () => {
                       type="button"
                       className="mt-3 inline-flex w-full justify-center rounded-md border bg-red-400 px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:mt-0 sm:text-sm"
                       onClick={() => setOpen(false)}
+                      ref={cancelButtonRef}
                     >
                       Cancel
                     </button>

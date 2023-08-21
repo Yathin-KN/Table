@@ -59,7 +59,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...formData,...memberData}),
+        body: JSON.stringify({ ...formData, ...memberData }),
       });
       if (response.ok) {
         const responseData = await response.json();
@@ -91,8 +91,8 @@ const Login = () => {
     try {
       const resp = await fetchMemberInfo(member_id);
       console.log(resp);
-      setMemberData((prev)=>{
-        return {...prev,"member_phoneNo":resp.phoneNo}
+      setMemberData((prev) => {
+        return { ...prev, member_phoneNo: resp.phoneNo };
       });
     } catch (err) {
       console.log(err);
@@ -127,7 +127,7 @@ const Login = () => {
     setMemberData((prev) => ({
       ...prev,
       member_name: selectedValue,
-      membership_id:member_id,
+      membership_id: member_id,
     }));
     setSelectedMember(true);
     getMemberInfo(member_id);
@@ -207,7 +207,8 @@ const Login = () => {
                     {memberData.member_name &&
                       memberList.map((member, index) => {
                         const memberName = member.rahil.toLowerCase();
-                        const searchMember = memberData.member_name.toLowerCase();
+                        const searchMember =
+                          memberData.member_name.toLowerCase();
                         return memberName.startsWith(searchMember) ? (
                           <li
                             key={index}
@@ -271,7 +272,6 @@ const Login = () => {
                 className="mt-1 block w-full bg-slate-100 text-gray-700 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 onChange={handelChangeTable}
                 ref={tableNoRef}
-            
               >
                 {tables.map((table) => {
                   if (table.active === "true") {
