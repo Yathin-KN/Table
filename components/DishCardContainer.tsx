@@ -11,6 +11,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CallWaiterBtn from "./callWaiterBtn";
 import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
+import CustomBadge from "./Badge";
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");

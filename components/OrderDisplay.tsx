@@ -1,6 +1,7 @@
 import { GetOrderResponse } from "./../apis/types";
 import OrderItem from "./OrderItem";
 import { Badge } from "@/components/ui/badge";
+import CustomBadge from "./Badge"
 const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
   return (
     <div className="p-4 bg-white">
@@ -47,21 +48,7 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
                 <div className="flex justify-between"> 
                 <p className="text-md font-semibold mb-2">Drinks</p>
                 <div className="text-sm text-gray-500">
-                <Badge
-                  style={
-                    order.drinkOrderStatus == "0"
-                      ? { backgroundColor: "#f54842" }
-                      : order.drinkOrderStatus == "1"
-                      ? { backgroundColor: "#425af5" }
-                      : { backgroundColor: "#34b340" }
-                  }
-                >
-                  {order.drinkOrderStatus == "0"
-                    ? "pending"
-                    : order.drinkOrderStatus == "1"
-                    ? "cooking"
-                    : "served"}
-                </Badge>
+                <CustomBadge statusCode={`${order.drinkOrderStatus}`} />
               </div>
                 </div>
                 {order.drinks &&
@@ -78,21 +65,7 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
                <div className="flex justify-between"> 
                 <p className="text-md font-semibold mb-2">Dishes</p>
                 <div className="text-sm text-gray-500">
-                <Badge
-                  style={
-                    order.foodOrderStatus == "0"
-                      ? { backgroundColor: "#f54842" }
-                      : order.foodOrderStatus == "1"
-                      ? { backgroundColor: "#425af5" }
-                      : { backgroundColor: "#34b340" }
-                  }
-                >
-                  {order.foodOrderStatus == "0"
-                    ? "pending"
-                    : order.foodOrderStatus == "1"
-                    ? "cooking"
-                    : "served"}
-                </Badge>
+                <CustomBadge statusCode={`${order.foodOrderStatus}`} />
               </div>
                </div>
                 {order.dishes !== undefined

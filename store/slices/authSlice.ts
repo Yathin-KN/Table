@@ -44,7 +44,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setOtp } = userSlice.actions;
+export const { setUserInfo, setOtp, resetUserState } = userSlice.actions;
 export default userSlice.reducer;
 export {isAnyStateEmpty}
 export const selectUserInfo = (state: any) => ({
