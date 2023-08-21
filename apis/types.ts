@@ -263,6 +263,7 @@ export interface Drink {
   quantity: string;
   drink_id: string;
   _id: string;
+  drink_item_active:string;
 }
 
 export interface Dish {
@@ -270,6 +271,7 @@ export interface Dish {
   food_id: string;
   quantity: string;
   _id: string;
+  dish_item_active:string;
 }
 
 // interface Drink {
@@ -296,6 +298,8 @@ export interface Order_ {
   drink_active: string;
   user_id: string;
   orderStatus: string;
+  foodOrderStatus:string;
+  drinkOrderStatus:string;
   drinks?: Drink[];
   dishes?: Dish[];
   Orders_id: string;
