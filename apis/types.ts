@@ -207,10 +207,18 @@ export interface OrderDrink {
 export interface Orders{
   tableNo: string,
   user_id: string,
+  otp:string,
   drinks?:OrderDrink[],
   dishes?:OrderDish[],
 }
 
+export interface Membership {
+  rahil: string;
+  name: string;
+  membership_id: string;
+  id: string;
+  status: string;
+}
 export interface UserField{
   name: string;
   phoneNo: string;
