@@ -1,28 +1,63 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import DonateLogo from "../src/assets/donate.jpg";
-import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
-import { BillDetails } from "apis/types";
+// import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
+// import { BillDetails } from "apis/types";
 const Ordercheckout = () => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
-
-  const [billDetails,setBillDetailes]=useState<BillDetails>()
-  const fetchBill = async () => {
-    try {
-      const resp = await fetchBillByOtp("0042");
-      console.log(resp);
-      setBillDetailes(resp)
-    } catch (err) {
-      console.log(err);
-    }
+  const billDetails = {
+    user_id: "346cf6e6-6981-4ee0-9639-9ab21eda2c0e",
+    DishItems: [
+      {
+        name: "Butter chicken",
+        price: 129,
+        quantity: 1,
+        amount: 129,
+      },
+      {
+        name: "Green tuna Salad",
+        price: 200,
+        quantity: 1,
+        amount: 200,
+      },
+    ],
+    DrinkItems: [
+      {
+        name: "Old Monk",
+        price: 3500,
+        quantity: 1,
+        amount: 3500,
+      },
+    ],
+    name: "Yathin",
+    phoneNo: "9880359071",
+    tableNo: "5",
+    dishTotal: 329,
+    drinkTotal: 3500,
+    otp: "0688",
+    cgst: 9.5,
+    sgst: 9.5,
+    grandTotal: 3829,
   };
-  useEffect(() => {
-    fetchBill();
-  }, []);
 
+  // const [billDetails, setBillDetailes] = useState<BillDetails>();
+
+  // const fetchBill = async () => {
+  //   try {
+  //     const resp = await fetchBillByOtp("0042");
+  //     console.log(resp);
+  //     setBillDetailes(resp);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchBill();
+  // }, []);
 
   const cancelButtonRef = useRef(null);
   return (
@@ -57,34 +92,34 @@ const Ordercheckout = () => {
                 </tr>
               </thead>
               <tbody>
-                {
-                  billDetails?.DishItems.map((Dishitem,index)=>{
-                    return <tr className="border-b border-slate-200" key={index}>
-                    <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                      <div className="font-medium text-slate-700">
-                        {Dishitem.name}
-                      </div>
-                    </td>
-                    <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                      &#8377; {Dishitem.price}
-                    </td>
-                  </tr>
-                  })
-                }
-                {
-                  billDetails?.DrinkItems.map((item,index)=>{
-                    return <tr className="border-b border-slate-200" key={index}>
-                    <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                      <div className="font-medium text-slate-700">
-                       {item.name}
-                      </div>
-                    </td>
-                    <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                      &#8377; {item.price}
-                    </td>
-                  </tr>
-                  })
-                }
+                {billDetails?.DishItems.map((Dishitem, index) => {
+                  return (
+                    <tr className="border-b border-slate-200" key={index}>
+                      <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                        <div className="font-medium text-slate-700">
+                          {Dishitem.name}
+                        </div>
+                      </td>
+                      <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                        &#8377; {Dishitem.price}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {billDetails?.DrinkItems.map((item, index) => {
+                  return (
+                    <tr className="border-b border-slate-200" key={index}>
+                      <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                        <div className="font-medium text-slate-700">
+                          {item.name}
+                        </div>
+                      </td>
+                      <td className="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                        &#8377; {item.price}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot>
                 <tr>
@@ -117,12 +152,12 @@ const Ordercheckout = () => {
                     Tax
                   </th>
                   <td className="flex flex-col">
-                  <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; {billDetails?.cgst}
-                  </td>
-                  <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                    &#8377; {billDetails?.cgst}
-                  </td>
+                    <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                      &#8377; {billDetails?.cgst}
+                    </td>
+                    <td className="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                      &#8377; {billDetails?.cgst}
+                    </td>
                   </td>
                 </tr>
                 <tr>
@@ -151,7 +186,7 @@ const Ordercheckout = () => {
                 onClick={handleClick}
                 className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
               >
-                Checkout
+                Confirm Checkout
               </button>
             </div>
           </div>
