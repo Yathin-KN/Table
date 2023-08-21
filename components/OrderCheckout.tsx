@@ -87,41 +87,6 @@ const Ordercheckout = () => {
     fetchBill();
   }, []);
 
-  // const billDetails = {
-  //   user_id: "346cf6e6-6981-4ee0-9639-9ab21eda2c0e",
-  //   DishItems: [
-  //     {
-  //       name: "Butter chicken",
-  //       price: 129,
-  //       quantity: 1,
-  //       amount: 129,
-  //     },
-  //     {
-  //       name: "Green tuna Salad",
-  //       price: 200,
-  //       quantity: 1,
-  //       amount: 200,
-  //     },
-  //   ],
-  //   DrinkItems: [
-  //     {
-  //       name: "Old Monk",
-  //       price: 3500,
-  //       quantity: 1,
-  //       amount: 3500,
-  //     },
-  //   ],
-  //   name: "Yathin",
-  //   phoneNo: "9880359071",
-  //   tableNo: "5",
-  //   dishTotal: 329,
-  //   drinkTotal: 3500,
-  //   otp: "0688",
-  //   cgst: 9.5,
-  //   sgst: 9.5,
-  //   grandTotal: 3829,
-  // };
-
   const handleChange = (event: any) => {
     const amt = event.target.value;
     setDonationAmount(amt);
