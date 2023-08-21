@@ -266,6 +266,31 @@ export interface Drink {
   drink_item_active:string;
 }
 
+export interface BillDetails {
+  otp: string;
+  DishItems: DishItem[];
+  DrinkItems: DrinkItem[];
+  grandTotal: number;
+  dishTotal: number;
+  drinkTotal: number;
+  cgst: number;
+  sgst: number;
+}
+
+interface DishItem {
+  name: string;
+  price: number;
+  quantity: number;
+  amount: number;
+}
+
+interface DrinkItem {
+  name: string;
+  price: number;
+  quantity: number;
+  amount: number;
+}
+
 export interface Dish {
   foodName: string;
   food_id: string;
