@@ -76,8 +76,8 @@ const DishCard: React.FC<DishProps> = ({
           nulla, similique unde beatae tempore adipisci saepe ad suscipite.
         </p>
       </div>
-      <div className="col-span-3 flex flex-col justify-center items-center py-1">
-        <div>
+      <div className="col-span-3 flex flex-col justify-center items-center py-1 pl-4">
+        <div className="">
           {filenames ? (
             <img
               src={filenames}

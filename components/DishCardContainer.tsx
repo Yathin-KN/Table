@@ -11,6 +11,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CallWaiterBtn from "./callWaiterBtn";
 import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
+import TypeBadge from "./TypeBadge"
+const types=["0","1","2"]
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");
@@ -18,14 +20,17 @@ const DishCardContainer: React.FC = () => {
   const [categories, setCategories] = useState<FoodCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
-
+  const handleTypeClick=(type:any)=>{
+     setSelectedOption((prev)=>{
+       if(prev===type){
+        return "All";
+       }else{
+        return type
+       }
+     })
+  }
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
-  };
-
-  const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
-    console.log(event.target.value);
   };
 
   const getData = async () => {
@@ -178,46 +183,13 @@ const DishCardContainer: React.FC = () => {
             ))}
           </select>
         </div>
-
-        <div className="mx-3 flex gap-4">
-          <div className="flex items-center mb-2 flex-row text-sm">
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                value="0"
-                checked={selectedOption === "0"}
-                onChange={handleOptionChange}
-                className="mr-2"
-              />
-              Veg
-            </label>
-          </div>
-          <div className="flex items-center mb-2 text-sm">
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                value="1"
-                checked={selectedOption === "1"}
-                onChange={handleOptionChange}
-                className="mr-2"
-              />
-              Non Veg
-            </label>
-          </div>
-          <div className="flex items-center mb-2 text-sm">
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                value="2"
-                checked={selectedOption === "2"}
-                onChange={handleOptionChange}
-                className="mr-2"
-              />
-              Egg
-            </label>
-          </div>
+        <div className="px-2">
+          {
+            types.map((typeCode)=>{
+            return <TypeBadge statusCode={typeCode} onClick={handleTypeClick} selected={selectedOption===typeCode}/>
+            })
+          }
         </div>
-
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
           {isLoading ? (
             <div>
