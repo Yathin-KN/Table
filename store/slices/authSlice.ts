@@ -38,6 +38,9 @@ const userSlice = createSlice({
        state.otp=otp;
        state.user_id=user_id;
     },
+    resetUserState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 

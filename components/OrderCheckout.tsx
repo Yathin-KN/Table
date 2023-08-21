@@ -2,17 +2,25 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import DonateLogo from "../src/assets/donate.jpg";
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
+import createBill from "./../apis/GET/createBill"
 import { BillDetails } from "apis/types";
+import { useSelector } from "react-redux";
+import {selectUserInfo} from "./../store/slices/authSlice"
 const Ordercheckout = () => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
 
+  const {otp} =useSelector(selectUserInfo)
+
   const [billDetails,setBillDetailes]=useState<BillDetails>()
+  const [donationAmount,setDonationAmount]=useState("0");
+  const [checkOut,setCheckOut]=useState(false);
+
   const fetchBill = async () => {
     try {
-      const resp = await fetchBillByOtp("0042");
+      const resp = await fetchBillByOtp(otp);
       console.log(resp);
       setBillDetailes(resp)
     } catch (err) {
@@ -23,8 +31,27 @@ const Ordercheckout = () => {
     fetchBill();
   }, []);
 
-
+  const handleChange=(event:any)=>{
+    const amt=event.target.value;
+    setDonationAmount(amt)
+  }
   const cancelButtonRef = useRef(null);
+
+  const create=async()=>{
+    try {
+      const resp = await createBill(donationAmount);
+      console.log(resp.status);
+
+      setCheckOut(true)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const handleCheckout=()=>{
+    create();
+    setOpen(false)
+
+  }
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 py-12 px-2 max-w-xl mx-auto">
       <div className="relative bg-white px-6 pt-10 pb-9 shadow-md mx-auto w-full max-w-lg rounded-md">
@@ -33,11 +60,12 @@ const Ordercheckout = () => {
             <div className="font-semibold text-2xl items-center justify-center text-center">
               <p className="">Order Checkout!</p>
             </div>
-            <div className="flex flex-row text-sm font-medium text-gray-500 text-center">
+            <div className="flex flex-col text-md font-medium text-gray-500 text-center">
               <p>
                 On Clicking Checkout you will be ending the session and will be
                 redirected to the payment page.
               </p>
+              {checkOut?<p className="font-bold text-green-500">Successfully checked out !!!!</p>:null}
             </div>
             <table className="min-w-full divide-y divide-slate-500">
               <thead>
@@ -147,12 +175,12 @@ const Ordercheckout = () => {
               >
                 Back to Menu
               </a>
-              <button
+              {!checkOut && <button
                 onClick={handleClick}
                 className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
               >
                 Checkout
-              </button>
+              </button>}
             </div>
           </div>
         </div>
@@ -224,15 +252,18 @@ const Ordercheckout = () => {
                         id="donation"
                         className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Enter amount"
+                        onChange={handleChange}
+                        value={donationAmount}
                       />
                     </div>
                     <button
                       type="button"
                       className="mt-3 inline-flex w-full justify-center rounded-md border border-green-600 bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:text-sm"
-                      onClick={() => setOpen(false)}
+                      onClick={handleCheckout}
                       ref={cancelButtonRef}
+                      
                     >
-                      Donate
+                      Donate amount
                     </button>
                     <button
                       type="button"
