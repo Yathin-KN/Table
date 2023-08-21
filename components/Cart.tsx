@@ -34,7 +34,7 @@ import { TEST_URL } from "./../URL";
 const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
-  const { tableNo, user_id } = useSelector(selectUserInfo);
+  const { tableNo, user_id , otp} = useSelector(selectUserInfo);
   const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
@@ -54,6 +54,7 @@ const Cart = () => {
     const order: Orders = {
       tableNo: tableNo,
       user_id: user_id,
+      otp:otp,
       drinks: orderDrinks.length > 0 ? orderDrinks : undefined,
       dishes: orderDishes.length > 0 ? orderDishes : undefined,
     };

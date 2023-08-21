@@ -11,7 +11,7 @@ import fetchAllTables from "./../apis/GET/fetchAllTables";
 import fetchMemberInfo from "../apis/POST/fetchMemberInfo";
 import fetchAllMembers from "./../apis/GET/fetchAllMembers";
 
-import { Table } from "./../apis/types";
+import { Membership, Table } from "./../apis/types";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,9 +23,9 @@ const Login = () => {
   const tableNoRef = useRef<HTMLSelectElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [memberData, setMemberData] = useState({
-    name: "",
-    memberId: "",
-    member_ph: "",
+    member_name: "",
+    membership_id: "",
+    member_phoneNo: "",
   });
   const [selectedMember, setSelectedMember] = useState(false);
 
@@ -42,7 +42,7 @@ const Login = () => {
     const { value } = event.target;
     setMemberData((prev) => ({
       ...prev,
-      name: value,
+      member_name: value,
     }));
   };
 
@@ -50,21 +50,17 @@ const Login = () => {
     setSelectedMember((prev) => !prev);
   };
 
-  // useEffect(()=>{
-  //   setSelectedMember(prev=>prev?!prev:prev)
-  // },[memberData.name])
-  const [memberList, setMemberList] = useState<string[]>([]);
+  const [memberList, setMemberList] = useState<Membership[]>([]);
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setIsLoading(true);
-
     try {
       const response = await fetch(`${TEST_URL}/api/client/createCustomer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData,...memberData}),
       });
       if (response.ok) {
         const responseData = await response.json();
@@ -92,14 +88,12 @@ const Login = () => {
     }
   };
 
-  const getMemberInfo = async (name: any) => {
+  const getMemberInfo = async (member_id: any) => {
     try {
-      const resp = await fetchMemberInfo(name);
+      const resp = await fetchMemberInfo(member_id);
       console.log(resp);
-      setMemberData({
-        name: resp[0].name,
-        memberId: resp[0].membership_id,
-        member_ph: resp[0].phoneNo,
+      setMemberData((prev)=>{
+        return {...prev,"member_phoneNo":resp.phoneNo}
       });
     } catch (err) {
       console.log(err);
@@ -130,12 +124,14 @@ const Login = () => {
 
   const memberClick = (event: any) => {
     const selectedValue = event.currentTarget.getAttribute("data-value");
+    const member_id = event.currentTarget.getAttribute("data-id");
     setMemberData((prev) => ({
       ...prev,
-      name: selectedValue,
+      member_name: selectedValue,
+      membership_id:member_id,
     }));
     setSelectedMember(true);
-    getMemberInfo(selectedValue);
+    getMemberInfo(member_id);
     console.log(true);
   };
 
@@ -202,24 +198,25 @@ const Login = () => {
                   name="member-name"
                   required
                   onChange={handleMemberNameChange}
-                  value={memberData.name}
+                  value={memberData.member_name}
                   readOnly={selectedMember}
                   placeholder="Enter member name"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm relative"
                 />
-                {memberData.name && !selectedMember && (
+                {memberData.member_name && !selectedMember && (
                   <ul className="flex flex-col my-2 border-2 p-2 rounded-sm absolute w-[76%] bg-white ">
-                    {memberData.name &&
+                    {memberData.member_name &&
                       memberList.map((member, index) => {
-                        const memberName = member.toLowerCase();
-                        const searchMember = memberData.name.toLowerCase();
+                        const memberName = member.rahil.toLowerCase();
+                        const searchMember = memberData.member_name.toLowerCase();
                         return memberName.startsWith(searchMember) ? (
                           <li
                             key={index}
-                            data-value={member}
+                            data-id={member.membership_id}
+                            data-value={member.rahil}
                             onClick={memberClick}
                           >
-                            {member}
+                            {member.rahil}
                           </li>
                         ) : null;
                       })}
@@ -242,7 +239,7 @@ const Login = () => {
               <input
                 type="text"
                 name="phoneNo"
-                value={memberData.member_ph}
+                value={memberData.member_phoneNo}
                 required
                 readOnly
                 className="text-gray-700 mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
@@ -259,7 +256,7 @@ const Login = () => {
                   name="member-id"
                   required
                   readOnly
-                  value={memberData.memberId}
+                  value={memberData.membership_id}
                   placeholder="Enter member id"
                   className="text-gray-700 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 />

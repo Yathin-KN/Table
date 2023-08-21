@@ -207,10 +207,18 @@ export interface OrderDrink {
 export interface Orders{
   tableNo: string,
   user_id: string,
+  otp:string,
   drinks?:OrderDrink[],
   dishes?:OrderDish[],
 }
 
+export interface Membership {
+  rahil: string;
+  name: string;
+  membership_id: string;
+  id: string;
+  status: string;
+}
 export interface UserField{
   name: string;
   phoneNo: string;
@@ -255,6 +263,32 @@ export interface Drink {
   quantity: string;
   drink_id: string;
   _id: string;
+  drink_item_active:string;
+}
+
+export interface BillDetails {
+  otp: string;
+  DishItems: DishItem[];
+  DrinkItems: DrinkItem[];
+  grandTotal: number;
+  dishTotal: number;
+  drinkTotal: number;
+  cgst: number;
+  sgst: number;
+}
+
+interface DishItem {
+  name: string;
+  price: number;
+  quantity: number;
+  amount: number;
+}
+
+interface DrinkItem {
+  name: string;
+  price: number;
+  quantity: number;
+  amount: number;
 }
 
 export interface Dish {
@@ -262,6 +296,7 @@ export interface Dish {
   food_id: string;
   quantity: string;
   _id: string;
+  dish_item_active:string;
 }
 
 // interface Drink {
@@ -288,6 +323,8 @@ export interface Order_ {
   drink_active: string;
   user_id: string;
   orderStatus: string;
+  foodOrderStatus:string;
+  drinkOrderStatus:string;
   drinks?: Drink[];
   dishes?: Dish[];
   Orders_id: string;

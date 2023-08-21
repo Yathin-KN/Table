@@ -5,7 +5,7 @@ import { Orders, OrderDish, OrderDrink } from './../../apis/types';
 import { useSelector } from 'react-redux';
 
 export function createOrder(): Orders {
-    const { user_id, tableNo } = useSelector(selectUserInfo);
+    const { user_id, tableNo , otp } = useSelector(selectUserInfo);
   
     const dishItems = useSelector(selectDishItems);
     const drinkItems = useSelector(selectDrinkItems);
@@ -24,6 +24,7 @@ export function createOrder(): Orders {
   
     const order: Orders = {
       tableNo: tableNo,
+      otp:otp,
       user_id: user_id,
       drinks: orderDrinks.length > 0 ? orderDrinks : undefined,
       dishes: orderDishes.length > 0 ? orderDishes : undefined,
