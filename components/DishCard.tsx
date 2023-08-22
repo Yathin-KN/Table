@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Badge } from "./../src/components/ui/badge";
-import { DishProps } from "apis/types";
+import { DishProps } from "../apis/types";
 import { useDispatch } from "react-redux/es/exports";
 import { addItem, decrementItem } from "../store/slices/cartDishSlice";
 import {
@@ -11,6 +11,7 @@ import {
 } from "./../store/slices/menuSlice";
 import { useSelector } from "react-redux/es/exports";
 import altImage from "./../src/assets/altimages/dish_alt.png";
+import React from "react";
 const colorCode:any ={
   "0":  "#42c244",
   "1": "#f52a1b",
