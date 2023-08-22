@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
-import { Dish } from "apis/types";
+import { Dish } from "./../apis/types";
 import fetchDishes from "../apis/GET/fetchDishes";
 import fetchDishCategories from "../apis/GET/fetchDishCategories";
 import { Disclosure, Transition } from "@headlessui/react";
@@ -90,9 +90,9 @@ const DishCardContainer: React.FC = () => {
   });
 
   return (
-    <div className="w-full pb-4 h-screen">
+    <div className="w-full pb-4">
       <ToastContainer toastClassName={() => 
-        "relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
       }/>
       <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure
