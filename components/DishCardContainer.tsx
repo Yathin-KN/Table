@@ -12,6 +12,7 @@ import CallWaiterBtn from "./callWaiterBtn";
 import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
 import TypeBadge from "./TypeBadge"
+import { ToastContainer } from "react-toastify";
 const types=["0","1","2"]
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
@@ -90,6 +91,9 @@ const DishCardContainer: React.FC = () => {
 
   return (
     <div className="w-full pb-4 h-screen">
+      <ToastContainer toastClassName={() => 
+        "relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+      }/>
       <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure
           as="nav"

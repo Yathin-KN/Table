@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import {UserState, UserResponse} from './../types'
+import {UserStateNotification, UserResponse} from './../types'
 import { TEST_URL } from '../../URL';
 
-const callWaiter=async(data:UserState)=>{
+const callWaiter=async(data:UserStateNotification)=>{
     const url=`${TEST_URL}/api/client/callWaiter`; 
   try {
     const response: AxiosResponse<UserResponse | any> = await axios.post(url, data);

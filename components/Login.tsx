@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserInfo, setOtp } from "./../store/slices/authSlice";
+import { setUserInfo, setOtp , setMemberInfo } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -95,11 +95,18 @@ const Login = () => {
     try {
       const resp = await fetchMemberInfo(member_id);
       console.log(resp);
+      dispatch(setMemberInfo({
+        member_name: resp.name,
+        membership_id: resp.membership_id,
+        member_phoneNo: resp.phoneNo,
+      }))
       setMemberData((prev) => {
         return { ...prev, member_phoneNo: resp.phoneNo };
       });
     } catch (err) {
       console.log(err);
+    } finally{
+      console.log(memberData)
     }
   };
   // useEffect(() => {

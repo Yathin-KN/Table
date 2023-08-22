@@ -218,6 +218,17 @@ export interface UserState {
   otp: string;
   user_id:string;
   tableNo:string;
+  membership_id:string;
+  member_name: string,
+    member_phoneNo: string,
+}
+
+export interface UserStateNotification{
+  user_id: string;
+    username: string;
+    tableNo: string;
+    otp: string;
+    phoneNumber: string;
 }
 
 export interface OrderDish {

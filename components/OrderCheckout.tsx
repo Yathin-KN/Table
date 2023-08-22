@@ -6,8 +6,13 @@ import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
 import createBill from "./../apis/GET/createBill";
 import { BillDetails } from "apis/types";
 import { useDispatch, useSelector } from "react-redux";
-import {resetUserState, selectUserInfo } from "./../store/slices/authSlice";
-
+import {
+  MemberInfo,
+  resetUserState,
+  selectUserInfo,
+} from "./../store/slices/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface TableRowProps {
   name: string;
   price: number;
@@ -63,24 +68,28 @@ function TableFooterRow({ title, amount, isBold }: TableFooterRowProps) {
 
 const Ordercheckout = () => {
   const [open, setOpen] = useState(false);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const handleClick = () => {
     setOpen(true);
   };
 
-  const { otp , user_id} = useSelector(selectUserInfo);
-  console.log(otp,user_id)
+  const { otp, user_id } = useSelector(selectUserInfo);
+  const { membership_id } = useSelector(MemberInfo);
   const [billDetails, setBillDetailes] = useState<BillDetails>();
   const [donationAmount, setDonationAmount] = useState("0");
   const [checkOut, setCheckOut] = useState(false);
-
+  
   const fetchBill = async () => {
     try {
       const resp = await fetchBillByOtp(otp);
       console.log(resp);
       setBillDetailes(resp);
-    } catch (err) {
+    } catch (err:any) {
       console.log(err);
+      toast.error(`${err.toString()}`, {
+        position: "top-center",
+        autoClose: 1500,
+      });
     }
   };
   useEffect(() => {
@@ -95,14 +104,20 @@ const Ordercheckout = () => {
 
   const create = async () => {
     try {
-      const resp = await createBill(user_id,donationAmount);
+      const resp = await createBill(user_id, donationAmount, membership_id);
       console.log(resp.status);
-      
       setCheckOut(true);
-      dispatch(resetUserState())
-
-      
-    } catch (err) {
+      dispatch(resetUserState());
+      console.log("hii");
+      toast.success(`successfully checkedout !!!`, {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } catch (err:any) {
+      toast.error(`${err.message.toString()}`, {
+        position: "top-center",
+        autoClose: 1500,
+      });
       console.log(err);
     }
   };
@@ -117,6 +132,11 @@ const Ordercheckout = () => {
           <div className="flex flex-col space-y-2">
             <div className="font-semibold text-2xl items-center justify-center text-center">
               <p className="">Order Checkout!</p>
+              <ToastContainer
+                toastClassName={() =>
+                  " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+                }
+              />
             </div>
             <div className="flex flex-col text-md font-medium text-gray-700 text-center">
               <p>

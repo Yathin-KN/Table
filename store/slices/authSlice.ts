@@ -18,6 +18,9 @@ const initialState: UserState = {
   otp: "",
   user_id:"",
   tableNo:"",
+  member_name: "",
+  membership_id: "",
+  member_phoneNo: "",
 };
 
 const userSlice = createSlice({
@@ -26,9 +29,9 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (
       state,
-      action: PayloadAction<{ username: string; phoneNumber: string ; tableNo:string}>
+      action: PayloadAction<{ username: string; phoneNumber: string ; tableNo:string ;}>
     ) => {
-      const { username, phoneNumber , tableNo} = action.payload;
+      const { username, phoneNumber , tableNo } = action.payload;
       state.username = username;
       state.phoneNumber = phoneNumber;
       state.tableNo = tableNo;
@@ -38,13 +41,22 @@ const userSlice = createSlice({
        state.otp=otp;
        state.user_id=user_id;
     },
+
     resetUserState: (state) => {
       Object.assign(state, initialState);
     },
+
+    setMemberInfo:(state,action:PayloadAction<{membership_id:string; member_name:string;member_phoneNo:string}>)=>{
+      const { membership_id , member_name , member_phoneNo} = action.payload;
+      state.membership_id=membership_id;
+      state.member_name=member_name;
+      state.member_phoneNo=member_phoneNo;
+    }
+
   },
 });
 
-export const { setUserInfo, setOtp, resetUserState } = userSlice.actions;
+export const { setUserInfo, setOtp, resetUserState , setMemberInfo } = userSlice.actions;
 export default userSlice.reducer;
 export {isAnyStateEmpty}
 export const selectUserInfo = (state: any) => ({
@@ -54,3 +66,8 @@ export const selectUserInfo = (state: any) => ({
   otp: state.auth.otp || "",
   phoneNumber: state.auth.phoneNumber || "",
 });
+
+export const MemberInfo = (state: any) => ({
+  membership_id: state.auth.membership_id || "",
+});
+
