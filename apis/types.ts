@@ -97,6 +97,30 @@ export interface DrinksCategory {
   __v: number;
 }
 
+interface RejectedDishes{
+  foodName: string;
+  food_id: string;
+  quantity: string;
+  _id: string;
+}
+
+interface RejectedDrink{
+  drinkName: string;
+  quantity: string;
+  drink_id: string;
+  _id: string;
+}
+export interface RejectedOrder {
+  _id: string;
+  user_id: string;
+  Orders_id: string;
+  reason: string;
+  drinks: RejectedDrink[]; 
+  dishes: RejectedDishes[];
+  rejectedItems_id: string;
+  __v: number;
+}
+
 
 export interface DrinkManager {
   name?: string;
@@ -158,10 +182,7 @@ export interface Staff {
   Orders_id: string;
 }
 
-export interface Table {
-  tableNo: string;
-  active: string;
-}
+
 
 export interface CartItem {
   _id: string;
