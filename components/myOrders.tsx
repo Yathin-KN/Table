@@ -5,7 +5,7 @@ import { GetOrderResponse } from "./../apis/types";
 import { useEffect, useState } from "react";
 import OrderDisplay from "./OrderDisplay";
 import EmptyCart from "./EmptyCart";
-
+import { RotateCw } from "lucide-react";
 const MyOrders = () => {
   const [order, setOrder] = useState<GetOrderResponse | null>(null);
   const { user_id } = useSelector(selectUserInfo);
@@ -20,14 +20,21 @@ const MyOrders = () => {
       console.log(err);
       
       setError(true);
+    } finally{
     }
   };
   useEffect(() => {
     getOrder();
   }, []);
 
+  const recheckOrders=()=>{
+    getOrder();
+  }
+
+ 
   return (
     <div className="flex flex-col gap-4 w-full p-3 h-screen bg-gray-50">
+      <RotateCw onClick={recheckOrders} className="fixed right-4 bg-gray-500 text-white font-bold p-[2px] rounded-full h-[1.6rem] w-[1.6rem] z-10"/>
       {error ? (
         <div className="flex flex-col gap-4">
           <EmptyCart />

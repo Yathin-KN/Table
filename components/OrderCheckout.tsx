@@ -100,6 +100,8 @@ const Ordercheckout = () => {
       
       setCheckOut(true);
       dispatch(resetUserState())
+
+      
     } catch (err) {
       console.log(err);
     }

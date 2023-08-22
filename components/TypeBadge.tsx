@@ -14,7 +14,7 @@ const TypeBadge: React.FC<TypeBadgeProps> = ({
 }) => {
   const statusInfo: Record<string, { label: string; color: string }> = {
     "0": { label: "veg", color: "#42c244" },
-    "1": { label: "non veg", color: "#cf3d29" },
+    "1": { label: "non veg", color: "#f52a1b" },
     "2": { label: "egg", color: "#a3572e" },
   };
 

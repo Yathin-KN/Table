@@ -2,7 +2,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 export default function EmptyCart() {
   return (
-    <div className="border-l-4 border-yellow-400 bg-yellow-50 p-4">
+    <div className="border-l-4 border-yellow-400 bg-yellow-50 p-4 z-0">
       <div className="flex justify-center">
         <div className="flex-shrink-0">
           <ExclamationTriangleIcon

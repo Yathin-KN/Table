@@ -11,6 +11,11 @@ import {
 } from "./../store/slices/menuSlice";
 import { useSelector } from "react-redux/es/exports";
 import altImage from "./../src/assets/altimages/dish_alt.png";
+const colorCode:any ={
+  "0":  "#42c244",
+  "1": "#f52a1b",
+  "2": "#a3572e",
+};
 const DishCard: React.FC<DishProps> = ({
   foodName,
   foodPrice,
@@ -18,6 +23,7 @@ const DishCard: React.FC<DishProps> = ({
   foodCategories,
   food_id,
   filenames,
+  description,
 }) => {
   const qty = useSelector((state) => selectQuantity(state, food_id));
   const [quantity, setQuantity] = useState(qty);
@@ -33,6 +39,7 @@ const DishCard: React.FC<DishProps> = ({
         food_id: food_id,
         type: type,
         quantity_bought: 1,
+        description: ""
       })
     );
     dispatch(
@@ -53,6 +60,7 @@ const DishCard: React.FC<DishProps> = ({
         food_id: food_id,
         type: type,
         quantity_bought: 1,
+        description: ""
       })
     );
     dispatch(
@@ -66,14 +74,31 @@ const DishCard: React.FC<DishProps> = ({
   return (
     <div className="p-4 rounded-md grid grid-cols-6 bg-white shadow-md mx-3">
       <div className="col-span-3">
-        <Badge className="text-xs" variant={"outline"}>
-          {foodCategories}
-        </Badge>
+        <div className="flex gap-1 my-2">
+        <span
+            className="p-1 border-[1.2px] mr-1 rounded-sm flex justify-center items-center"
+            style={{
+              maxHeight: "1.2rem",
+              maxWidth: "1.2rem",
+              borderColor: colorCode[type],
+              color: colorCode[type],
+            }}
+          >
+            <span
+              className="p-[0.28rem] rounded-full"
+              style={{ backgroundColor: colorCode[type] }}
+            ></span>
+          </span>
+          <Badge className="text-xs mr-4" variant={"outline"}>
+            {foodCategories}
+          </Badge>
+          
+        </div>
+
         <h4 className="font-bold text-blue-950 capitalize">{foodName}</h4>
         <h4 className="text-sm"> &#8377; {foodPrice}</h4>
         <p className="text-slate-500 text-xs">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
-          nulla, similique unde beatae tempore adipisci saepe ad suscipite.
+          {description}
         </p>
       </div>
       <div className="col-span-3 flex flex-col justify-center items-center py-1 pl-4">
