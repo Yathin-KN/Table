@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchdrinks from "../apis/GET/fetchDrinks";
 import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
-import DrinksCategory, {  DrinksGET } from "./../apis/types";
+import {DrinksCategory,  DrinksGET } from "./../apis/types";
 import DrinkCard from "./DrinkCard";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -28,7 +28,13 @@ const DrinkCardContainer = () => {
     try{
       const drinkCategory=await fetchDrinkCategory();
       console.log(drinkCategory)
-      setDrinkCategory([...drinkCategory])
+      drinkCategory.push({
+        drinksCategory: "All",
+        _id: "",
+        drinks_Category_id: "",
+        __v: 0
+      })
+      setDrinkCategory(drinkCategory)
     }catch(err){
       console.log(err)
     }

@@ -18,6 +18,7 @@ const MyOrders = () => {
       console.log(orderGET);
     } catch (err) {
       console.log(err);
+      
       setError(true);
     }
   };
@@ -41,10 +42,10 @@ const MyOrders = () => {
           <EmptyCart />
           <div className="pt-10 fixed z-50 bottom-10 right-10">
             <a
-              className="group flex items-center justify-between gap-4 rounded-lg border border-red-600 bg-red-600 px-2 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
+              className="group flex items-center justify-between gap-4 rounded-lg border border-red-600 bg-red-600 px-3 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
               href="/ordercheckout"
             >
-              <span className="font-semibold text-white transition-colors group-hover:text-red-600 group-active:text-red-500">
+              <span className="font-semibold text-white transition-colors group-hover:text-red-600 group-active:text-red-500 text-md">
                 Checkout
               </span>
               <span className="shrink-0 rounded-full border border-current bg-white p-1.5 text-red-600 group-active:text-red-500">

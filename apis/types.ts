@@ -1,7 +1,4 @@
-export interface DrinksCategory {
-  drinksCategory: string;
-  drinks_Category_id: string;
-}
+
 
 export interface FoodCategory {
   _id: string;
@@ -100,7 +97,6 @@ export interface DrinksCategory {
   __v: number;
 }
 
-export default DrinksCategory;
 
 export interface DrinkManager {
   name?: string;

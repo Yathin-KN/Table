@@ -24,24 +24,6 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
                 <p className="text-sm text-gray-800">Date :{order.time1}</p>
                 <p className="text-sm text-gray-800">Time :{order.date1}</p>
               </div>
-              {/* <div className="text-sm text-gray-500">
-                Order Status:{" "}
-                <Badge
-                  style={
-                    order.orderStatus == "0"
-                      ? { backgroundColor: "#f54842" }
-                      : order.orderStatus == "1"
-                      ? { backgroundColor: "#425af5" }
-                      : { backgroundColor: "#34b340" }
-                  }
-                >
-                  {order.orderStatus == "0"
-                    ? "pending"
-                    : order.orderStatus == "1"
-                    ? "cooking"
-                    : "served"}
-                </Badge>
-              </div> */}
             </div>
             <div className="grid grid-cols-1 gap-4">
               {order.drinks?.length!==0 && <div>

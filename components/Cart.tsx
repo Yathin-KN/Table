@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   selectDishItems,
   clearItems as DishClear,
@@ -20,6 +22,7 @@ import {
 } from "./../apis/types";
 import CartCard from "./CartCard";
 import EmptyCart from "./EmptyCart";
+import { Loader2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -31,13 +34,14 @@ import {
 import { Button } from "@/components/ui/button";
 import axios, { AxiosResponse } from "axios";
 import { TEST_URL } from "./../URL";
+
 const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
   const { tableNo, user_id , otp} = useSelector(selectUserInfo);
-  const [error, setError] = useState(false);
-
+  const [isLoading,setIsLoading]=useState(false);
   const dispatch = useDispatch();
+
   const handleClick = () => {
     const orderDishes: OrderDish[] = dishItems.map((item) => ({
       foodName: item.foodName,
@@ -61,6 +65,7 @@ const Cart = () => {
 
     const placeOrder = async (data: Orders) => {
       try {
+        setIsLoading(true)
         const response: AxiosResponse<ResponseDataOrders> = await axios.post(
           `${TEST_URL}/api/client/setOrders`,
           data
@@ -69,9 +74,12 @@ const Cart = () => {
         dispatch(DishClear());
         dispatch(DrinkClear());
         dispatch(resetCartItems());
-      } catch (error) {
-        setError(true);
-        console.error("Error:", error);
+      } catch (error:any) {
+        toast.error(`${error.response.data.message}`,{
+          autoClose:1500
+        });
+      }  finally{
+        setIsLoading(false)
       }
     };
     placeOrder(order);
@@ -79,6 +87,12 @@ const Cart = () => {
 
   return (
     <div className="w-full p-3 h-screen bg-gray-50">
+      <ToastContainer
+      toastClassName={() => 
+        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+      }
+      
+    />
       {dishItems.length !== 0 && (
         <>
           <div className="text-xl font-bold text-gray-800">Dishes</div>
@@ -149,15 +163,16 @@ const Cart = () => {
           <EmptyCart />
         </div>
       ) : (
-        <div className="m-4 float-right pt-4">
-          <Button onClick={handleClick}>Place Order</Button>
-        </div>
+        <Button
+        className="rounded-lg my-4 border-2 text-md bg-blue-600 font-semibold justify-center w-full"
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        Place order
+      </Button>
       )}
-      {error && (
-        <div className="text-center pt-2 text-red-500">
-          Something went wrong
-        </div>
-      )}
+      
     </div>
   );
 };
