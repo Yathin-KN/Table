@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {CartDrink} from '../../apis/types'
 
@@ -44,5 +44,12 @@ const CartDishSlice = createSlice({
 
 export const { addItem, removeItem, decrementItem, clearItems } = CartDishSlice.actions;
 export const selectDrinkItems = (state: { cartDrink: ItemsState }) => state.cartDrink.items;
-
+export const selectDrinkItemsWithLength = createSelector(
+  selectDrinkItems,
+  (items) => items
+);
+export const DrinkCartNo = createSelector(
+  selectDrinkItemsWithLength,
+  (items) => items.length
+);
 export default  CartDishSlice.reducer;

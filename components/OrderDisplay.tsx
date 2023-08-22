@@ -7,7 +7,7 @@ import Rejected from "./Rejected";
 const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
   return (
     <div className="p-4 bg-white">
-      {data.map((order) => (
+      {data.map((order,index) => (
         <>
           <div
             key={order._id}
@@ -17,26 +17,28 @@ const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
               <Badge
                 className="border-red-600 text-red-600 my-1"
                 variant={"outline"}
+                key={index}
               >
                 Rejected
               </Badge>
             ) : null}
             <div className="flex justify-between items-center mb-2">
               <div>
-                {order.orderStatus === "999" && (
+                {(order.foodOrderStatus === "999" || order.drinkOrderStatus==="999") && (
                   <p className="text-sm text-red-600 w-[80%]">
                     Some items of this order were rejected tap on the icon to
                     view !
                   </p>
                 )}
-                <p className="text-sm font-semibold w-[100%] my-1">
-                  {order.Orders_id}
-                </p>
-                <p className="text-sm text-gray-800">Date :{order.time1}</p>
-                <p className="text-sm text-gray-800">Time :{order.date1}</p>
+                <div className="my-3">
+                <p className="text-gray-800 font-semibold">Date :{order.time1}</p>
+                 <p className="text-gray-800 font-semibold">Time :{order.date1}</p>
+                </div>
+                 
+                
               </div>
             </div>
-            {order.orderStatus === "999" && (
+            {(order.foodOrderStatus === "999" || order.drinkOrderStatus==="999") && (
               <div className="absolute right-4 top-4">
                 <Rejected order_id={order.Orders_id} />
               </div>

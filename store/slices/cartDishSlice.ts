@@ -1,15 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import {CartDishItem} from '../../apis/types'
-
+import { CartDishItem } from '../../apis/types';
 
 interface ItemsState {
-    items: CartDishItem[];
+  items: CartDishItem[];
 }
 
-const initialState: ItemsState={
-    items: [],
-  };
+const initialState: ItemsState = {
+  items: [],
+};
 
 const CartDishSlice = createSlice({
   name: 'items',
@@ -30,7 +29,7 @@ const CartDishSlice = createSlice({
     decrementItem: (state, action: PayloadAction<CartDishItem>) => {
       const existingItem = state.items.find(item => item.food_id === action.payload.food_id);
       if (existingItem) {
-        existingItem.quantity_bought = (existingItem.quantity_bought || 0) - 1 > 0 ?(existingItem.quantity_bought || 0) - 1:0;
+        existingItem.quantity_bought = (existingItem.quantity_bought || 0) - 1 > 0 ? (existingItem.quantity_bought || 0) - 1 : 0;
       } else {
         action.payload.quantity_bought = 1;
         state.items.push(action.payload);
@@ -43,6 +42,17 @@ const CartDishSlice = createSlice({
 });
 
 export const { addItem, removeItem, decrementItem, clearItems } = CartDishSlice.actions;
+
 export const selectDishItems = (state: { cartDish: ItemsState }) => state.cartDish.items;
 
-export default  CartDishSlice.reducer;
+export const selectDishItemsWithLength = createSelector(
+  selectDishItems,
+  (items) => items
+);
+
+export const DishCartNo = createSelector(
+  selectDishItemsWithLength,
+  (items) => items.length
+);
+
+export default CartDishSlice.reducer;

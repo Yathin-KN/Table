@@ -20,12 +20,26 @@ const DishCardContainer: React.FC = () => {
   const [categories, setCategories] = useState<FoodCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTypes,setSelectedTypes]=useState<any>({
+    "0":"0",
+    "1":"0",
+    "2":"0",
+  })
+  
   const handleTypeClick=(type:any)=>{
+    console.log(type)
      setSelectedOption((prev)=>{
        if(prev===type){
         return "All";
        }else{
         return type
+       }
+     })
+     console.log(selectedTypes)
+     setSelectedTypes((prev:any)=>{
+       return {
+        ...prev,
+        [type]:prev[type]=="0"?"1":"0"
        }
      })
   }
@@ -61,12 +75,16 @@ const DishCardContainer: React.FC = () => {
     getCategories();
   }, []);
 
+  const customFunc=(type:string)=>{
+      if(selectedTypes["0"]==="0" && selectedTypes["1"]==="0" && selectedTypes["2"]==="0" ) return true;
+      return selectedTypes[type]==="1"
+  }
   const filteredDishes = dishes.filter((dish) => {
     const dishNameMatches = dish.foodName
       .toLowerCase()
       .includes(selectedDish.toLowerCase());
     const typeMatches =
-      selectedOption === "All" || selectedOption === dish.type;
+      selectedOption === "All" || customFunc(dish.type) ;
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === dish.foodCategories;
     return dishNameMatches && typeMatches && categoryMatches;
@@ -186,7 +204,7 @@ const DishCardContainer: React.FC = () => {
         <div className="px-2">
           {
             types.map((typeCode)=>{
-            return <TypeBadge statusCode={typeCode} onClick={handleTypeClick} selected={selectedOption===typeCode}/>
+            return <TypeBadge statusCode={typeCode} onClick={handleTypeClick} selected={selectedTypes[typeCode]==="1"}/>
             })
           }
         </div>

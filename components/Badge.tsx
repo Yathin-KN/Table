@@ -15,8 +15,9 @@ const CustomBadge: React.FC<CustomBadgeProps> = ({statusCode}) => {
     "2": { label: "served", color: "#34b340" },
   };
 
+
   const status =statusCode;
-  const { label, color } = statusInfo[status] || { label: "rejected", color: "#000000" };
+  const { label, color } = statusInfo[status] || { label: "pending", color: "#f54842" };
 
   return <Badge style={{ backgroundColor: color }}>{label}</Badge>;
 };
