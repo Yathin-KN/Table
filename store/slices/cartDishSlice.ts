@@ -30,6 +30,10 @@ const CartDishSlice = createSlice({
       const existingItem = state.items.find(item => item.food_id === action.payload.food_id);
       if (existingItem) {
         existingItem.quantity_bought = (existingItem.quantity_bought || 0) - 1 > 0 ? (existingItem.quantity_bought || 0) - 1 : 0;
+        if (existingItem.quantity_bought <= 0) {
+          state.items = state.items.filter(item => item.food_id !== action.payload.food_id);
+        }
+
       } else {
         action.payload.quantity_bought = 1;
         state.items.push(action.payload);
