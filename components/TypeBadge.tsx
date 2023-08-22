@@ -31,8 +31,8 @@ const TypeBadge: React.FC<TypeBadgeProps> = ({
         backgroundColor: "white",
         border: selected ? `1.2px solid ${color}` : `1.2px solid ${def}`,
         boxShadow: selected
-          ? `${color} 0px 0px 0px 1px;`
-          : `rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;`,
+          ? `${color} 0px 0px 0px 1px`
+          : `rgba(60, 64, 67, 0.1) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px`,
       }}
       className="rounded-md mx-1 py-1 text-gray-800"
       onClick={() => {
