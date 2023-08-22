@@ -89,7 +89,7 @@ const DishCardContainer: React.FC = () => {
   });
 
   return (
-    <div className="w-full pb-4 h-screen">
+    <div className="w-full pb-4">
       <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure
           as="nav"
