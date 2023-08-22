@@ -33,12 +33,6 @@ export const Verify = () => {
         toast.error(`${response.response.data.message}`, {
           position: "top-center",
           autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     } catch (error) {
@@ -55,7 +49,9 @@ export const Verify = () => {
 
   return (
     <div className="max-w-xl mx-auto h-screen bg-gradient-to-tr from-blue-50 via-blue-100 to-blue-200 p-4">
-      <ToastContainer />
+      <ToastContainer toastClassName={() => 
+        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+      }/>
       <div className="text-2xl font-bold py-8 text-center">
         Get your OTP from the nearest waiter . . . !
       </div>
@@ -67,6 +63,7 @@ export const Verify = () => {
       <Button
         className="rounded-lg my-4 border-2 text-md bg-blue-600 font-semibold justify-center w-full"
         onClick={handleClick}
+        disabled={isLoading}
       >
         {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
         Verify

@@ -1,7 +1,4 @@
-export interface DrinksCategory {
-  drinksCategory: string;
-  drinks_Category_id: string;
-}
+
 
 export interface FoodCategory {
   _id: string;
@@ -92,6 +89,14 @@ export interface DishProps {
   type: string;
   food_category_id: string;
 }
+
+export interface DrinksCategory {
+  _id: string;
+  drinksCategory: string;
+  drinks_Category_id: string;
+  __v: number;
+}
+
 
 export interface DrinkManager {
   name?: string;

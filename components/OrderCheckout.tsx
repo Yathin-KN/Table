@@ -5,8 +5,8 @@ import DonateLogo from "../src/assets/donate.jpg";
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
 import createBill from "./../apis/GET/createBill";
 import { BillDetails } from "apis/types";
-import { useSelector } from "react-redux";
-import { selectUserInfo } from "./../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {resetUserState, selectUserInfo } from "./../store/slices/authSlice";
 
 interface TableRowProps {
   name: string;
@@ -63,12 +63,13 @@ function TableFooterRow({ title, amount, isBold }: TableFooterRowProps) {
 
 const Ordercheckout = () => {
   const [open, setOpen] = useState(false);
+  const dispatch=useDispatch();
   const handleClick = () => {
     setOpen(true);
   };
 
-  const { otp } = useSelector(selectUserInfo);
-
+  const { otp , user_id} = useSelector(selectUserInfo);
+  console.log(otp,user_id)
   const [billDetails, setBillDetailes] = useState<BillDetails>();
   const [donationAmount, setDonationAmount] = useState("0");
   const [checkOut, setCheckOut] = useState(false);
@@ -94,10 +95,11 @@ const Ordercheckout = () => {
 
   const create = async () => {
     try {
-      const resp = await createBill(donationAmount);
+      const resp = await createBill(user_id,donationAmount);
       console.log(resp.status);
-
+      
       setCheckOut(true);
+      dispatch(resetUserState())
     } catch (err) {
       console.log(err);
     }

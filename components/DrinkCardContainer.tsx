@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchdrinks from "../apis/GET/fetchDrinks";
-import { DrinksGET } from "./../apis/types";
+import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
+import {DrinksCategory,  DrinksGET } from "./../apis/types";
 import DrinkCard from "./DrinkCard";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -10,6 +11,8 @@ import SkelitonLoad from "./SkelitonLoad";
 const DrinkCardContainer = () => {
   const [drinksArr, setDrinks] = useState<DrinksGET[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [drinkCategory,setDrinkCategory]=useState<DrinksCategory[]>([])
+  const [selectedDrink,setSelectedDrink]=useState("");
   const getData = async () => {
     try {
       const drinks = await fetchdrinks();
@@ -20,9 +23,40 @@ const DrinkCardContainer = () => {
       setIsLoading(false);
     }
   };
+
+  const getDrinkCategories=async()=>{
+    try{
+      const drinkCategory=await fetchDrinkCategory();
+      console.log(drinkCategory)
+      drinkCategory.push({
+        drinksCategory: "All",
+        _id: "",
+        drinks_Category_id: "",
+        __v: 0
+      })
+      setDrinkCategory(drinkCategory)
+    }catch(err){
+      console.log(err)
+    }
+  }
   useEffect(() => {
     getData();
+    getDrinkCategories();
   }, []);
+
+  const [selectedCategory,setSelectedCategory]=useState("All")
+  const handleCategoryChange=(event:any)=>{
+     setSelectedCategory(event.target.value)
+  }
+  const filteredDrinks = drinksArr.filter((drink) => {
+    const dishNameMatches = drink.drinkName
+      .toLowerCase()
+      .includes(selectedDrink.toLowerCase());
+    const categoryMatches =
+      selectedCategory === "All" || selectedCategory === drink.drinkCategories;
+    return dishNameMatches && categoryMatches;
+  });
+
   return (
     <div className="w-full pb-4">
       <div className="flex flex-col gap-4 bg-gray-50">
@@ -48,8 +82,8 @@ const DrinkCardContainer = () => {
                         </div>
                         <input
                           id="search-dishes"
-                          // value={selectedDish}
-                          // onChange={(e) => setSelectedDish(e.target.value)}
+                          value={selectedDrink}
+                          onChange={(e) => setSelectedDrink(e.target.value)}
                           name="search-dishes"
                           className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow-sm focus:shadow-none"
                           placeholder="Search for Drinks"
@@ -119,12 +153,29 @@ const DrinkCardContainer = () => {
             </>
           )}
         </Disclosure>
+        <div className="w-full">
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="sm:text-sm block w-[90%] p-2 border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 mx-3"
+          >
+            {drinkCategory.map((category, index) => (
+              <option
+                key={index}
+                value={category.drinksCategory}
+                className="bg-gray-50 text-gray-800"
+              >
+                {category.drinksCategory}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
           {isLoading ? (
             <SkelitonLoad />
           ) : (
-            drinksArr.map((drink) => (
-              <DrinkCard
+            filteredDrinks.map((drink) => {
+              return <DrinkCard
                 key={drink._id}
                 _id={drink._id}
                 drinkCategories={drink.drinkCategories}
@@ -136,7 +187,7 @@ const DrinkCardContainer = () => {
                 filenames={drink.filenames}
                 description={drink.description}
               />
-            ))
+          })
           )}
         </div>
       </div>
