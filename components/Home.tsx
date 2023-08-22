@@ -23,7 +23,7 @@ const Home = () => {
             <TabsTrigger value="dishes">Dishes</TabsTrigger>
             <TabsTrigger value="drinks">Drinks</TabsTrigger>
             <TabsTrigger value="cart" className="relative">Cart
-            {tDish!==0 && <span className="absolute top-[-0.3rem] right-[-0.5rem] bg-red-500 w-[1.2rem] h-[1.2rem] text-white rounded-full text-xs flex items-center justify-center font-semibold">
+            {(tDish!==0 || tDrink!==0)&& <span className="absolute top-[-0.3rem] right-[-0.5rem] bg-red-500 w-[1.2rem] h-[1.2rem] text-white rounded-full text-xs flex items-center justify-center font-semibold">
               <p>{tDish+tDrink}</p>
             </span>}
             </TabsTrigger>
