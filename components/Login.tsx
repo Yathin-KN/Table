@@ -78,6 +78,10 @@ const Login = () => {
         navigate("/verify");
       } else {
         console.error("Error sending data.");
+        toast.error("error", {
+          position: "top-center",
+          autoClose: 1500,
+        });
       }
     } catch (error) {
       toast.error(`${error}`);
@@ -107,9 +111,17 @@ const Login = () => {
   const getTables = async () => {
     try {
       const Tables = await fetchAllTables();
-      setTables(Tables);
+      setTables([{_id:"",
+        tableNo:"",
+        active:"true",
+        maxPeople:"",
+        __v: 0},...Tables]);
     } catch (err) {
       console.log(err);
+      toast.error("error", {
+        position: "top-center",
+        autoClose: 1500,
+      });
     }
   };
 
@@ -140,6 +152,10 @@ const Login = () => {
       setMemberList(memberList);
       console.log(memberList);
     } catch (err) {
+      toast.error("error", {
+        position: "top-center",
+        autoClose: 1500,
+      });
       console.log(err);
     }
   };
@@ -151,7 +167,9 @@ const Login = () => {
   }, []);
   return (
     <div className="bg-blue-50 p-4 max-w-lg m-auto">
-      <ToastContainer />
+      <ToastContainer toastClassName={() => 
+        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+      }/>
       <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900 px-2">
         Login to F and B System
       </h2>
