@@ -23,6 +23,7 @@ const DishCard: React.FC<DishProps> = ({
   foodCategories,
   food_id,
   filenames,
+  description,
 }) => {
   const qty = useSelector((state) => selectQuantity(state, food_id));
   const [quantity, setQuantity] = useState(qty);
@@ -38,6 +39,7 @@ const DishCard: React.FC<DishProps> = ({
         food_id: food_id,
         type: type,
         quantity_bought: 1,
+        description: ""
       })
     );
     dispatch(
@@ -58,6 +60,7 @@ const DishCard: React.FC<DishProps> = ({
         food_id: food_id,
         type: type,
         quantity_bought: 1,
+        description: ""
       })
     );
     dispatch(
@@ -95,8 +98,7 @@ const DishCard: React.FC<DishProps> = ({
         <h4 className="font-bold text-blue-950 capitalize">{foodName}</h4>
         <h4 className="text-sm"> &#8377; {foodPrice}</h4>
         <p className="text-slate-500 text-xs">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic labore
-          nulla, similique unde beatae tempore adipisci saepe ad suscipite.
+          {description}
         </p>
       </div>
       <div className="col-span-3 flex flex-col justify-center items-center py-1 pl-4">

@@ -39,6 +39,7 @@ interface BaseEntity {
   food_id: string;
   foodCategories: string;
   food_category_id: string;
+  description:string;
   type: string;
 }
 
@@ -85,6 +86,7 @@ export interface DishProps {
   foodPrice: string;
   food_id: string;
   foodCategories: string;
+  description:string;
   filenames: string;
   type: string;
   food_category_id: string;

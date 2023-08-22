@@ -223,6 +223,7 @@ const DishCardContainer: React.FC = () => {
                   food_category_id={dish.food_category_id}
                   filenames={dish.filenames}
                   food_id={dish.food_id}
+                  description={dish.description}
                 />
               </div>
             ))
