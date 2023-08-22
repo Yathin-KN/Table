@@ -12,6 +12,7 @@ const DrinkCardContainer = () => {
   const [drinksArr, setDrinks] = useState<DrinksGET[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [drinkCategory,setDrinkCategory]=useState<DrinksCategory[]>([])
+  const [selectedDrink,setSelectedDrink]=useState("");
   const getData = async () => {
     try {
       const drinks = await fetchdrinks();
@@ -41,6 +42,15 @@ const DrinkCardContainer = () => {
   const handleCategoryChange=(event:any)=>{
      setSelectedCategory(event.target.value)
   }
+  const filteredDrinks = drinksArr.filter((drink) => {
+    const dishNameMatches = drink.drinkName
+      .toLowerCase()
+      .includes(selectedDrink.toLowerCase());
+    const categoryMatches =
+      selectedCategory === "All" || selectedCategory === drink.drinkCategories;
+    return dishNameMatches && categoryMatches;
+  });
+
   return (
     <div className="w-full pb-4 h-screen">
      
@@ -67,8 +77,8 @@ const DrinkCardContainer = () => {
                         </div>
                         <input
                           id="search-dishes"
-                          // value={selectedDish}
-                          // onChange={(e) => setSelectedDish(e.target.value)}
+                          value={selectedDrink}
+                          onChange={(e) => setSelectedDrink(e.target.value)}
                           name="search-dishes"
                           className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow-sm focus:shadow-none"
                           placeholder="Search for Drinks"
@@ -159,9 +169,7 @@ const DrinkCardContainer = () => {
           {isLoading ? (
             <SkelitonLoad />
           ) : (
-            drinksArr.map((drink) => {
-              console.log(selectedCategory)
-              if (selectedCategory===drink.drinkCategories || selectedCategory==="All") 
+            filteredDrinks.map((drink) => {
               return <DrinkCard
                 key={drink._id}
                 _id={drink._id}
