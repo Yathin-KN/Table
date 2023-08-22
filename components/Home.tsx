@@ -5,6 +5,7 @@ import {
   TabsTrigger,
 } from "./../src/components/ui/tabs";
 import DrinkCardContainer from "./DrinkCardContainer";
+import DishCardContainer from "./DishCardContainer"
 import Cart from "./Cart";
 import MyOrders from "./myOrders";
 import { memo } from "react";
@@ -33,7 +34,7 @@ const Home = () => {
           </TabsList>
         </div>
         <TabsContent value="dishes">
-          <DrinkCardContainer />
+          <DishCardContainer/>
         </TabsContent>
         <TabsContent value="drinks">
           <DrinkCardContainer />

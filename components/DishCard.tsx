@@ -10,7 +10,7 @@ import {
   decreaseQuantity,
 } from "./../store/slices/menuSlice";
 import { useSelector } from "react-redux/es/exports";
-import altImage from "./../src/assets/altimages/dish_alt.png";
+import altImage1 from "./../src/assets/altimages/dish_alt.png";
 import React from "react";
 const colorCode:any ={
   "0":  "#42c244",
@@ -112,9 +112,9 @@ const DishCard: React.FC<DishProps> = ({
             />
           ) : (
             <img
-              src={altImage}
+              src={altImage1}
               className="w-[120px] h-[120px] rounded-md object-cover aspect-square"
-              alt="Alternative Dish"
+              alt="alternative image"
             />
           )}
         </div>
