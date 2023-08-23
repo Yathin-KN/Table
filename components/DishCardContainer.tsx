@@ -11,37 +11,37 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CallWaiterBtn from "./callWaiterBtn";
 import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
-import TypeBadge from "./TypeBadge"
+import TypeBadge from "./TypeBadge";
 import { ToastContainer } from "react-toastify";
-const types=["0","1","2"]
+const types = ["0", "1", "2"];
 const DishCardContainer: React.FC = () => {
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");
   const [categories, setCategories] = useState<FoodCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTypes,setSelectedTypes]=useState<any>({
-    "0":"0",
-    "1":"0",
-    "2":"0",
-  })
+  const [selectedTypes, setSelectedTypes] = useState<any>({
+    "0": "0",
+    "1": "0",
+    "2": "0",
+  });
 
-  useEffect(()=>{
-   setSelectedTypes({
-    "0":"0",
-    "1":"0",
-    "2":"0",
-  })
-  },[])
-  
-  const handleTypeClick=(type:any)=>{
-     setSelectedTypes((prev:any)=>{
-       return {
+  useEffect(() => {
+    setSelectedTypes({
+      "0": "0",
+      "1": "0",
+      "2": "0",
+    });
+  }, []);
+
+  const handleTypeClick = (type: any) => {
+    setSelectedTypes((prev: any) => {
+      return {
         ...prev,
-        [type]:prev[type]=="0"?"1":"0"
-       }
-     })
-  }
+        [type]: prev[type] == "0" ? "1" : "0",
+      };
+    });
+  };
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
   };
@@ -74,16 +74,20 @@ const DishCardContainer: React.FC = () => {
     getCategories();
   }, []);
 
-  const customFunc=(type:string)=>{
-      if(selectedTypes["0"]==="0" && selectedTypes["1"]==="0" && selectedTypes["2"]==="0" ) return true;
-      return selectedTypes[type]==="1"
-  }
+  const customFunc = (type: string) => {
+    if (
+      selectedTypes["0"] === "0" &&
+      selectedTypes["1"] === "0" &&
+      selectedTypes["2"] === "0"
+    )
+      return true;
+    return selectedTypes[type] === "1";
+  };
   const filteredDishes = dishes.filter((dish) => {
     const dishNameMatches = dish.foodName
       .toLowerCase()
       .includes(selectedDish.toLowerCase());
-    const typeMatches =
-      customFunc(dish.type) ;
+    const typeMatches = customFunc(dish.type);
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === dish.foodCategories;
     return dishNameMatches && typeMatches && categoryMatches;
@@ -91,9 +95,11 @@ const DishCardContainer: React.FC = () => {
 
   return (
     <div className="w-full pb-4">
-      <ToastContainer toastClassName={() => 
-        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
-      }/>
+      <ToastContainer
+        toastClassName={() =>
+          " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+        }
+      />
       <div className="flex flex-col gap-4 bg-gray-50">
         <Disclosure
           as="nav"
@@ -204,11 +210,16 @@ const DishCardContainer: React.FC = () => {
           </select>
         </div>
         <div className="px-2">
-          {
-            types.map((typeCode)=>{
-            return <TypeBadge statusCode={typeCode} onClick={handleTypeClick} selected={selectedTypes[typeCode]==="1"}/>
-            })
-          }
+          {types.map((typeCode, index) => {
+            return (
+              <TypeBadge
+                key={index}
+                statusCode={typeCode}
+                onClick={handleTypeClick}
+                selected={selectedTypes[typeCode] === "1"}
+              />
+            );
+          })}
         </div>
         <div className="flex flex-col gap-4 pb-10 bg-gray-50">
           {isLoading ? (

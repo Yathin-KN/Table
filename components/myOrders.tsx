@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "./../store/slices/authSlice";
 import fetchMyOrder from "./../apis/GET/fetchMyOrders";
@@ -10,31 +11,35 @@ const MyOrders = () => {
   const [order, setOrder] = useState<GetOrderResponse | null>(null);
   const { user_id } = useSelector(selectUserInfo);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getOrder = async () => {
+    setLoading(true);
     try {
       const orderGET = await fetchMyOrder(user_id);
       setOrder(orderGET);
       console.log(orderGET);
     } catch (err) {
       console.log(err);
-      
       setError(true);
-    } finally{
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     getOrder();
   }, []);
 
-  const recheckOrders=()=>{
+  const recheckOrders = () => {
     getOrder();
-  }
+  };
 
- 
   return (
     <div className="flex flex-col gap-4 w-full p-3 h-screen bg-gray-50">
-      <RotateCw onClick={recheckOrders} className="fixed right-4 bg-gray-500 text-white font-bold p-[2px] rounded-full h-[1.6rem] w-[1.6rem] z-10"/>
+      <RotateCw
+        onClick={recheckOrders}
+        className="fixed right-4 bg-gray-500 text-white font-bold p-[2px] rounded-full h-[1.6rem] w-[1.6rem] z-60"
+      />
       {error ? (
         <div className="flex flex-col gap-4">
           <EmptyCart />
@@ -47,7 +52,7 @@ const MyOrders = () => {
       ) : (
         <div className="pt-2 sticky top-[52px] z-50">
           <EmptyCart />
-          <div className="pt-10 fixed z-50 bottom-10 right-10">
+          <div className="pt-10 fixed z-60 bottom-10 right-10">
             <a
               className="group flex items-center justify-between gap-4 rounded-lg border border-red-600 bg-red-600 px-3 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
               href="/ordercheckout"
