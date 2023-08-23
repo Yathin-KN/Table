@@ -11,7 +11,7 @@ const MyOrders = () => {
   const [order, setOrder] = useState<GetOrderResponse | null>(null);
   const { user_id } = useSelector(selectUserInfo);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   const getOrder = async () => {
     setLoading(true);
