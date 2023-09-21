@@ -73,7 +73,7 @@ const DishCard: React.FC<DishProps> = ({
   };
 
   return (
-    <div className="p-4 rounded-md grid grid-cols-6 bg-white shadow-md mx-3">
+    <div className="pl-3 py-3 sm:p-4 rounded-md grid grid-cols-6 bg-white shadow-md sm:mx-3 mx-1">
       <div className="col-span-3">
         <div className="flex gap-1 my-2 items-center">
           <span
@@ -90,7 +90,7 @@ const DishCard: React.FC<DishProps> = ({
               style={{ backgroundColor: colorCode[type] }}
             ></span>
           </span>
-          <Badge className="text-xs mr-1 w-max uppercase" variant={"outline"}>
+          <Badge className="text-xs w-max uppercase text-center" variant={"outline"}>
             {foodCategories.toLowerCase()}
           </Badge>
         </div>
