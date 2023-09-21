@@ -90,8 +90,8 @@ const DishCard: React.FC<DishProps> = ({
               style={{ backgroundColor: colorCode[type] }}
             ></span>
           </span>
-          <Badge className="text-xs mr-4" variant={"outline"}>
-            {foodCategories}
+          <Badge className="text-xs mr-1 w-max uppercase" variant={"outline"}>
+            {foodCategories.toLowerCase()}
           </Badge>
         </div>
 
