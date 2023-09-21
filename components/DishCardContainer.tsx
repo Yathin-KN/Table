@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
 import { Dish } from "./../apis/types";
 import fetchDishCategories from "../apis/GET/fetchDishCategories";
-import fetchDishesByCategory from "../apis/GET/fetchDishByCategories"
+import fetchDishesByCategory from "../apis/GET/fetchDishByCategories";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -12,7 +13,7 @@ import { FoodCategory } from "./../apis/types";
 import TypeBadge from "./TypeBadge";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
-import {selectJoineeInfo} from "./../store/slices/authSlice"
+import { selectJoineeInfo } from "./../store/slices/authSlice";
 
 const types = ["0", "1", "2"];
 
@@ -81,7 +82,7 @@ const DishCardContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (categories.length>0) {
+    if (categories.length > 0) {
       setSelectedCategory(categories[0].food_Category);
       getDishByCategory(categories[0].food_Category);
     }
@@ -89,7 +90,7 @@ const DishCardContainer: React.FC = () => {
 
   useEffect(() => {
     getCategories();
-    if (categories.length>0) {
+    if (categories.length > 0) {
       setSelectedCategory(categories[0].food_Category);
       getDishByCategory(categories[0].food_Category);
     }
@@ -237,13 +238,15 @@ const DishCardContainer: React.FC = () => {
                     >
                       Home
                     </Disclosure.Button>
-                  {!isJoinee && <Disclosure.Button
-                    as="a"
-                    href="/ordercheckout"
-                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                  >
-                    Order Checkout
-                  </Disclosure.Button>}
+                    {!isJoinee && (
+                      <Disclosure.Button
+                        as="a"
+                        href="/ordercheckout"
+                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
+                      >
+                        Order Checkout
+                      </Disclosure.Button>
+                    )}
                     <Disclosure.Button
                       as="a"
                       href="#"
@@ -267,7 +270,7 @@ const DishCardContainer: React.FC = () => {
         <div className="w-full overflow-x-auto px-2">
           <fieldset className="flex gap-2">
             {categories.map((category, index) => (
-              <div key={index} className="mb-3">
+              <div key={index} className="mb-3 w-max">
                 <input
                   type="radio"
                   name="CategoryOption"
@@ -281,8 +284,8 @@ const DishCardContainer: React.FC = () => {
                   htmlFor={`Category${index}`}
                   className="flex cursor-pointer items-center justify-center rounded-md border border-gray-100 bg-white px-3 py-2 text-gray-900 hover:border-gray-200 peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-checked:text-white shadow-sm"
                 >
-                  <p className="text-sm font-medium">
-                    {category.food_Category}
+                  <p className="text-sm font-medium capitalize">
+                    {category.food_Category.toLowerCase()}
                   </p>
                 </label>
               </div>

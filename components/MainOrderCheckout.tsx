@@ -9,7 +9,7 @@ import Ordercheckout from "./OrderCheckout";
 const MainOrderCheckOut = () => {
   return (
     <>
-      <Tabs defaultValue="food_bill" className="w-full h-[50%]">
+      <Tabs defaultValue="food_bill" className="h-[50%] max-w-lg m-auto">
         <TabsList className="w-full gap-2 flex justify-evenly">
           <TabsTrigger value="food_bill">Food Bill</TabsTrigger>
           <TabsTrigger value="drink_bill">Drink Bill</TabsTrigger>

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
-import fetchDrinkByCategory from "../apis/GET/fetchDrinkByCategory"
+import fetchDrinkByCategory from "../apis/GET/fetchDrinkByCategory";
 import { DrinksCategory, DrinksGET } from "./../apis/types";
 import DrinkCard from "./DrinkCard";
 import { Disclosure, Transition } from "@headlessui/react";
@@ -16,7 +16,7 @@ const DrinkCardContainer = () => {
   const [drinkCategory, setDrinkCategory] = useState<DrinksCategory[]>([]);
   const [selectedDrink, setSelectedDrink] = useState("");
 
-  const getDataByCategory = async (category:string) => {
+  const getDataByCategory = async (category: string) => {
     try {
       setIsLoading(true);
       const drinks = await fetchDrinkByCategory(category);
@@ -28,7 +28,6 @@ const DrinkCardContainer = () => {
     }
   };
 
-
   const getDrinkCategories = async () => {
     try {
       setIsLoading(true);
@@ -39,32 +38,29 @@ const DrinkCardContainer = () => {
         a.drinksCategory.localeCompare(b.drinksCategory)
       );
 
-      
-
       // Update the state with the sorted and possibly modified drink categories
       setDrinkCategory([...drinkCategory]);
     } catch (err) {
       console.error(err);
-      
-    }finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getDrinkCategories();
   }, []);
-  useEffect(()=>{
-    if(!isLoading){
+  useEffect(() => {
+    if (!isLoading) {
       getDataByCategory(drinkCategory[0].drinksCategory);
     }
-    console.log(drinkCategory)
-  },[drinkCategory])
+    console.log(drinkCategory);
+  }, [drinkCategory]);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
-    getDataByCategory(event.target.value)
+    getDataByCategory(event.target.value);
   };
   const filteredDrinks = drinksArr.filter((drink) => {
     const dishNameMatches = drink.drinkName
@@ -189,7 +185,7 @@ const DrinkCardContainer = () => {
                   className="flex cursor-pointer items-center justify-center rounded-md border border-gray-100 bg-white px-3 py-2 text-gray-900 hover:border-gray-200 peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-checked:text-white shadow-sm"
                 >
                   <p className="text-sm font-medium capitalize">
-                    {category.drinksCategory}
+                    {category.drinksCategory.toLowerCase()}
                   </p>
                 </label>
               </div>

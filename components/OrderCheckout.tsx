@@ -89,7 +89,7 @@ function TableFooterRow_1({ title, amount, isBold }: TableFooterRowProps) {
 }
 
 const Ordercheckout = ({ type }: { type: string }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
   const handleClick = () => {
     setOpen(true);
@@ -151,11 +151,19 @@ const Ordercheckout = ({ type }: { type: string }) => {
   };
   {
     if (type === "food_bill" && !billDetails?.DishItems.length)
-      return <p className="text-center">no food items ordered </p>;
+      return (
+        <p className="text-center capitalize pt-5 font-bold">
+          no food items ordered!
+        </p>
+      );
   }
   {
     if (type === "drink_bill" && !billDetails?.DrinkItems.length)
-      return <p className="text-center">no drink items ordered</p>;
+      return (
+        <p className="text-center capitalize pt-5 font-bold">
+          no drink items ordered!
+        </p>
+      );
   }
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 px-2 max-w-xl mx-auto">
@@ -331,11 +339,31 @@ const Ordercheckout = ({ type }: { type: string }) => {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500 text-justify">
-                          Want to make your meal even more meaningful? Join us
-                          in our mission to create a malnutrition-free India.
-                          With a small contribution, you can make a big
-                          difference in someone's life. Together, let's build a
-                          future where no one goes to bed hungry.
+                          Hope you had a great time and a great meal with your
+                          Friends and Family..
+                          <br></br>
+                          Would you like to buy an adivasi kid a meal? Any
+                          amount you donate, we will buy rice and send it to
+                          Adivasi hostels in Karnataka.
+                          <br></br>
+                          Mothers of Namma Shimoga (Mahila Sanghas) have been
+                          feeding 100s of kids by keeping away just a fistful of
+                          rice aside every time they cook. Which is accounting
+                          for about 500 kg every month. Under Musti Akki Yojane
+                          <br></br>
+                          Hani Hani Kudidare Halla!
+                          <br></br>
+                          To participate in this program, please contact Suma
+                          Murthy +91 9844058655 For more information about the
+                          organisation, please visit
+                          https://www.vanavasikalyana.org (Backed by central
+                          Government)
+                          <br></br>
+                          Thank you so much. A kid will sleep with a full
+                          stomach because of you.
+                          <br></br>
+                          Please Note: You can always press 0, no hard feelings,
+                          probably next time :) -Aamara Technologies
                         </p>
                       </div>
                     </div>
