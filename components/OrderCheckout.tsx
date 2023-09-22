@@ -161,7 +161,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
     if (type === "drink_bill" && !billDetails?.DrinkItems.length)
       return (
         <p className="text-center capitalize pt-5 font-bold">
-          no drink items ordered!
+          No drink items ordered!
         </p>
       );
   }
