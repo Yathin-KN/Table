@@ -2,17 +2,16 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import DonateLogo from "../src/assets/donate.jpg";
+import setDonationAmt from "../apis/GET/setDonation"
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
-import createBill from "./../apis/GET/createBill";
 import { BillDetails } from "apis/types";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import {
-  MemberInfo,
-  resetUserState,
   selectUserInfo,
 } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Badge } from "@/components/ui/badge";
 interface TableRowProps {
   name: string;
   price: number;
@@ -90,18 +89,16 @@ function TableFooterRow_1({ title, amount, isBold }: TableFooterRowProps) {
 
 const Ordercheckout = ({ type }: { type: string }) => {
   const [open, setOpen] = useState(true);
-  const dispatch = useDispatch();
   const handleClick = () => {
     setOpen(true);
   };
 
   const { otp, user_id } = useSelector(selectUserInfo);
 
-  const { membership_id } = useSelector(MemberInfo);
   const [billDetails, setBillDetailes] = useState<BillDetails>();
   const [donationAmount, setDonationAmount] = useState("0");
-  const [checkOut, setCheckOut] = useState(false);
-
+  const [donated, setDonated] = useState(false);
+  
   const fetchBill = async () => {
     try {
       const resp = await fetchBillByOtp(otp);
@@ -126,27 +123,41 @@ const Ordercheckout = ({ type }: { type: string }) => {
   };
   const cancelButtonRef = useRef(null);
 
-  const create = async () => {
+  // const create = async () => {
+  //   try {
+  //     const resp = await createBill(user_id, donationAmount, membership_id);
+  //     console.log(resp.status);
+  //     setCheckOut(true);
+  //     dispatch(resetUserState());
+  //     setBillDetailes(resp.billDetails);
+  //     console.log(resp.billDetails);
+  //     toast.success(`successfully checkedout !!!`, {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //   } catch (err: any) {
+  //     toast.error(`${err.toString()}`, {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //   }
+  // };
+  const getDonation = async () => {
     try {
-      const resp = await createBill(user_id, donationAmount, membership_id);
-      console.log(resp.status);
-      setCheckOut(true);
-      dispatch(resetUserState());
-      setBillDetailes(resp.billDetails);
-      console.log(resp.billDetails);
-      toast.success(`successfully checkedout !!!`, {
+      const resp = await setDonationAmt(user_id, donationAmount);
+      setDonated(true);
+      toast.success(`Thank you for your donation !`, {
         position: "top-center",
         autoClose: 1500,
       });
-    } catch (err: any) {
-      toast.error(`${err.toString()}`, {
-        position: "top-center",
-        autoClose: 1500,
-      });
+      return resp.data;
+    } catch (err) {
+      console.log(err);
     }
   };
   const handleCheckout = () => {
-    create();
+    // create();
+    getDonation();
     setOpen(false);
   };
   {
@@ -183,11 +194,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
                 On Clicking Checkout you will be ending the session and will be
                 redirected to the payment page.
               </p>
-              {checkOut ? (
-                <p className="font-bold text-green-500">
-                  Successfully checked out !!!!
-                </p>
-              ) : null}
+             
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-500">
@@ -274,23 +281,25 @@ const Ordercheckout = ({ type }: { type: string }) => {
               >
                 Back to Menu
               </a>
-              {!checkOut &&
-                ((type === "food_bill" &&
-                  !billDetails?.DrinkItems.length &&
-                  billDetails?.DishItems.length) ||
-                  (type === "drink_bill" &&
-                    !billDetails?.DishItems.length &&
-                    billDetails?.DrinkItems.length) ||
-                  (type === "food_bill" &&
-                    billDetails?.DishItems.length &&
-                    billDetails?.DrinkItems.length)) && (
-                  <button
-                    onClick={handleClick}
-                    className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-green-700 border-none text-white text-md shadow-sm"
-                  >
-                    Confirm Checkout
-                  </button>
-                )}
+              {((type === "food_bill" &&
+                !billDetails?.DrinkItems.length &&
+                billDetails?.DishItems.length) ||
+                (type === "drink_bill" &&
+                  !billDetails?.DishItems.length &&
+                  billDetails?.DrinkItems.length) ||
+                (type === "drink_bill" &&
+                  billDetails?.DishItems.length &&
+                  billDetails?.DrinkItems.length)) && (
+                <Badge
+                  style={{
+                    display:(donated)?"hidden":"block"
+                  }}
+                  onClick={handleClick}
+                  className="fixed top-4 right-4 bg-red-500 p-2"
+                >
+                  Donate
+                </Badge>
+              )}
             </div>
           </div>
         </div>
