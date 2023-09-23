@@ -7,20 +7,25 @@ import { useEffect, useState } from "react";
 import OrderDisplay from "./OrderDisplay";
 import EmptyCart from "./EmptyCart";
 import RefreshIcon from "@mui/icons-material/RefreshRounded";
-import {selectJoineeInfo} from "./../store/slices/authSlice"
 
-function CheckoutBtn() {
+function CheckoutBtn({type}:{type:string}) {
 
   return (
-    <div className="pt-10 fixed z-60 bottom-10 right-10">
+    <div className="pt-10 fixed z-60 bottom-10" style={
+      (type==="food")?{
+        right:"1.5rem",
+      }:{
+        left:"1.5rem"
+      }
+    }>
       <a
-        className="group flex items-center justify-between gap-4 rounded-lg border border-red-600 bg-red-600 px-3 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
-        href="/ordercheckout"
+        className="group flex items-center justify-between gap-4 rounded-lg border border-red-500 bg-red-500 px-3 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
+        href={(type==="food")?"/food_bill_view":"/drink_bill_view"}
       >
-        <span className="font-semibold text-white transition-colors group-hover:text-red-600 group-active:text-red-500 text-md">
-          Checkout
+        <span className="font-semibold text-white transition-colors group-hover:text-red-500 group-active:text-red-400 text-md">
+          {(type==="food")?"Food bill ":"drink bill"}
         </span>
-        <span className="shrink-0 rounded-full border border-current bg-white p-1.5 text-red-600 group-active:text-red-500">
+        <span className="shrink-0 rounded-full border border-current bg-white p-1.5 text-red-500 group-active:text-red-500">
           <svg
             className="h-3 w-3 rtl:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +51,6 @@ const MyOrders = () => {
   const { user_id } = useSelector(selectUserInfo);
   const [error, setError] = useState(false);
   const [, setLoading] = useState(true);
-  const isJoinee=useSelector(selectJoineeInfo)
   
   const getOrder = async () => {
     setLoading(true);
@@ -102,12 +106,17 @@ const MyOrders = () => {
       ) : order && order.success ? (
         <div className="">
           <OrderDisplay data={order.data} />
-          {!isJoinee && <CheckoutBtn />}
+          {/* <CheckoutBtn  type="food"/> */}
+          <div>
+          <CheckoutBtn  type="food"/>
+          <CheckoutBtn  type="drink"/>
+          </div>
         </div>
       ) : (
         <div className="pt-2">
           <EmptyCart />
-          {!isJoinee && <CheckoutBtn />}
+          {<CheckoutBtn type="drink"/>}
+          {<CheckoutBtn type="food"/>}
         </div>
       )}
     </div>

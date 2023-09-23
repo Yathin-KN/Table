@@ -15,6 +15,7 @@ import {
   setOtp,
   setMemberInfo,
   setIsJoinee,
+  resetUserState,
 } from "./../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 const Jointable = () => {
@@ -42,6 +43,7 @@ const Jointable = () => {
         position: "top-center",
         autoClose: 1500,
       });
+      navigate("/")
     } finally {
       setIsLoading(false);
     }
@@ -49,6 +51,7 @@ const Jointable = () => {
 
   useEffect(() => {
     getTables();
+    dispatch(resetUserState())
   }, []);
 
   const handelChangeTable = () => {

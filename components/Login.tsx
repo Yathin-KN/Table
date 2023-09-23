@@ -7,6 +7,7 @@ import {
   setOtp,
   setMemberInfo,
   setIsJoinee,
+  resetUserState
 } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import fetchMemberInfo from "../apis/POST/fetchMemberInfo";
 import fetchAllMembers from "./../apis/GET/fetchAllMembers";
 
 import { Membership, Table } from "./../apis/types";
+import { resetCartItems } from "./../store/slices/menuSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -86,11 +88,9 @@ const Login = () => {
           })
         );
         dispatch(setOtp({ otp: otp, user_id: user_id }));
-        dispatch(
-          setIsJoinee({
-            status: false,
-          })
-        );
+        dispatch(setIsJoinee({
+          status:false,
+        }))
         console.log("Data sent successfully!");
         navigate("/verify");
       } else {
@@ -184,6 +184,10 @@ const Login = () => {
       console.log(err);
     }
   };
+  useEffect(()=>{
+     dispatch(resetUserState());
+     dispatch(resetCartItems());
+  },[])
   useEffect(() => {
     getTables();
   }, []);
@@ -199,7 +203,7 @@ const Login = () => {
           }
         />
         <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900 px-2">
-          Login Country Club Shimoga
+          Login to F and B System
         </h2>
         <div className="mt-4 mx-auto w-full max-w-md px-4 mb-10">
           <div className="bg-white py-8 px-4 shadow-md rounded-lg sm:px-10">

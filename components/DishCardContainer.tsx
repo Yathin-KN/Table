@@ -12,13 +12,11 @@ import SkelitonLoad from "./SkelitonLoad";
 import { FoodCategory } from "./../apis/types";
 import TypeBadge from "./TypeBadge";
 import { ToastContainer } from "react-toastify";
-import { useSelector } from "react-redux";
-import { selectJoineeInfo } from "./../store/slices/authSlice";
+
 
 const types = ["0", "1", "2"];
 
 const DishCardContainer: React.FC = () => {
-  const isJoinee = useSelector(selectJoineeInfo);
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedDish, setSelectedDish] = useState("");
   const [categories, setCategories] = useState<FoodCategory[]>([]);
@@ -238,15 +236,6 @@ const DishCardContainer: React.FC = () => {
                     >
                       Home
                     </Disclosure.Button>
-                    {!isJoinee && (
-                      <Disclosure.Button
-                        as="a"
-                        href="/ordercheckout"
-                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                      >
-                        Order Checkout
-                      </Disclosure.Button>
-                    )}
                     <Disclosure.Button
                       as="a"
                       href="#"

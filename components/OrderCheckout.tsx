@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import DonateLogo from "../src/assets/donate.jpg";
-import setDonationAmt from "../apis/GET/setDonation"
+import {  useEffect,  useState } from "react";
+// import { Dialog, Transition } from "@headlessui/react";
+// import DonateLogo from "../src/assets/donate.jpg";
+// import setDonationAmt from "../apis/GET/setDonation"
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
 import { BillDetails } from "apis/types";
 import {  useSelector } from "react-redux";
@@ -11,7 +11,9 @@ import {
 } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../src/components/ui/button";
+// import { Badge } from "@/components/ui/badge";
 interface TableRowProps {
   name: string;
   price: number;
@@ -65,39 +67,36 @@ function TableFooterRow({ title, amount, isBold }: TableFooterRowProps) {
   );
 }
 
-function TableFooterRow_1({ title, amount, isBold }: TableFooterRowProps) {
-  return (
-    <tr>
-      <th
-        scope="row"
-        className={`pt-4 pl-4 pr-3 text-sm ${
-          isBold ? "font-semibold" : "font-light"
-        } text-left text-slate-500`}
-      >
-        {title}
-      </th>
-      <td
-        className={`pt-4 pl-3 pr-4 text-sm text-right text-slate-500 ${
-          isBold ? "font-semibold" : "font-light"
-        } `}
-      >
-        % {amount.toFixed(2)}
-      </td>
-    </tr>
-  );
-}
+// function TableFooterRow_1({ title, amount, isBold }: TableFooterRowProps) {
+//   return (
+//     <tr>
+//       <th
+//         scope="row"
+//         className={`pt-4 pl-4 pr-3 text-sm ${
+//           isBold ? "font-semibold" : "font-light"
+//         } text-left text-slate-500`}
+//       >
+//         {title}
+//       </th>
+//       <td
+//         className={`pt-4 pl-3 pr-4 text-sm text-right text-slate-500 ${
+//           isBold ? "font-semibold" : "font-light"
+//         } `}
+//       >
+//         % {amount.toFixed(2)}
+//       </td>
+//     </tr>
+//   );
+// }
 
 const Ordercheckout = ({ type }: { type: string }) => {
-  const [open, setOpen] = useState(true);
-  const handleClick = () => {
-    setOpen(true);
-  };
+  // const [open, setOpen] = useState(true);
+  const navigate=useNavigate();
 
-  const { otp, user_id } = useSelector(selectUserInfo);
+  const { otp,} = useSelector(selectUserInfo);
 
   const [billDetails, setBillDetailes] = useState<BillDetails>();
-  const [donationAmount, setDonationAmount] = useState("0");
-  const [donated, setDonated] = useState(false);
+  // const [donationAmount, setDonationAmount] = useState("0");
   
   const fetchBill = async () => {
     try {
@@ -117,11 +116,11 @@ const Ordercheckout = ({ type }: { type: string }) => {
     fetchBill();
   }, []);
 
-  const handleChange = (event: any) => {
-    const amt = event.target.value;
-    setDonationAmount(amt);
-  };
-  const cancelButtonRef = useRef(null);
+  // const handleChange = (event: any) => {
+  //   const amt = event.target.value;
+  //   setDonationAmount(amt);
+  // };
+  // const cancelButtonRef = useRef(null);
 
   // const create = async () => {
   //   try {
@@ -142,29 +141,35 @@ const Ordercheckout = ({ type }: { type: string }) => {
   //     });
   //   }
   // };
-  const getDonation = async () => {
-    try {
-      const resp = await setDonationAmt(user_id, donationAmount);
-      setDonated(true);
-      toast.success(`Thank you for your donation !`, {
-        position: "top-center",
-        autoClose: 1500,
-      });
-      return resp.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const handleCheckout = () => {
-    // create();
-    getDonation();
-    setOpen(false);
-  };
+  // const getDonation = async () => {
+  //   try {
+  //     const resp = await setDonationAmt(user_id, donationAmount);
+  //     toast.success(`Thank you for your donation !`, {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //     return resp.data;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // const handleCheckout = () => {
+  //   // create();
+  //   // getDonation();
+  //   setOpen(false);
+  // };
+  const onBtn=()=>{
+    console.log("hello")
+    navigate("/app")
+  }
   {
     if (type === "food_bill" && !billDetails?.DishItems.length)
       return (
         <p className="text-center capitalize pt-5 font-bold">
           no food items ordered!
+          <Button className="fixed top-4 left-4 bg-blue-500" onClick={onBtn}>
+           Home 
+        </Button>
         </p>
       );
   }
@@ -173,6 +178,9 @@ const Ordercheckout = ({ type }: { type: string }) => {
       return (
         <p className="text-center capitalize pt-5 font-bold">
           No drink items ordered!
+          <Button className="fixed top-4 left-4 bg-blue-500" onClick={onBtn}>
+           Home 
+        </Button>
         </p>
       );
   }
@@ -182,19 +190,12 @@ const Ordercheckout = ({ type }: { type: string }) => {
         <div className="mx-auto flex w-full max-w-md flex-col space-y-10">
           <div className="flex flex-col space-y-2">
             <div className="font-semibold text-2xl items-center justify-center text-center">
-              <p className="">Order Checkout!</p>
+              <p className="">Country Club Shimogga</p>
               <ToastContainer
                 toastClassName={() =>
                   " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
                 }
               />
-            </div>
-            <div className="flex flex-col text-md font-medium text-gray-700 text-center">
-              <p>
-                On Clicking Checkout you will be ending the session and will be
-                redirected to the payment page.
-              </p>
-             
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-500">
@@ -240,15 +241,6 @@ const Ordercheckout = ({ type }: { type: string }) => {
               {billDetails && (
                 <table className="min-w-full divide-y divide-slate-500">
                   <tbody>
-                    <TableFooterRow_1
-                      title="Tax"
-                      amount={billDetails.cgst + billDetails.sgst}
-                    />
-                    <TableFooterRow
-                      title="service tax"
-                      amount={parseFloat(billDetails.service_tax)}
-                      isBold
-                    />
                     {type === "food_bill" && (
                       <TableFooterRow
                         title="Food total"
@@ -263,6 +255,11 @@ const Ordercheckout = ({ type }: { type: string }) => {
                         isBold
                       />
                     )}
+                     <TableFooterRow
+                      title="service tax"
+                      amount={parseFloat(billDetails.service_tax)}
+                      isBold
+                    />
                     <TableFooterRow
                       title="Grand Total"
                       amount={billDetails.grandTotal}
@@ -281,7 +278,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
               >
                 Back to Menu
               </a>
-              {((type === "food_bill" &&
+              {/* {((type === "food_bill" &&
                 !billDetails?.DrinkItems.length &&
                 billDetails?.DishItems.length) ||
                 (type === "drink_bill" &&
@@ -289,22 +286,12 @@ const Ordercheckout = ({ type }: { type: string }) => {
                   billDetails?.DrinkItems.length) ||
                 (type === "drink_bill" &&
                   billDetails?.DishItems.length &&
-                  billDetails?.DrinkItems.length)) && (
-                <Badge
-                  style={{
-                    display:(donated)?"hidden":"block"
-                  }}
-                  onClick={handleClick}
-                  className="fixed top-4 right-4 bg-red-500 p-2"
-                >
-                  Donate
-                </Badge>
-              )}
+                  billDetails?.DrinkItems.length))} */}
             </div>
           </div>
         </div>
       </div>
-      <Transition.Root show={open} as={Fragment}>
+      {/* <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
@@ -423,7 +410,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
             </div>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition.Root> */}
     </div>
   );
 };
