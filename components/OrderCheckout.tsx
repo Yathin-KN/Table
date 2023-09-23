@@ -105,6 +105,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
       setBillDetailes(resp);
     } catch (err: any) {
       console.log(err);
+      console.log(err.response);
       toast.error(`${err.toString()}`, {
         position: "top-center",
         autoClose: 1500,
