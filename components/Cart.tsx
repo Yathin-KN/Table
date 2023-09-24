@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   selectDishItems,
-  clearItems as DishClear,
+  clearDishItems as DishClear,
 } from "../store/slices/cartDishSlice";
 import {
   selectDrinkItems,
@@ -19,7 +19,6 @@ import {
   OrderDrink,
   ResponseDataOrders,
 } from "./../apis/types";
-import CartCard from "./CartCard";
 import EmptyCart from "./EmptyCart";
 import { Loader2 } from "lucide-react";
 import {
@@ -28,11 +27,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableCell,
 } from "./../src/components/ui/table";
 import { Button } from "@/components/ui/button";
 import axios, { AxiosResponse } from "axios";
 import { TEST_URL } from "./../URL";
+import DrinkCartCard from "./DrinkCartCard";
+import DishCartCard from "./DishCartCard";
 
 const Cart = () => {
   const dishItems = useSelector(selectDishItems);
@@ -100,14 +100,14 @@ const Cart = () => {
               <TableRow>
                 <TableHead className="w-[100px]">Dish</TableHead>
                 <TableHead>Price</TableHead>
-                <TableHead>Quantity</TableHead>
+                <TableHead className="text-center">Quantity</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {dishItems.map((item) => {
                 return (
-                  <CartCard
+                  <DishCartCard
                     key={item._id}
                     foodName={item.foodName}
                     foodPrice={item.foodPrice}
@@ -132,25 +132,16 @@ const Cart = () => {
               <TableRow>
                 <TableHead className="w-[100px]">Dish</TableHead>
                 <TableHead>Price</TableHead>
-                <TableHead>Quantity</TableHead>
+                <TableHead className="text-center">Quantity</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {drinkItems.map((item) => {
                 return (
-                  <TableRow>
-                    <TableCell className="font-medium">
-                      {item.drinkName}
-                    </TableCell>
-                    <TableCell>{item.drinkNamePrice}</TableCell>
-                    <TableCell className="text-center">
-                      {item.quantity_bought}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {item.quantity_bought * parseInt(item.drinkNamePrice)}
-                    </TableCell>
-                  </TableRow>
+                  <DrinkCartCard drinkName={item.drinkName} drinkNamePrice={item.drinkNamePrice} quantity_bought={item.quantity_bought}
+                  food_id={item.drink_id}
+                  />
                 );
               })}
             </TableBody>

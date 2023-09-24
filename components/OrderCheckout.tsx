@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  useEffect,  useState } from "react";
-// import { Dialog, Transition } from "@headlessui/react";
-// import DonateLogo from "../src/assets/donate.jpg";
-// import setDonationAmt from "../apis/GET/setDonation"
+import { Fragment, useEffect, useRef, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import DonateLogo from "../src/assets/donate.jpg";
+import setDonationAmt from "../apis/GET/setDonation";
 import fetchBillByOtp from "./../apis/GET/fetchBillByOtp";
 import { BillDetails } from "apis/types";
-import {  useSelector } from "react-redux";
-import {
-  selectUserInfo,
-} from "./../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectHasDonatedInfo, selectUserInfo, setHasDonated } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -90,14 +88,14 @@ function TableFooterRow({ title, amount, isBold }: TableFooterRowProps) {
 // }
 
 const Ordercheckout = ({ type }: { type: string }) => {
-  // const [open, setOpen] = useState(true);
-  const navigate=useNavigate();
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
-  const { otp,} = useSelector(selectUserInfo);
-
+  const { otp, user_id  } = useSelector(selectUserInfo);
+  const donated=useSelector(selectHasDonatedInfo); 
   const [billDetails, setBillDetailes] = useState<BillDetails>();
-  // const [donationAmount, setDonationAmount] = useState("0");
-  
+  const [donationAmount, setDonationAmount] = useState("0");
+  const dispatch=useDispatch();
   const fetchBill = async () => {
     try {
       const resp = await fetchBillByOtp(otp);
@@ -117,11 +115,11 @@ const Ordercheckout = ({ type }: { type: string }) => {
     fetchBill();
   }, []);
 
-  // const handleChange = (event: any) => {
-  //   const amt = event.target.value;
-  //   setDonationAmount(amt);
-  // };
-  // const cancelButtonRef = useRef(null);
+  const handleChange = (event: any) => {
+    const amt = event.target.value;
+    setDonationAmount(amt);
+  };
+  const cancelButtonRef = useRef(null);
 
   // const create = async () => {
   //   try {
@@ -142,35 +140,42 @@ const Ordercheckout = ({ type }: { type: string }) => {
   //     });
   //   }
   // };
-  // const getDonation = async () => {
-  //   try {
-  //     const resp = await setDonationAmt(user_id, donationAmount);
-  //     toast.success(`Thank you for your donation !`, {
-  //       position: "top-center",
-  //       autoClose: 1500,
-  //     });
-  //     return resp.data;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // const handleCheckout = () => {
-  //   // create();
-  //   // getDonation();
-  //   setOpen(false);
-  // };
-  const onBtn=()=>{
-    console.log("hello")
-    navigate("/app")
-  }
+  const getDonation = async () => {
+    try {
+      const resp = await setDonationAmt(user_id, donationAmount);
+      toast.success(`Thank you for your donation !`, {
+        position: "top-center",
+        autoClose: 1500,
+      });
+      dispatch(setHasDonated({
+        status:true
+      }))
+      return resp.data;
+    } catch (err) {
+      console.log(err);
+      
+      toast.error(`There was some error try in sometime :(!`, {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    }
+  };
+  const handleCheckout = () => {
+    getDonation();
+    setOpen(false);
+  };
+  const onBtn = () => {
+    console.log("hello");
+    navigate("/app");
+  };
   {
     if (type === "food_bill" && !billDetails?.DishItems.length)
       return (
         <p className="text-center capitalize pt-5 font-bold">
           no food items ordered!
           <Button className="fixed top-4 left-4 bg-blue-500" onClick={onBtn}>
-           Home 
-        </Button>
+            Home
+          </Button>
         </p>
       );
   }
@@ -180,8 +185,8 @@ const Ordercheckout = ({ type }: { type: string }) => {
         <p className="text-center capitalize pt-5 font-bold">
           No drink items ordered!
           <Button className="fixed top-4 left-4 bg-blue-500" onClick={onBtn}>
-           Home 
-        </Button>
+            Home
+          </Button>
         </p>
       );
   }
@@ -256,7 +261,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
                         isBold
                       />
                     )}
-                     <TableFooterRow
+                    <TableFooterRow
                       title="service tax"
                       amount={parseFloat(billDetails.service_tax)}
                       isBold
@@ -279,7 +284,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
               >
                 Back to Menu
               </a>
-              {/* {((type === "food_bill" &&
+              {/* {(type === "food_bill" &&
                 !billDetails?.DrinkItems.length &&
                 billDetails?.DishItems.length) ||
                 (type === "drink_bill" &&
@@ -287,131 +292,142 @@ const Ordercheckout = ({ type }: { type: string }) => {
                   billDetails?.DrinkItems.length) ||
                 (type === "drink_bill" &&
                   billDetails?.DishItems.length &&
-                  billDetails?.DrinkItems.length))} */}
+                  billDetails?.DrinkItems.length)} */}
             </div>
           </div>
         </div>
       </div>
-      {/* <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+      {((type === "food_bill" &&
+        !billDetails?.DrinkItems.length &&
+        billDetails?.DishItems.length) ||
+        (type === "drink_bill" &&
+          !billDetails?.DishItems.length &&
+          billDetails?.DrinkItems.length) ||
+        (type === "drink_bill" &&
+          billDetails?.DishItems.length &&
+          billDetails?.DrinkItems.length) && !donated) && (
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-10"
+            initialFocus={cancelButtonRef}
+            onClose={setOpen}
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
 
-          <div className="fixed inset-0 z-10 overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                  <div>
-                    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-md shadow">
-                      <img src={DonateLogo} alt="donate" />
+            <div className="fixed inset-0 z-10 overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                    <div>
+                      <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-md shadow">
+                        <img src={DonateLogo} alt="donate" />
+                      </div>
+                      <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-lg font-semibold leading-6 text-gray-900"
+                        >
+                          Be the Change: Support a Malnutrition-Free India!
+                        </Dialog.Title>
+                        <div className="mt-2">
+                          <p className="text-sm text-gray-500 text-justify">
+                            Hope you had a great time and a great meal with your
+                            Friends and Family..
+                            <br></br>
+                            Would you like to buy an adivasi kid a meal? Any
+                            amount you donate, we will buy rice and send it to
+                            Adivasi hostels in Karnataka.
+                            <br></br>
+                            Mothers of Namma Shimoga (Mahila Sanghas) have been
+                            feeding 100s of kids by keeping away just a fistful
+                            of rice aside every time they cook. Which is
+                            accounting for about 500 kg every month. Under Musti
+                            Akki Yojane
+                            <br></br>
+                            Hani Hani Kudidare Halla!
+                            <br></br>
+                            To participate in this program, please contact Suma
+                            Murthy +91 9844058655 For more information about the
+                            organisation, please visit
+                            https://www.vanavasikalyana.org (Backed by central
+                            Government)
+                            <br></br>
+                            Thank you so much. A kid will sleep with a full
+                            stomach because of you.
+                            <br></br>
+                            Please Note: You can always press 0, no hard
+                            feelings, probably next time :) -Aamara Technologies
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-3 text-center sm:mt-5">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-semibold leading-6 text-gray-900"
+                    <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-1 sm:gap-3">
+                      <label
+                        htmlFor="donation"
+                        className="block text-sm font-medium text-gray-700"
                       >
-                        Be the Change: Support a Malnutrition-Free India!
-                      </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500 text-justify">
-                          Hope you had a great time and a great meal with your
-                          Friends and Family..
-                          <br></br>
-                          Would you like to buy an adivasi kid a meal? Any
-                          amount you donate, we will buy rice and send it to
-                          Adivasi hostels in Karnataka.
-                          <br></br>
-                          Mothers of Namma Shimoga (Mahila Sanghas) have been
-                          feeding 100s of kids by keeping away just a fistful of
-                          rice aside every time they cook. Which is accounting
-                          for about 500 kg every month. Under Musti Akki Yojane
-                          <br></br>
-                          Hani Hani Kudidare Halla!
-                          <br></br>
-                          To participate in this program, please contact Suma
-                          Murthy +91 9844058655 For more information about the
-                          organisation, please visit
-                          https://www.vanavasikalyana.org (Backed by central
-                          Government)
-                          <br></br>
-                          Thank you so much. A kid will sleep with a full
-                          stomach because of you.
-                          <br></br>
-                          Please Note: You can always press 0, no hard feelings,
-                          probably next time :) -Aamara Technologies
-                        </p>
+                        Enter donation amount:
+                      </label>
+                      <div className="relative mt-1 rounded-md shadow-sm">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">
+                            &#8377;
+                          </span>
+                        </div>
+                        <input
+                          type="number"
+                          name="donation"
+                          id="donation"
+                          onChange={handleChange}
+                          value={donationAmount}
+                          className="block w-full rounded-md border-gray-300 pl-7 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="0.00"
+                          aria-describedby="price-currency"
+                        />
                       </div>
+                      <button
+                        type="button"
+                        className="mt-3 inline-flex w-full justify-center rounded-md border border-green-600 bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:text-sm"
+                        onClick={handleCheckout}
+                        ref={cancelButtonRef}
+                      >
+                        Donate amount
+                      </button>
+                      <button
+                        type="button"
+                        className="mt-3 inline-flex w-full justify-center rounded-md border bg-red-400 px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:mt-0 sm:text-sm"
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
                     </div>
-                  </div>
-                  <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-1 sm:gap-3">
-                    <label
-                      htmlFor="donation"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Enter donation amount:
-                    </label>
-                    <div className="relative mt-1 rounded-md shadow-sm">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <span className="text-gray-500 sm:text-sm">
-                          &#8377;
-                        </span>
-                      </div>
-                      <input
-                        type="number"
-                        name="donation"
-                        id="donation"
-                        onChange={handleChange}
-                        value={donationAmount}
-                        className="block w-full rounded-md border-gray-300 pl-7 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                        placeholder="0.00"
-                        aria-describedby="price-currency"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md border border-green-600 bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:text-sm"
-                      onClick={handleCheckout}
-                      ref={cancelButtonRef}
-                    >
-                      Donate amount
-                    </button>
-                    <button
-                      type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md border bg-red-400 px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:mt-0 sm:text-sm"
-                      onClick={() => setOpen(false)}
-                      ref={cancelButtonRef}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
             </div>
-          </div>
-        </Dialog>
-      </Transition.Root> */}
+          </Dialog>
+        </Transition.Root>
+      )}
     </div>
   );
 };

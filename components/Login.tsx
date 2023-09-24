@@ -6,8 +6,8 @@ import {
   setUserInfo,
   setOtp,
   setMemberInfo,
-  setIsJoinee,
-  resetUserState
+  resetUserState,
+  setHasDonated
 } from "./../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,8 @@ import fetchAllMembers from "./../apis/GET/fetchAllMembers";
 
 import { Membership, Table } from "./../apis/types";
 import { resetCartItems } from "./../store/slices/menuSlice";
+import { clearItems } from "./../store/slices/cartDrink";
+import { clearDishItems } from "./../store/slices/cartDishSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -88,7 +90,7 @@ const Login = () => {
           })
         );
         dispatch(setOtp({ otp: otp, user_id: user_id }));
-        dispatch(setIsJoinee({
+        dispatch(setHasDonated({
           status:false,
         }))
         console.log("Data sent successfully!");
@@ -187,6 +189,8 @@ const Login = () => {
   useEffect(()=>{
      dispatch(resetUserState());
      dispatch(resetCartItems());
+     dispatch(clearItems());
+     dispatch(clearDishItems());
   },[])
   useEffect(() => {
     getTables();

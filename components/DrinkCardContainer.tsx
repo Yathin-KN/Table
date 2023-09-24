@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
-import fetchDrinkByCategory from "../apis/GET/fetchDrinkByCategory";
+// import fetchDrinkByCategory from "../apis/GET/fetchDrinkByCategory";
+import {fetchDrinks} from "../apis/GET/fetchDrinks"
+// import fetchDrinkByKeyWord from "../apis/GET/fetchDrinksByKey"
 import { DrinksCategory, DrinksGET } from "./../apis/types";
 import DrinkCard from "./DrinkCard";
 import { Disclosure, Transition } from "@headlessui/react";
@@ -15,11 +17,12 @@ const DrinkCardContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [drinkCategory, setDrinkCategory] = useState<DrinksCategory[]>([]);
   const [selectedDrink, setSelectedDrink] = useState("");
-
-  const getDataByCategory = async (category: string) => {
+  let filteredDrinks1;
+  // const [filteredDrinks,setFilteredDrinks]=useState<DrinksGET[]>([])
+  const getAllDrinks = async () => {
     try {
       setIsLoading(true);
-      const drinks = await fetchDrinkByCategory(category);
+      const drinks = await fetchDrinks();
       setDrinks(drinks);
       setIsLoading(false);
     } catch (err) {
@@ -52,7 +55,8 @@ const DrinkCardContainer = () => {
   }, []);
   useEffect(() => {
     if (!isLoading) {
-      getDataByCategory(drinkCategory[0].drinksCategory);
+      getAllDrinks();
+      setSelectedCategory(drinkCategory[0].drinksCategory)
     }
     console.log(drinkCategory);
   }, [drinkCategory]);
@@ -60,16 +64,53 @@ const DrinkCardContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const handleCategoryChange = (event: any) => {
     setSelectedCategory(event.target.value);
-    getDataByCategory(event.target.value);
+    // getDataByCategory(event.target.value);
   };
-  const filteredDrinks = drinksArr.filter((drink) => {
-    const dishNameMatches = drink.drinkName
+
+  filteredDrinks1=drinksArr.filter((drink) => {
+    if(selectedDrink===""){
+      const dishNameMatches = drink.drinkName
       .toLowerCase()
       .includes(selectedDrink.toLowerCase());
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === drink.drinkCategories;
     return dishNameMatches && categoryMatches;
-  });
+    }else{
+      const drinkNameMatches = drink.drinkName
+      .toLowerCase()
+      .includes(selectedDrink.toLowerCase());
+    return drinkNameMatches;
+    }
+    
+  })
+  // const do1=()=>{
+  //   setFilteredDrinks( drinksArr.filter((drink) => {
+  //     const dishNameMatches = drink.drinkName
+  //       .toLowerCase()
+  //       .includes(selectedDrink.toLowerCase());
+  //     const categoryMatches =
+  //       selectedCategory === "All" || selectedCategory === drink.drinkCategories;
+  //     return dishNameMatches && categoryMatches;
+  //   }))
+  // }
+ 
+ 
+
+  const handleChangeInput=async(search:string)=>{
+    setSelectedDrink(search);
+    // if(search==="") return
+
+    // try{
+    //   setIsLoading(true)
+    //   const resp=await fetchDrinkByKeyWord(search);
+    //   setFilteredDrinks(resp)
+    // }catch(err){
+    //   console.log(err)
+    // }finally{
+    //   setIsLoading(false)
+    // }
+
+  }
 
   return (
     <div className="w-full pb-4">
@@ -97,7 +138,7 @@ const DrinkCardContainer = () => {
                         <input
                           id="search-dishes"
                           value={selectedDrink}
-                          onChange={(e) => setSelectedDrink(e.target.value)}
+                          onChange={(e) => handleChangeInput(e.target.value)}
                           name="search-dishes"
                           className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow-sm focus:shadow-none"
                           placeholder="Search for Drinks"
@@ -183,7 +224,7 @@ const DrinkCardContainer = () => {
           {isLoading ? (
             <SkelitonLoad />
           ) : (
-            filteredDrinks.map((drink) => {
+            filteredDrinks1.map((drink) => {
               return (
                 <DrinkCard
                   key={drink._id}

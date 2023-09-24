@@ -122,9 +122,6 @@ const DishCard: React.FC<DishProps> = ({
               onClick={increment}
             >
               ADD
-              {/* <span className="absolute top-0 right-0 mt-[-2px] mr-[4px] text-sm font-bold">
-                +
-              </span> */}
             </button>
           ) : (
             <div className="shadow-md flex rounded-md">

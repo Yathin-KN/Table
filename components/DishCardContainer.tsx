@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
 import { Dish } from "./../apis/types";
 import fetchDishCategories from "../apis/GET/fetchDishCategories";
-import fetchDishesByCategory from "../apis/GET/fetchDishByCategories";
+// import fetchDishesByCategory from "../apis/GET/fetchDishByCategories";
+import {fetchDishes} from "../apis/GET/fetchDishes"
 import { Disclosure, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -13,7 +14,6 @@ import { FoodCategory } from "./../apis/types";
 import TypeBadge from "./TypeBadge";
 import { ToastContainer } from "react-toastify";
 
-
 const types = ["0", "1", "2"];
 
 const DishCardContainer: React.FC = () => {
@@ -22,6 +22,8 @@ const DishCardContainer: React.FC = () => {
   const [categories, setCategories] = useState<FoodCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  // const [filteredDishes,setFilteredDishes]=useState<Dish[]>([])
+  let filteredDishes1:Dish[]=[]
   const [selectedTypes, setSelectedTypes] = useState<any>({
     "0": "0",
     "1": "0",
@@ -45,10 +47,10 @@ const DishCardContainer: React.FC = () => {
     });
   };
 
-  const getDishByCategory = async (category: string) => {
+  const getAllDishes = async () => {
     try {
       setIsLoading(true);
-      const dishArr = await fetchDishesByCategory(category);
+      const dishArr = await fetchDishes();
       dishArr.sort((a, b) => a.foodCategories.localeCompare(b.foodCategories));
       setDishes(dishArr);
     } catch (err) {
@@ -58,9 +60,11 @@ const DishCardContainer: React.FC = () => {
     }
   };
 
+
   const handleCategoryChange = (event: any) => {
-    setSelectedCategory(event.target.value);
-    getDishByCategory(event.target.value);
+    setSelectedCategory(()=>{
+      return event.target.value;
+    });
   };
 
   const getCategories = async () => {
@@ -82,7 +86,6 @@ const DishCardContainer: React.FC = () => {
   useEffect(() => {
     if (categories.length > 0) {
       setSelectedCategory(categories[0].food_Category);
-      getDishByCategory(categories[0].food_Category);
     }
   }, [categories]);
 
@@ -90,7 +93,7 @@ const DishCardContainer: React.FC = () => {
     getCategories();
     if (categories.length > 0) {
       setSelectedCategory(categories[0].food_Category);
-      getDishByCategory(categories[0].food_Category);
+      getAllDishes();
     }
   }, []);
 
@@ -104,15 +107,40 @@ const DishCardContainer: React.FC = () => {
     return selectedTypes[type] === "1";
   };
 
-  const filteredDishes = dishes.filter((dish) => {
-    const dishNameMatches = dish.foodName
-      .toLowerCase()
-      .includes(selectedDish.toLowerCase());
-    const typeMatches = customFunc(dish.type);
+  // var filteredDishes: Dish[] =[];
+  // const do1=()=>{
+  //   setFilteredDishes(dishes.filter((dish) => {
+  //     const typeMatches = customFunc(dish.type);
+  //     const categoryMatches =
+  //       selectedCategory === "All" || selectedCategory === dish.foodCategories;
+  //     return typeMatches && categoryMatches;
+  //   }))
+  // }
+
+  filteredDishes1=dishes.filter((dish) => {
+    if(selectedDish===""){
+      const typeMatches = customFunc(dish.type);
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === dish.foodCategories;
-    return dishNameMatches && typeMatches && categoryMatches;
-  });
+    return typeMatches && categoryMatches;
+    }else{
+      const dishNameMatches=dish.foodName.toLowerCase().includes(selectedDish.toLowerCase());
+      return dishNameMatches;
+    }
+  })
+
+  // useEffect(()=>{
+  //   //  do1();
+  // },[dishes])
+
+  // useEffect(()=>{
+  //   console.log("filtered",filteredDishes);
+  // },[filteredDishes])
+
+  
+  useEffect(()=>{
+    getAllDishes();
+  },[])
 
   const clearFilter = () => {
     setSelectedDish("");
@@ -137,6 +165,10 @@ const DishCardContainer: React.FC = () => {
     },
     {}
   );
+
+  const handleChange=(search:string)=>{
+    setSelectedDish(search)
+  }
 
   const dishElements = [];
   for (const [category, dishesInCategory] of Object.entries(
@@ -193,7 +225,7 @@ const DishCardContainer: React.FC = () => {
                         <input
                           id="search-dishes"
                           value={selectedDish}
-                          onChange={(e) => setSelectedDish(e.target.value)}
+                          onChange={(e) => handleChange(e.target.value)}
                           name="search-dishes"
                           className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm shadow-sm focus:shadow-none"
                           placeholder="Search for dishes..."
@@ -292,8 +324,8 @@ const DishCardContainer: React.FC = () => {
             <div>
               <SkelitonLoad />
             </div>
-          ) : filteredDishes.length > 0 ? (
-            filteredDishes.map((dish) => (
+          ) : filteredDishes1.length > 0 ? (
+            filteredDishes1.map((dish) => (
               <div key={dish._id}>
                 <DishCard
                   key={dish._id}

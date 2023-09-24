@@ -1,4 +1,4 @@
-export const TEST_URL=" https://abue8wn735.execute-api.ap-south-1.amazonaws.com"
+export const TEST_URL="https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com"
 export const OLD_URL_0 =
   "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com";
 export const OLD_URL_1 =

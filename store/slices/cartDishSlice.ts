@@ -39,13 +39,14 @@ const CartDishSlice = createSlice({
         state.items.push(action.payload);
       }
     },
-    clearItems: (state) => {
+    clearDishItems: (state) => {
+      console.log("hello")
       state.items = initialState.items;
     },
   },
 });
 
-export const { addItem, removeItem, decrementItem, clearItems } = CartDishSlice.actions;
+export const { addItem, removeItem, decrementItem, clearDishItems } = CartDishSlice.actions;
 
 export const selectDishItems = (state: { cartDish: ItemsState }) => state.cartDish.items;
 

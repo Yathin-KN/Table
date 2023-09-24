@@ -6,7 +6,7 @@ const setDonationAmt=async(user_id:string,donationAmount:string) :Promise<any>=>
         return response.data;
       } catch (error) {
         console.error('Er', error);
-        return [];
+        throw new Error('Failed to send POST request: ' + error)
     }
 }
 

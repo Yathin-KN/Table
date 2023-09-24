@@ -28,6 +28,7 @@ const menuSlice = createSlice({
       Object.keys(state).forEach((food_id) => {
         state[food_id].quantity_bought = 0;
       });
+      
     },
   },
 });

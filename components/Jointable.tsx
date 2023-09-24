@@ -14,7 +14,7 @@ import {
   setUserInfo,
   setOtp,
   setMemberInfo,
-  setIsJoinee,
+  setHasDonated,
   resetUserState,
 } from "./../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -89,8 +89,8 @@ const Jointable = () => {
         member_phoneNo,
         phoneNo,
       } = res;
-      dispatch(setIsJoinee({
-        "status":true
+      dispatch(setHasDonated({
+        "status":false,
       }));
       dispatch(
         setOtp({

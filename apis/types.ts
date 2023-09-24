@@ -209,7 +209,7 @@ export interface UserState {
   membership_id: string;
   member_name: string;
   member_phoneNo: string;
-  joinee?:boolean;
+  donated?:boolean;
 }
 
 export interface UserStateNotification {
