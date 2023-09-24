@@ -150,6 +150,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
       dispatch(setHasDonated({
         status:true
       }))
+      fetchBill();
       return resp.data;
     } catch (err) {
       console.log(err);
@@ -266,6 +267,11 @@ const Ordercheckout = ({ type }: { type: string }) => {
                       amount={parseFloat(billDetails.service_tax)}
                       isBold
                     />
+                    {(billDetails.donationAmount!=="0") && <TableFooterRow
+                      title="donation amt"
+                      amount={parseFloat(billDetails.donationAmount)}
+                      isBold
+                    />}
                     <TableFooterRow
                       title="Grand Total"
                       amount={billDetails.grandTotal}

@@ -303,6 +303,7 @@ export interface BillDetails {
   drinkTotal: number;
   cgst: number;
   sgst: number;
+  donationAmount:string;
 }
 
 interface DishItem {

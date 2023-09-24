@@ -11,7 +11,7 @@ import RefreshIcon from "@mui/icons-material/RefreshRounded";
 function CheckoutBtn({type}:{type:string}) {
 
   return (
-    <div className="pt-10 fixed z-60 bottom-10" style={
+    <div className="pt-10 fixed z-60 bottom-5" style={
       (type==="food")?{
         right:"1.5rem",
       }:{
@@ -21,11 +21,22 @@ function CheckoutBtn({type}:{type:string}) {
       <a
         className="group flex items-center justify-between gap-4 rounded-lg border border-red-500 bg-red-500 px-3 py-1 transition-colors hover:bg-transparent focus:outline-none focus:ring w-36"
         href={(type==="food")?"/food_bill_view":"/drink_bill_view"}
+        style={(type==="drink")?{
+          flexDirection:"row-reverse"
+        }:{
+          
+        }}
       >
         <span className="font-semibold text-white transition-colors group-hover:text-red-500 group-active:text-red-400 text-md">
-          {(type==="food")?"Food bill ":"drink bill"}
+          {(type==="food")?"Food bill ":"Drink bill"}
         </span>
-        <span className="shrink-0 rounded-full border border-current bg-white p-1.5 text-red-500 group-active:text-red-500">
+        <span className="shrink-0 rounded-full border border-current bg-white p-1.5 text-red-500 group-active:text-red-500"
+          style={(type==="drink")?{
+            rotate:"180deg"
+          }:{
+
+          }}
+        >
           <svg
             className="h-3 w-3 rtl:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
