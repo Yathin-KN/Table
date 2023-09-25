@@ -22,6 +22,7 @@ const initialState: UserState = {
   membership_id: "",
   member_phoneNo: "",
   donated:false,
+  donationAmt:"0"
 };
 
 const userSlice = createSlice({
@@ -55,11 +56,14 @@ const userSlice = createSlice({
     },
     setHasDonated:(state,action:PayloadAction<{status:boolean}>)=>{
       state.donated=action.payload.status;
+    },
+    setDonationAmt:(state,action:PayloadAction<{amount:string}>)=>{
+      state.donationAmt=action.payload.amount;
     }
   },
 });
 
-export const { setUserInfo, setOtp, resetUserState , setMemberInfo , setHasDonated } = userSlice.actions;
+export const { setUserInfo, setOtp, resetUserState , setMemberInfo , setHasDonated , setDonationAmt} = userSlice.actions;
 export default userSlice.reducer;
 export {isAnyStateEmpty}
 export const selectUserInfo = (state: any) => ({
@@ -74,5 +78,9 @@ export const MemberInfo = (state: any) => ({
   membership_id: state.auth.membership_id || "",
 });
 
+export const MemberName = (state: any) => ({
+  member_name: state.auth.member_name,
+});
 export const selectHasDonatedInfo = (state:any) => state.auth.donated;
+export const selectDonationAmtInfo = (state:any) => state.auth.donationAmount;
 

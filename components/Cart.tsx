@@ -14,7 +14,7 @@ import {
   removeItemsByDrinkIds,
 } from "../store/slices/cartDrinkSlice";
 import { removeItemsByIds, resetCartItems } from "./../store/slices/menuSlice";
-import { selectUserInfo } from "../store/slices/authSlice";
+import { MemberName, selectUserInfo } from "../store/slices/authSlice";
 import {
   Orders,
   OrderDish,
@@ -43,6 +43,7 @@ const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
   const { tableNo, user_id , otp} = useSelector(selectUserInfo);
+  const {  member_name } = useSelector(MemberName)
   const [isLoading,setIsLoading]=useState(false);
   const dispatch = useDispatch();
 
@@ -51,6 +52,7 @@ const Cart = () => {
       foodName: item.foodName,
       food_id: item.food_id,
       quantity: item.quantity_bought.toString(),
+      type:item.type
     }));
 
     const orderDrinks: OrderDrink[] = drinkItems.map((item) => ({
@@ -62,6 +64,7 @@ const Cart = () => {
     const order: Orders = {
       tableNo: tableNo,
       user_id: user_id,
+      member_name:member_name,
       otp:otp,
       drinks: orderDrinks.length > 0 ? orderDrinks : undefined,
       dishes: orderDishes.length > 0 ? orderDishes : undefined,

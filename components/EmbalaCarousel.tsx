@@ -36,6 +36,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             </div>
           ))}
         </div>
+       
       </div>
     </div>
   )

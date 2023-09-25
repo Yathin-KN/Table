@@ -212,6 +212,7 @@ export interface UserState {
   member_name: string;
   member_phoneNo: string;
   donated?:boolean;
+  donationAmt?:string;
 }
 
 export interface UserStateNotification {
@@ -237,6 +238,7 @@ export interface OrderDrink {
 export interface Orders {
   tableNo: string;
   user_id: string;
+  member_name:string;
   otp: string;
   drinks?: OrderDrink[];
   dishes?: OrderDish[];
