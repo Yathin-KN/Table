@@ -18,6 +18,9 @@ import {
   resetUserState,
 } from "./../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { resetCartItems } from "store/slices/menuSlice";
+import { clearItems as clearDrinkItems} from "./../store/slices/cartDrinkSlice";
+import { clearDishItems } from "store/slices/cartDishSlice";
 const Jointable = () => {
   const navigate=useNavigate();
   const [tables, setTables] = useState<Table[]>([]);
@@ -52,6 +55,9 @@ const Jointable = () => {
   useEffect(() => {
     getTables();
     dispatch(resetUserState())
+    dispatch(resetCartItems());
+    dispatch(clearDrinkItems());
+    dispatch(clearDishItems());
   }, []);
 
   const handelChangeTable = () => {
@@ -185,3 +191,4 @@ const Jointable = () => {
 };
 
 export default Jointable;
+

@@ -49,7 +49,7 @@ const CartDishSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, decrementItem, clearItems , removeItemsByDrinkIds } = CartDishSlice.actions;
+export const { addItem, removeItem, decrementItem, clearItems, removeItemsByDrinkIds } = CartDishSlice.actions;
 export const selectDrinkItems = (state: { cartDrink: ItemsState }) => state.cartDrink.items;
 export const selectDrinkItemsWithLength = (state: { cartDrink: ItemsState }) =>
   state.cartDrink.items;
