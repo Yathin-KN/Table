@@ -6,6 +6,7 @@ import {
   TabsTrigger,
 } from "./../src/components/ui/tabs";
 import Ordercheckout from "./OrderCheckout";
+import React from "react";
 const MainOrderCheckOut = () => {
   return (
     <>

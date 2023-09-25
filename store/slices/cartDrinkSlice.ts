@@ -42,10 +42,14 @@ const CartDishSlice = createSlice({
     clearItems: (state) => {
       state.items = initialState.items;
     },
+    removeItemsByDrinkIds: (state, action: PayloadAction<string[]>) => {
+      console.log(action.payload)
+      state.items = state.items.filter(item => !action.payload.includes(item.drink_id));
+    },
   },
 });
 
-export const { addItem, removeItem, decrementItem, clearItems } = CartDishSlice.actions;
+export const { addItem, removeItem, decrementItem, clearItems , removeItemsByDrinkIds } = CartDishSlice.actions;
 export const selectDrinkItems = (state: { cartDrink: ItemsState }) => state.cartDrink.items;
 export const selectDrinkItemsWithLength = (state: { cartDrink: ItemsState }) =>
   state.cartDrink.items;

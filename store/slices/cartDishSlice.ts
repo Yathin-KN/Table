@@ -43,10 +43,14 @@ const CartDishSlice = createSlice({
       console.log("hello")
       state.items = initialState.items;
     },
+    removeItemsByFoodIds: (state, action: PayloadAction<string[]>) => {
+      console.log(action.payload)
+      state.items = state.items.filter(item => !action.payload.includes(item.food_id));
+    },
   },
 });
 
-export const { addItem, removeItem, decrementItem, clearDishItems } = CartDishSlice.actions;
+export const { addItem, removeItem, decrementItem, clearDishItems , removeItemsByFoodIds} = CartDishSlice.actions;
 
 export const selectDishItems = (state: { cartDish: ItemsState }) => state.cartDish.items;
 

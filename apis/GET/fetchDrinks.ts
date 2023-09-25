@@ -6,11 +6,13 @@ const instance = axios.create();
 
 const cache = {
   drinks: null,
-  lastFetched: Number.MAX_SAFE_INTEGER, // Set to a very large number
+  lastFetched: Number.MAX_SAFE_INTEGER,
 };
 
+let updateCacheFlag = false;
+
 instance.interceptors.request.use(async (config) => {
-  if (cache.drinks) {
+  if (cache.drinks && !updateCacheFlag) {
     return Promise.reject('Using cached data');
   }
   return config;
@@ -18,6 +20,7 @@ instance.interceptors.request.use(async (config) => {
 
 instance.interceptors.response.use(response => {
   cache.drinks = response.data.drinks;
+  updateCacheFlag = false; // Reset the flag after successful update
   return response;
 }, error => {
   return Promise.reject(error);
@@ -25,10 +28,11 @@ instance.interceptors.response.use(response => {
 
 const fetchDrinks = async (): Promise<DrinksGET[]> => {
   try {
-    if (cache.drinks) {
+    if (cache.drinks && !updateCacheFlag) {
       return cache.drinks;
     }
     const response = await instance.get(`${TEST_URL}/api/client/getAllDrinks`);
+    cache.drinks = response.data.drinks;
     return response.data.drinks;
   } catch (error) {
     console.error('Error fetching drinks:', error);
@@ -36,8 +40,9 @@ const fetchDrinks = async (): Promise<DrinksGET[]> => {
   }
 }
 
-const updateCache = async () => {
+const updateDrinkCache = async () => {
   try {
+    updateCacheFlag = true; 
     const response = await instance.get(`${TEST_URL}/api/client/getAllDrinks`);
     cache.drinks = response.data.drinks;
     return response.data.drinks;
@@ -47,4 +52,4 @@ const updateCache = async () => {
   }
 }
 
-export { fetchDrinks, updateCache };
+export { fetchDrinks, updateDrinkCache };

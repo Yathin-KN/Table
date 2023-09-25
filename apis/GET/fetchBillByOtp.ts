@@ -7,7 +7,7 @@ const fetchBillByOtp=async(otp:string) :Promise<BillDetails>=>{
         return response.data.billDetails;
       } catch (error:any) {
         console.error('Error fetching menu:', error);
-        throw new Error('Failed to send POST request: ' + error.message)
+        throw new Error('Error fetching Bill ')
     }
 }
 

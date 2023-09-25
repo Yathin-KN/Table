@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FoodQty } from "./../../apis/types";
 
-const initialState: Record<string, FoodQty> = {}; // Using an object to store items
+const initialState: Record<string, FoodQty> = {}; 
 
 const menuSlice = createSlice({
   name: "menu",
@@ -26,15 +26,23 @@ const menuSlice = createSlice({
     },
     resetCartItems: (state) => {
       Object.keys(state).forEach((food_id) => {
-        state[food_id].quantity_bought = 0;
+        delete state[food_id];
       });
-      
+    },
+    removeItemsByIds: (state, action: PayloadAction<string[]>) => {
+      action.payload.forEach((food_id) => {
+        delete state[food_id];
+      });
     },
   },
 });
 
-export const { increaseQuantity, decreaseQuantity, resetCartItems } =
-  menuSlice.actions;
+export const {
+  increaseQuantity,
+  decreaseQuantity,
+  resetCartItems,
+  removeItemsByIds,
+} = menuSlice.actions;
 
 export const selectQuantity = (state: any, food_id: any) =>
   state.menu[food_id] ? state.menu[food_id].quantity_bought : 0;

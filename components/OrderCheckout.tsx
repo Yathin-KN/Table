@@ -192,17 +192,19 @@ const Ordercheckout = ({ type }: { type: string }) => {
       );
   }
   return (
-    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 px-2 max-w-xl mx-auto">
+    <>
+       <ToastContainer
+                toastClassName={() =>
+                  " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
+                }
+              />
+               <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-50 px-2 max-w-xl mx-auto">
       <div className="relative bg-white px-6 pt-10 pb-9 shadow-md mx-auto w-full max-w-lg rounded-md">
         <div className="mx-auto flex w-full max-w-md flex-col space-y-10">
           <div className="flex flex-col space-y-2">
             <div className="font-semibold text-2xl items-center justify-center text-center">
               <p className="">Country Club Shimogga</p>
-              <ToastContainer
-                toastClassName={() =>
-                  " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-white text-gray-800 text-sm p-4 m-4"
-                }
-              />
+             
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-500">
@@ -435,6 +437,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
         </Transition.Root>
       )}
     </div>
+    </>
   );
 };
 

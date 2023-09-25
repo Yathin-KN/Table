@@ -19,7 +19,7 @@ import fetchAllMembers from "./../apis/GET/fetchAllMembers";
 
 import { Membership, Table } from "./../apis/types";
 import { resetCartItems } from "./../store/slices/menuSlice";
-import { clearItems } from "./../store/slices/cartDrink";
+import { clearItems } from "../store/slices/cartDrinkSlice";
 import { clearDishItems } from "./../store/slices/cartDishSlice";
 
 const Login = () => {
@@ -70,6 +70,7 @@ const Login = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
+      console.log({ ...formData, ...memberData })
       const response = await fetch(`${TEST_URL}/api/client/createCustomer`, {
         method: "POST",
         headers: {

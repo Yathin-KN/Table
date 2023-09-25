@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "./../src/components/ui/badge";
 import { DrinksGET } from "./../apis/types"; // Make sure you import the Drinks type
-import { addItem, decrementItem } from "./../store/slices/cartDrink";
+import { addItem, decrementItem } from "../store/slices/cartDrinkSlice";
 import {
   increaseQuantity,
   selectQuantity,

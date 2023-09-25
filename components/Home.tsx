@@ -11,7 +11,7 @@ import MyOrders from "./myOrders";
 import { memo } from "react";
 import { DishCartNo } from "./../store/slices/cartDishSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { DrinkCartNo } from "./../store/slices/cartDrink";
+import { DrinkCartNo } from "../store/slices/cartDrinkSlice";
 
 const Home = () => {
   const tDish = useSelector(DishCartNo);

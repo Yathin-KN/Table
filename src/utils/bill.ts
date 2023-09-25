@@ -1,6 +1,6 @@
 import { selectUserInfo } from './../../store/slices/authSlice';
 import { selectDishItems } from './../../store/slices/cartDishSlice';
-import { selectDrinkItems } from './../../store/slices/cartDrink';
+import { selectDrinkItems } from '../../store/slices/cartDrinkSlice';
 import { Orders, OrderDish, OrderDrink } from './../../apis/types';
 import { useSelector } from 'react-redux';
 

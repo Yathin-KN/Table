@@ -2,7 +2,7 @@ import React from "react";
 import { TableCell, TableRow } from "../src/components/ui/table";
 import { decreaseQuantity, increaseQuantity, selectQuantity } from "./../store/slices/menuSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem } from "./../store/slices/cartDrink";
+import { removeItem } from "../store/slices/cartDrinkSlice";
 interface DrinkData {
     drinkName: string;
     drinkNamePrice: string;
@@ -12,11 +12,11 @@ interface DrinkData {
 const DrinkCartCard: React.FC<DrinkData> = ({
     drinkName,
     drinkNamePrice,
-    quantity_bought,
     food_id
 }) => {
     const qty = useSelector((state) => selectQuantity(state,food_id));
     // const [quantity, setQuantity] = useState(qty);
+    const amount = parseInt(drinkNamePrice) * qty;
     const dispatch=useDispatch();
     const increment=()=>{
         dispatch(
@@ -76,7 +76,7 @@ const DrinkCartCard: React.FC<DrinkData> = ({
             </div>
       </TableCell>
       <TableCell className="text-right">
-        {quantity_bought * parseInt(drinkNamePrice)}
+        {amount}
       </TableCell>
     </TableRow>
   );

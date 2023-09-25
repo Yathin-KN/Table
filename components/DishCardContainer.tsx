@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DishCard from "./DishCard";
 import { Dish } from "./../apis/types";
-import fetchDishCategories from "../apis/GET/fetchDishCategories";
+import {fetchDishCategories} from "../apis/GET/fetchDishCategories";
 // import fetchDishesByCategory from "../apis/GET/fetchDishByCategories";
 import {fetchDishes} from "../apis/GET/fetchDishes"
 import { Disclosure, Transition } from "@headlessui/react";
@@ -122,7 +122,8 @@ const DishCardContainer: React.FC = () => {
       const typeMatches = customFunc(dish.type);
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === dish.foodCategories;
-    return typeMatches && categoryMatches;
+     const availible= dish.foodStatus ==="0";
+    return typeMatches && categoryMatches && availible;
     }else{
       const dishNameMatches=dish.foodName.toLowerCase().includes(selectedDish.toLowerCase());
       return dishNameMatches;

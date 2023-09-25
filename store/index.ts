@@ -1,6 +1,6 @@
 import { configureStore} from "@reduxjs/toolkit";
 import cartReducer from "./slices/cartDishSlice";
-import cartDrinkReducer from "./slices/cartDrink";
+import cartDrinkReducer from "./slices/cartDrinkSlice";
 import menuReducer from "./slices/menuSlice";
 import authReducer from "./slices/authSlice";
 import {  persistStore } from "redux-persist";

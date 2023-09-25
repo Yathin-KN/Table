@@ -46,6 +46,7 @@ export interface CartDishItem extends BaseEntity {
 
 // Extend BaseEntity for Drinks
 export interface DrinksGET {
+  drinkStatus: string;
   _id: string;
   drinkName: string;
   drinkNamePrice: string;
@@ -71,6 +72,7 @@ export interface CartDrink {
 
 // Extend BaseEntity for Dish
 export interface Dish extends BaseEntity {
+  foodStatus: string;
   filenames: string;
   food_category_id: string;
   __v: number;

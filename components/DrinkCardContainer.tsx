@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import fetchDrinkCategory from "../apis/GET/fetchDrinkCategory";
+import {fetchDrinkCategory} from "../apis/GET/fetchDrinkCategory";
 // import fetchDrinkByCategory from "../apis/GET/fetchDrinkByCategory";
 import {fetchDrinks} from "../apis/GET/fetchDrinks"
 // import fetchDrinkByKeyWord from "../apis/GET/fetchDrinksByKey"
@@ -74,7 +74,8 @@ const DrinkCardContainer = () => {
       .includes(selectedDrink.toLowerCase());
     const categoryMatches =
       selectedCategory === "All" || selectedCategory === drink.drinkCategories;
-    return dishNameMatches && categoryMatches;
+      const availible="0"===drink.drinkStatus;
+    return dishNameMatches && categoryMatches && availible;
     }else{
       const drinkNameMatches = drink.drinkName
       .toLowerCase()
@@ -236,8 +237,7 @@ const DrinkCardContainer = () => {
                   drink_id={drink.drink_id}
                   __v={drink.__v}
                   filenames={drink.filenames}
-                  description={drink.description}
-                />
+                  description={drink.description} drinkStatus={""}                />
               );
             })
           )}

@@ -6,12 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   selectDishItems,
   clearDishItems as DishClear,
+  removeItemsByFoodIds,
 } from "../store/slices/cartDishSlice";
 import {
   selectDrinkItems,
   clearItems as DrinkClear,
-} from "../store/slices/cartDrink";
-import { resetCartItems } from "./../store/slices/menuSlice";
+  removeItemsByDrinkIds,
+} from "../store/slices/cartDrinkSlice";
+import { removeItemsByIds, resetCartItems } from "./../store/slices/menuSlice";
 import { selectUserInfo } from "../store/slices/authSlice";
 import {
   Orders,
@@ -33,7 +35,10 @@ import axios, { AxiosResponse } from "axios";
 import { TEST_URL } from "./../URL";
 import DrinkCartCard from "./DrinkCartCard";
 import DishCartCard from "./DishCartCard";
-
+import { updateDishCache } from "./../apis/GET/fetchDishes";
+import {updateDrinkCache} from "./../apis/GET/fetchDrinks"
+import {updateDrinkCategoryCache} from "./../apis/GET/fetchDrinkCategory"
+import {updateDishCategoryCache} from "./../apis/GET/fetchDishCategories"
 const Cart = () => {
   const dishItems = useSelector(selectDishItems);
   const drinkItems = useSelector(selectDrinkItems);
@@ -62,6 +67,15 @@ const Cart = () => {
       dishes: orderDishes.length > 0 ? orderDishes : undefined,
     };
 
+    const updateFcache=async()=>{
+       await updateDishCache();
+       await updateDishCategoryCache();
+    }
+
+    const updateDcache=async()=>{
+       await updateDrinkCache();
+       await updateDrinkCategoryCache();
+    }
     const placeOrder = async (data: Orders) => {
       try {
         setIsLoading(true)
@@ -74,9 +88,26 @@ const Cart = () => {
         dispatch(DrinkClear());
         dispatch(resetCartItems());
       } catch (error:any) {
-        toast.error(`${error.response.data.message}`,{
-          autoClose:1500
-        });
+        console.log(error.response.status)
+        if(error.response.status===403){
+          toast.error(`${error.response.data.error}`,{
+            autoClose:1500
+          });
+          console.log(error.response.data.invalidDishIds)
+        }
+        const invalidFids=error.response.data.invalidDishIds || [];
+        const invalidDids=error.response.data.invalidDrinkIds || [];
+        if(invalidFids){
+          console.log(invalidFids)
+          dispatch( removeItemsByFoodIds(invalidFids))
+          dispatch(removeItemsByIds(invalidFids))
+          updateFcache();
+        }
+        if(invalidDids){
+          dispatch(removeItemsByDrinkIds(invalidDids))
+          dispatch(removeItemsByIds(invalidDids))
+          updateDcache();
+        }
       }  finally{
         setIsLoading(false)
       }
