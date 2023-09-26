@@ -7,6 +7,6 @@ export const OLD_URL_2 =
 export const URL_FINAL =
   "https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com";
 export const dev="http://localhost:2000"
-export const TEST_URL="https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api"
+export const TEST_URL=dev
 
 // export const TEST_URL = URL_FINAL;

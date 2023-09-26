@@ -46,5 +46,5 @@ export const {
 
 export const selectQuantity = (state: any, food_id: any) =>
   state.menu[food_id] ? state.menu[food_id].quantity_bought : 0;
-
+export const selectMenuSlice = (state:any) => state.menu;
 export default menuSlice.reducer;

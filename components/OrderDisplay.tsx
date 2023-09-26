@@ -6,7 +6,7 @@ import Rejected from "./Rejected";
 
 const OrderDisplay = ({ data }: { data: GetOrderResponse["data"] }) => {
   return (
-    <div className="p-4 flex-col-reverse bg-white">
+    <div className="p-4 flex flex-col-reverse">
       {data.map((order, index) => (
         <div>
           <div

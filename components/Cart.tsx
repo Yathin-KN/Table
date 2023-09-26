@@ -13,7 +13,7 @@ import {
   clearItems as DrinkClear,
   removeItemsByDrinkIds,
 } from "../store/slices/cartDrinkSlice";
-import { removeItemsByIds, resetCartItems } from "./../store/slices/menuSlice";
+import { removeItemsByIds, resetCartItems, selectMenuSlice } from "./../store/slices/menuSlice";
 import { MemberName, selectUserInfo } from "../store/slices/authSlice";
 import {
   Orders,
@@ -45,19 +45,23 @@ const Cart = () => {
   const { tableNo, user_id , otp} = useSelector(selectUserInfo);
   const {  member_name } = useSelector(MemberName)
   const [isLoading,setIsLoading]=useState(false);
+  const menu=useSelector(selectMenuSlice)
   const dispatch = useDispatch();
-
+  const qty=(id:string)=>{
+    console.log(menu[id].quantity_bought)
+    return menu[id].quantity_bought.toString();
+  }
   const handleClick = () => {
     const orderDishes: OrderDish[] = dishItems.map((item) => ({
       foodName: item.foodName,
       food_id: item.food_id,
-      quantity: item.quantity_bought.toString(),
+      quantity: qty(item.food_id),
       type:item.type
     }));
 
     const orderDrinks: OrderDrink[] = drinkItems.map((item) => ({
       drinkName: item.drinkName,
-      quantity: item.quantity_bought.toString(),
+      quantity: qty(item.drink_id),
       drink_id: item.drink_id,
     }));
 
@@ -115,6 +119,7 @@ const Cart = () => {
         setIsLoading(false)
       }
     };
+    // console.log(order)
     placeOrder(order);
   };
 
