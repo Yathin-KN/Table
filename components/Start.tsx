@@ -5,7 +5,7 @@ const Start = () => {
         <div className="mx-auto flex w-full max-w-md flex-col">
           <div className="flex flex-col items-center justify-center text-center space-y-2">
             <div className="font-bold text-3xl">
-              <p>Welcome to Country Club Shimoga</p>
+              <p>Welcome to F and B Systems</p>
             </div>
             <p className="text-red-500 font-semibold">Aamara Technologies</p>
             <div className="flex flex-row text-sm font-medium text-gray-400 pt-6">
@@ -39,7 +39,7 @@ const Start = () => {
         </div>
       </div>
       <div className="text-center mt-auto mb-4 font-semibold">
-        Powered by Rahil Harihar
+        Powered by Rahil Murali
       </div>
     </div>
   );

@@ -237,7 +237,7 @@ const Ordercheckout = ({ type }: { type: string }) => {
           <div className="mx-auto flex w-full max-w-md flex-col space-y-10">
             <div className="flex flex-col space-y-2">
               <div className="font-semibold text-2xl items-center justify-center text-center">
-                <p className="">Country Club Shimogga</p>
+                <p className="">F and B Systems</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-slate-500">
